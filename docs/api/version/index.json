@@ -1,5 +1,5 @@
 {
-  "version": "4.8.5",
+  "version": "4.8.6",
   "releaseDate": "2026-05-18",
   "releaseNotes": "1. AI 资讯 / 明星项目 新增\"国内 / 全球\"内容切换(中文界面)\n2. 主窗口尺寸与位置在重启后自动恢复(macOS + Windows)\n3. 修复 Mother Agent 接 Xiaomi MiMo 等严格 Anthropic 兼容上游时偶发 404 的问题\n4. 提升 Mother Agent 长任务稳定性(工具调用次数上限提升 + 修复长对话历史偶发错误)\n5. 修复 Claude 桌面端接本地大模型时报 API Key 错误的问题"
 }
