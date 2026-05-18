@@ -333,6 +333,13 @@ interface AiPulseContextValue {
   selectDate: (date: string) => void;
   lastFetched: number | null;
   retry: () => void;
+  // Source of items to display. For zh locale, the user toggles
+  // between 'zh' (国内 — SuYxh aggregator) and 'en' (全球 — our
+  // HN/RSS-built feed). For en locale, always 'en' — see comment in
+  // the Provider for the rationale (no need to expose Chinese-titled
+  // items to global users).
+  feedSource: 'zh' | 'en';
+  setFeedSource: (s: 'zh' | 'en') => void;
 }
 
 const AiPulseContext = createContext<AiPulseContextValue | null>(null);
@@ -345,9 +352,37 @@ function useAiPulse() {
 
 // ===== Provider =====
 
+// localStorage key for the zh-user feed-source toggle (国内 / 全球). en
+// users don't get the toggle so this key is only ever written by zh
+// sessions.
+const FEED_SOURCE_KEY = 'pulse:feed-source';
+
 export function AiPulseProvider({ children }: { children: React.ReactNode }) {
   const { locale } = useI18n();
-  const lang: 'zh' | 'en' = locale.startsWith('zh') ? 'zh' : 'en';
+  const isZhLocale = locale.startsWith('zh');
+
+  // zh users get a 国内/全球 toggle (defaults to 国内, persisted via
+  // localStorage). en users are always pinned to 'en' — we don't show
+  // them Chinese-titled items, both because the source is dominated by
+  // domestic-Chinese reporting and because en users are usually here
+  // for the AI lab / HN signal that en feed surfaces.
+  const [feedSource, setFeedSourceState] = useState<'zh' | 'en'>(() => {
+    if (!isZhLocale) return 'en';
+    const stored = localStorage.getItem(FEED_SOURCE_KEY);
+    return stored === 'en' ? 'en' : 'zh';
+  });
+  const setFeedSource = useCallback(
+    (s: 'zh' | 'en') => {
+      if (!isZhLocale) return; // ignore — en users have no toggle
+      localStorage.setItem(FEED_SOURCE_KEY, s);
+      setFeedSourceState(s);
+    },
+    [isZhLocale]
+  );
+
+  // Active language for fetching/caching. Derived from feedSource so
+  // that flipping the toggle re-runs the cache+fetch effect below.
+  const lang: 'zh' | 'en' = feedSource;
 
   const [items, setItems] = useState<NewsItem[]>([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -436,8 +471,21 @@ export function AiPulseProvider({ children }: { children: React.ReactNode }) {
       selectDate,
       lastFetched,
       retry,
+      feedSource,
+      setFeedSource,
     }),
-    [items, initialLoading, syncing, error, selectedDate, selectDate, lastFetched, retry]
+    [
+      items,
+      initialLoading,
+      syncing,
+      error,
+      selectedDate,
+      selectDate,
+      lastFetched,
+      retry,
+      feedSource,
+      setFeedSource,
+    ]
   );
 
   return <AiPulseContext.Provider value={value}>{children}</AiPulseContext.Provider>;
@@ -446,10 +494,39 @@ export function AiPulseProvider({ children }: { children: React.ReactNode }) {
 // ===== Title actions =====
 
 export function AiPulseTitleActions() {
-  const { t } = useI18n();
-  const { syncing, retry } = useAiPulse();
+  const { t, locale } = useI18n();
+  const { syncing, retry, feedSource, setFeedSource } = useAiPulse();
+  const isZhLocale = locale.startsWith('zh');
   return (
     <div className="ml-auto flex-shrink-0 flex items-center gap-2">
+      {/* 国内/全球 toggle — only rendered for zh users. Labels are
+          hardcoded Chinese because en users never see this control
+          (they're pinned to the en feed by the Provider). Avoids
+          adding two i18n keys that would never be translated. */}
+      {isZhLocale && (
+        <div className="flex items-center rounded-md border border-cyber-border/50 overflow-hidden">
+          <button
+            onClick={() => setFeedSource('zh')}
+            className={`text-sm px-3 py-1.5 transition-colors ${
+              feedSource === 'zh'
+                ? 'bg-cyber-text/10 text-cyber-text'
+                : 'text-cyber-text-secondary hover:bg-cyber-text/5'
+            }`}
+          >
+            国内
+          </button>
+          <button
+            onClick={() => setFeedSource('en')}
+            className={`text-sm px-3 py-1.5 transition-colors border-l border-cyber-border/50 ${
+              feedSource === 'en'
+                ? 'bg-cyber-text/10 text-cyber-text'
+                : 'text-cyber-text-secondary hover:bg-cyber-text/5'
+            }`}
+          >
+            全球
+          </button>
+        </div>
+      )}
       <button
         onClick={retry}
         disabled={syncing}
@@ -470,7 +547,12 @@ export function AiPulseTitleActions() {
 
 function ItemRow({ item }: { item: NewsItem }) {
   const { locale } = useI18n();
-  const lang = locale.startsWith('zh') ? 'zh' : 'en';
+  const { feedSource } = useAiPulse();
+  // Title language follows the feed source, NOT the UI locale — a zh
+  // user viewing the 全球 feed should see English titles (those are
+  // what's actually in `item.title` for the en feed). Falling back
+  // through locale would surface raw `title` (Chinese) for en items.
+  const lang = feedSource;
   const tsRaw = itemTs(item);
   const ts = tsRaw ? Date.parse(tsRaw) : 0;
   const title = lang === 'en' && item.title_en ? item.title_en : item.title_zh || item.title;
@@ -506,9 +588,13 @@ function ItemRow({ item }: { item: NewsItem }) {
 // ===== Feed =====
 
 function ItemFeed({ variant }: { variant: PageVariant }) {
-  const { t, locale } = useI18n();
-  const { items, initialLoading, syncing, error, selectedDate, retry } = useAiPulse();
-  const lang: 'zh' | 'en' = locale.startsWith('zh') ? 'zh' : 'en';
+  const { t } = useI18n();
+  const { items, initialLoading, syncing, error, selectedDate, retry, feedSource } = useAiPulse();
+  // Filter on feedSource (not UI locale) so the 国内/全球 toggle
+  // actually swaps the visible items. en locale always pins feedSource
+  // to 'en' (see Provider), so this is identical to the old behaviour
+  // for en users.
+  const lang: 'zh' | 'en' = feedSource;
 
   // Two-stage filter: language → variant. Done as a single memo because
   // both upstream inputs change rarely and we'll re-derive several
@@ -649,9 +735,12 @@ function groupByMonth(dates: string[]): Map<string, string[]> {
 }
 
 export function AiPulsePanel({ variant = 'news' }: { variant?: PageVariant }) {
-  const { t, locale } = useI18n();
-  const { items, selectedDate, selectDate } = useAiPulse();
-  const lang: 'zh' | 'en' = locale.startsWith('zh') ? 'zh' : 'en';
+  const { t } = useI18n();
+  const { items, selectedDate, selectDate, feedSource } = useAiPulse();
+  // Date-button counts must mirror ItemFeed's filter (feedSource, not
+  // locale) so the number on each date button reflects what the user
+  // will actually see when they click.
+  const lang: 'zh' | 'en' = feedSource;
 
   // Per-day item count, filtered by lang AND variant so the number on
   // each date button reflects what the user will actually see in the
