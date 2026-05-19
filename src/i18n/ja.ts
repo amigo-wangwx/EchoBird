@@ -124,6 +124,7 @@ const ja: Partial<Translations> = {
   'model.source': 'ソース',
   'model.latency': 'レイテンシ',
   'model.notTested': '未測定',
+  'model.protocol': 'プロトコル',
   'model.cloud': 'クラウド',
   'model.local': 'ローカル',
   'btn.copy': '[コピー]',

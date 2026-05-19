@@ -136,6 +136,7 @@ const en: Translations = {
   'model.source': 'SOURCE',
   'model.latency': 'LATENCY',
   'model.notTested': 'Not tested',
+  'model.protocol': 'Protocol',
   'model.cloud': 'CLOUD',
   'model.local': 'LOCAL',
   // Copy button

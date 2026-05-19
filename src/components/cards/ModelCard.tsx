@@ -248,7 +248,7 @@ export const ModelCard = React.memo(
           </div>
           <div className="flex items-center gap-1 truncate">
             <span className="text-cyber-text/60">{t('model.source')}:</span>
-            <span className="truncate text-cyber-text/40">
+            <span className="truncate text-cyber-text/60">
               {(() => {
                 const url = baseUrl || anthropicUrl;
                 if (!url) return '-';
@@ -283,40 +283,30 @@ export const ModelCard = React.memo(
               <span className="text-cyber-text-muted/70 text-xs">{t('model.notTested')}</span>
             )}
           </div>
-        </div>
-        {/* Protocol tags */}
-        <div className="mt-auto flex items-center gap-1.5 flex-wrap">
-          {protocols.includes('openai') && (
-            <div className="flex items-center gap-1.5 select-none">
-              <span className="text-cyber-text/30 font-mono text-xs">[</span>
-              <span
-                className={`${
-                  openaiTested
-                    ? 'font-bold font-mono tracking-widest text-cyber-text text-[10px] drop-shadow-[0_0_5px_rgb(var(--accent-rgb)/0.5)] animate-pulse'
-                    : 'font-mono tracking-widest text-cyber-text-muted/70 text-[10px]'
-                }`}
-              >
-                OPENAI
-              </span>
-              <span className="text-cyber-text/30 font-mono text-xs">]</span>
-            </div>
-          )}
-          {protocols.includes('anthropic') && (
-            <div className="flex items-center gap-1.5 select-none">
-              <span className="text-cyber-text/30 font-mono text-xs">[</span>
-              <span
-                className={`${
-                  anthropicTested
-                    ? 'font-bold font-mono tracking-widest text-cyber-text text-[10px] drop-shadow-[0_0_5px_rgb(var(--accent-rgb)/0.5)] animate-pulse'
-                    : 'font-mono tracking-widest text-cyber-text-muted/70 text-[10px]'
-                }`}
-              >
-                ANTHROPIC
-              </span>
-              <span className="text-cyber-text/30 font-mono text-xs">]</span>
-            </div>
-          )}
-          {protocols.length === 0 && <span className="h-4 block" />}
+
+          {/* Protocol row — same label:value rhythm as the rows above.
+              Tested protocols at /60 (parity with other values), untested
+              at /30 (dimmer but still visible so the user can see what
+              the model *could* speak). Dropped the [BRACKETS] + tracking-
+              widest + pulse styling — that broke the visual cadence of
+              the card and made the model picker feel busier than the
+              App Manager card grid it lives next to. */}
+          <div className="flex items-center gap-1 truncate">
+            <span className="text-cyber-text/60">{t('model.protocol')}:</span>
+            <span className="truncate flex items-center gap-2">
+              {protocols.includes('openai') && (
+                <span className={openaiTested ? 'text-cyber-text/60' : 'text-cyber-text/30'}>
+                  OpenAI
+                </span>
+              )}
+              {protocols.includes('anthropic') && (
+                <span className={anthropicTested ? 'text-cyber-text/60' : 'text-cyber-text/30'}>
+                  Anthropic
+                </span>
+              )}
+              {protocols.length === 0 && <span className="text-cyber-text/30">-</span>}
+            </span>
+          </div>
         </div>
         {/* Model icon bottom-right */}
         {iconPath && (

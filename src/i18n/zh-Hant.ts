@@ -120,6 +120,7 @@ const zhHant: Partial<Translations> = {
   'model.source': '來源',
   'model.latency': '延遲',
   'model.notTested': '未測試',
+  'model.protocol': '協議',
   'model.cloud': '雲端',
   'model.local': '本地',
   'btn.copy': '[複製]',

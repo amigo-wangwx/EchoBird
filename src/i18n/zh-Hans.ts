@@ -118,6 +118,7 @@ const zhHans: Partial<Translations> = {
   'model.source': '来源',
   'model.latency': '延迟',
   'model.notTested': '未测试',
+  'model.protocol': '协议',
   'model.cloud': '云端',
   'model.local': '本地',
   'btn.copy': '[复制]',
