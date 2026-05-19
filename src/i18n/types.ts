@@ -105,7 +105,6 @@ export type TKey =
   | 'model.source'
   | 'model.latency'
   | 'model.notTested'
-  | 'model.protocol'
   | 'model.providers'
   | 'model.relays'
   | 'model.cloud'

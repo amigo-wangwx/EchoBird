@@ -284,13 +284,11 @@ export const ModelCard = React.memo(
             )}
           </div>
 
-          {/* Protocol row — structurally identical to the rows above so
-              the row heights stay in lock-step with space-y-1.5. The
-              value span uses plain inline children (no nested flex —
-              that was making this row visually taller than the others
-              and breaking the rhythm). Tested = /60, untested = /30. */}
+          {/* Protocol row — no label (OpenAI / Anthropic are universally
+              recognized names, so a "Protocol:" prefix would be redundant
+              and would cost an i18n key per locale). Tested = /60 (parity
+              with the value-text in the rows above), untested = /30. */}
           <div className="flex items-center gap-1 truncate">
-            <span className="text-cyber-text/60">{t('model.protocol')}:</span>
             <span className="truncate text-cyber-text/60">
               {protocols.includes('openai') && (
                 <span className={openaiTested ? 'text-cyber-text/60' : 'text-cyber-text/30'}>
