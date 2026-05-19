@@ -17,10 +17,7 @@ import { useNavigationStore } from '../../stores/navigationStore';
 export function MotherAgentProvider({ children }: { children: React.ReactNode }) {
   // From stores (replaces drilled props)
   const { detectedTools: _detectedTools } = useToolsStore();
-  const { motherPrefill: initialMessage, activePage, setMotherNewMessage } = useNavigationStore();
-  const onNewMessage = useCallback(() => {
-    if (activePage !== 'mother') setMotherNewMessage(true);
-  }, [activePage, setMotherNewMessage]);
+  const { motherPrefill: initialMessage } = useNavigationStore();
   const onAgentRunningChange = useNavigationStore((s) => s.setAgentRunning);
   const { t: _t, locale } = useI18n(); // locale for agent hint; t for error messages
   const [models, setModels] = useState<ModelConfig[]>([]);
@@ -315,7 +312,6 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
               if (last && last.type === 'assistant') {
                 return [...prev.slice(0, -1), { ...last, text: last.text + event.text }];
               }
-              onNewMessage?.();
               return [...prev, { type: 'assistant', text: event.text }];
             });
             break;
@@ -379,8 +375,6 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
               if (last && last.type === 'assistant') {
                 return [...prev.slice(0, -1), { ...last, text: last.text + event.text }];
               }
-              // First chunk of a new assistant message — notify parent
-              onNewMessage?.();
               return [...prev, { type: 'assistant', text: event.text }];
             });
             break;
@@ -462,10 +456,7 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
       cancelled = true;
       unlisten?.();
     };
-    // Subscribe-once on mount — onNewMessage is captured by closure and the
-    // Tauri listener is torn down on unmount. Adding it to deps would
-    // re-subscribe on every parent re-render and lose in-flight chunks.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Subscribe-once on mount — the Tauri listener is torn down on unmount.
   }, []);
 
   // Internal send function

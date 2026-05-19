@@ -61,26 +61,17 @@ import { FeedbackMain } from './pages/Feedback';
 
 function SidebarConnected({ onSettingsClick }: { onSettingsClick: () => void }) {
   // Selector form (one field per call) so unrelated store fields like
-  // agentRunning ticking or motherNewMessage flipping don't re-render the
-  // sidebar — and through it, the whole app tree on tab switches.
+  // agentRunning ticking don't re-render the sidebar — and through it,
+  // the whole app tree on tab switches.
   const activePage = useNavigationStore((s) => s.activePage);
   const setActivePage = useNavigationStore((s) => s.setActivePage);
   const agentRunning = useNavigationStore((s) => s.agentRunning);
-  const motherNewMessage = useNavigationStore((s) => s.motherNewMessage);
-  const clearMotherBadge = useNavigationStore((s) => s.clearMotherBadge);
   const updateAvailable = useNavigationStore((s) => s.updateAvailable);
-  const motherBadge = motherNewMessage && activePage !== 'mother';
-  // Clear badge when switching to Mother Agent page
-  const handlePageChange = (p: PageType) => {
-    if (p === 'mother') clearMotherBadge();
-    setActivePage(p);
-  };
   return (
     <Sidebar
       activePage={activePage}
-      onPageChange={handlePageChange}
+      onPageChange={setActivePage}
       agentRunning={agentRunning}
-      motherBadge={motherBadge}
       updateAvailable={updateAvailable}
       onSettingsClick={onSettingsClick}
     />

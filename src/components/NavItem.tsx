@@ -7,11 +7,10 @@ export interface NavItemProps {
   active?: boolean;
   onClick?: () => void;
   color?: 'accent' | 'warning' | 'secondary' | 'blue';
-  badge?: boolean;
 }
 
 export const NavItem = React.memo(
-  ({ icon, label, active = false, onClick, color = 'accent', badge = false }: NavItemProps) => {
+  ({ icon, label, active = false, onClick, color = 'accent' }: NavItemProps) => {
     const colorClasses =
       color === 'warning'
         ? 'bg-cyber-warning/15 text-cyber-warning'
@@ -29,9 +28,6 @@ export const NavItem = React.memo(
       >
         {icon}
         <span>{label}</span>
-        {badge && !active && (
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse flex-shrink-0" />
-        )}
       </div>
     );
   }

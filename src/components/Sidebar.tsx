@@ -31,7 +31,6 @@ interface SidebarProps {
   activePage: PageType;
   onPageChange: (page: PageType) => void;
   agentRunning?: boolean;
-  motherBadge?: boolean;
   updateAvailable?: string | null;
   onSettingsClick?: () => void;
 }
@@ -40,7 +39,6 @@ export const Sidebar = ({
   activePage,
   onPageChange,
   agentRunning: _agentRunning = false,
-  motherBadge = false,
   updateAvailable = null,
   onSettingsClick,
 }: SidebarProps) => {
@@ -129,7 +127,6 @@ export const Sidebar = ({
           label={t('nav.motherAgent')}
           active={activePage === 'mother'}
           onClick={() => onPageChange('mother')}
-          badge={motherBadge}
         />
         <NavItem
           icon={<MessageSquare size={20} />}
