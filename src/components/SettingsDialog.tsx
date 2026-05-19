@@ -12,6 +12,8 @@ import { useThemeStore, type ThemeMode } from '../stores/themeStore';
 const LOCALE_OPTIONS = [
   { id: 'en', label: 'English' },
   { id: 'zh-Hans', label: '简体中文' },
+  { id: 'zh-Hant', label: '繁體中文' },
+  { id: 'ja', label: '日本語' },
 ];
 
 interface SettingsDialogProps {

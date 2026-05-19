@@ -12,11 +12,17 @@ const loadedLocales: Record<string, Partial<Translations>> = { en };
 
 const localeLoaders: Record<string, () => Promise<{ default: Partial<Translations> }>> = {
   'zh-Hans': () => import('./zh-Hans'),
+  'zh-Hant': () => import('./zh-Hant'),
+  ja: () => import('./ja'),
 };
 
 export function resolveLocale(tag: string): string {
   if (!tag) return 'en';
+  // Traditional Chinese: TW / HK / MO / explicit Hant tag
+  if (/^zh[-_](TW|HK|MO|Hant)/i.test(tag)) return 'zh-Hant';
+  // Anything else starting with zh → Simplified
   if (/^zh/i.test(tag)) return 'zh-Hans';
+  if (/^ja/i.test(tag)) return 'ja';
   return 'en';
 }
 
