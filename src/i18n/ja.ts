@@ -29,13 +29,13 @@ const ja: Partial<Translations> = {
   'myProjects.field.models': 'モデルファイル (models.json)',
   'myProjects.placeholder.name': '例: YourProject',
   'myProjects.pickFile': '(クリックして選択)',
-  'myProjects.copyTemplate': 'Reversi の models.json テンプレートをコピー',
+  'myProjects.copyTemplate': 'リバーシ の models.json テンプレートをコピー',
   'myProjects.templateCopied': 'クリップボードにコピーしました — models.json に貼り付けてください',
   'myProjects.deleteTitle': 'リストから削除',
   'myProjects.deleteConfirm':
     '「マイ AI プロジェクト」リストから削除するだけで、ローカルのプロジェクトファイル自体は削除されません。',
   'myProjects.bottomHint':
-    'Reversi / AI翻訳 の models.json を参考に、自分の AI ゲーム / AI アプリを Vibe Coding できます。ワンクリックでモデル切り替えにも対応。',
+    'リバーシ / AI 翻訳 の models.json を参考に、自分の AI ゲーム / AI アプリを Vibe Coding できます。ワンクリックでモデル切り替えにも対応。',
   'page.localServer': 'ローカル LLM',
   'page.motherAgent': 'インストール & 修復',
   'page.feedback': 'フィードバック',
@@ -189,7 +189,7 @@ const ja: Partial<Translations> = {
   'hint.devInvite':
     'Codex Desktop / Codex CLI / Claude Desktop のモデルを切り替えた後は、EchoBird を起動したままにしてください。',
   'hint.myProjects':
-    'Vibe Coding したアプリ / ゲームのモデルを切り替え。Reversi / AI 翻訳 の models.json を参考にするか、コピーしてください。',
+    'Vibe Coding したアプリ / ゲームのモデルを切り替え。リバーシ / AI 翻訳 の models.json を参考にするか、コピーしてください。',
   'mother.selectModel': 'モデルを選択',
   'mother.hintInstall': '{agent} をインストール',
   'mother.enterMessage': 'メッセージを入力...',
