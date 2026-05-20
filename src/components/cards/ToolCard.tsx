@@ -73,6 +73,33 @@ export const ToolCard = React.memo(
       if (installed) onClick?.();
     };
 
+    // Two visual modes:
+    //
+    //  Fixed-content (AppManager): icon top-right (right-side = "what is this
+    //   tool's branding"), name beneath, version line at the bottom.
+    //
+    //  Editable-content (MyProjects): icon inline-left of the name (right
+    //   side now belongs to the [delete]/[edit] affordance, matching
+    //   ModelCard). Triggered automatically when caller passes `actions`.
+    const isEditable = !!actions;
+    const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const img = e.target as HTMLImageElement;
+      // Caller supplied iconSrc — no built-in fallback chain (their path
+      // failed, ours wouldn't help). Hide and move on.
+      if (iconSrc) {
+        img.style.display = 'none';
+        return;
+      }
+      if (img.src.endsWith('.svg')) {
+        img.src = `./icons/tools/${id}.png`;
+      } else if (!img.src.startsWith('data:') && iconBase64) {
+        img.src = iconBase64;
+      } else {
+        img.style.display = 'none';
+      }
+    };
+    const iconUrl = iconSrc || `./icons/tools/${id}.svg`;
+
     return (
       <div
         className={`p-5 min-h-[160px] border bg-cyber-surface ${
@@ -82,35 +109,46 @@ export const ToolCard = React.memo(
         } relative overflow-hidden rounded-card ${installed ? 'cursor-pointer' : 'cursor-default opacity-80'} transition-colors flex flex-col`}
         onClick={handleCardClick}
       >
-        {/* Tool icon top-right */}
-        <img
-          src={iconSrc || `./icons/tools/${id}.svg`}
-          alt={name}
-          className={`absolute top-4 right-4 w-10 h-10 rounded-lg ${selected ? 'opacity-100' : installed ? 'opacity-60' : showMotherInstall ? 'opacity-30' : 'opacity-20'}`}
-          onError={(e) => {
-            const img = e.target as HTMLImageElement;
-            // Caller supplied iconSrc — no built-in fallback chain (their path
-            // failed, ours wouldn't help). Hide and move on.
-            if (iconSrc) {
-              img.style.display = 'none';
-              return;
-            }
-            if (img.src.endsWith('.svg')) {
-              img.src = `./icons/tools/${id}.png`;
-            } else if (!img.src.startsWith('data:') && iconBase64) {
-              img.src = iconBase64;
-            } else {
-              img.style.display = 'none';
-            }
-          }}
-        />
-        <div
-          className={`text-lg font-bold truncate pr-12 ${installed ? 'text-cyber-text' : showMotherInstall ? 'text-cyber-text-secondary' : 'text-cyber-text-secondary'}`}
-        >
-          {displayName}
-        </div>
+        {isEditable ? (
+          <>
+            {/* Editable layout — actions occupy the top-right slot, icon
+                rides inline-left of the title so the affordance is in the
+                same place as ModelCard. */}
+            <div className="absolute top-3 right-3 z-10 flex gap-1.5">{actions}</div>
+            <div className="flex items-center gap-2 pr-24">
+              <img
+                src={iconUrl}
+                alt={name}
+                className={`w-7 h-7 rounded-lg flex-shrink-0 ${selected ? 'opacity-100' : 'opacity-60'}`}
+                onError={handleImgError}
+              />
+              <div
+                className={`text-lg font-bold truncate ${installed ? 'text-cyber-text' : 'text-cyber-text-secondary'}`}
+              >
+                {displayName}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Fixed layout — icon top-right (App Manager branding slot). */}
+            <img
+              src={iconUrl}
+              alt={name}
+              className={`absolute top-4 right-4 w-10 h-10 rounded-lg ${selected ? 'opacity-100' : installed ? 'opacity-60' : showMotherInstall ? 'opacity-30' : 'opacity-20'}`}
+              onError={handleImgError}
+            />
+            <div
+              className={`text-lg font-bold truncate pr-12 ${installed ? 'text-cyber-text' : showMotherInstall ? 'text-cyber-text-secondary' : 'text-cyber-text-secondary'}`}
+            >
+              {displayName}
+            </div>
+          </>
+        )}
 
-        {/* 4 rows always rendered to hold card height; invisible for CLI-installable tools */}
+        {/* Info rows — always rendered to hold consistent card height;
+            invisible (but still occupying space) for CLI-installable tools
+            in the AppManager flow that need the install-via-Mother CTA. */}
         <div className="relative mt-3">
           <div
             className={`text-xs space-y-1.5 ${installed ? 'text-cyber-text/60' : 'text-cyber-text-muted/70'} ${showMotherInstall ? 'invisible' : ''}`}
@@ -124,13 +162,14 @@ export const ToolCard = React.memo(
             <div className="truncate">
               {t('tool.config')}: {installed ? configPath || '-' : '-'}
             </div>
-            {actions
-              ? actions
-              : !hideVersion && (
-                  <div className="truncate">
-                    {t('tool.version')}: {installed ? version || '-' : '-'}
-                  </div>
-                )}
+            {/* Version line — only when not in editable mode and not
+                explicitly suppressed. Editable mode already shows actions
+                top-right and doesn't need a 4th info row. */}
+            {!isEditable && !hideVersion && (
+              <div className="truncate">
+                {t('tool.version')}: {installed ? version || '-' : '-'}
+              </div>
+            )}
           </div>
           {showMotherInstall && (
             <div className="absolute inset-0 flex items-center justify-center">
