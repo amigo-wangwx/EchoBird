@@ -1,7 +1,9 @@
 {
     "name": "AI Translate",
     "names": {
-        "zh-Hans": "AI 翻译"
+        "zh-Hans": "AI 翻译",
+        "zh-Hant": "AI 翻譯",
+        "ja": "AI 翻訳"
     },
     "category": "Utility",
     "version": "1.0",

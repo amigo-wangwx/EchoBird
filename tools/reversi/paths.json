@@ -1,7 +1,9 @@
 {
     "name": "Reversi",
     "names": {
-        "zh-Hans": "黑白棋"
+        "zh-Hans": "黑白棋",
+        "zh-Hant": "黑白棋",
+        "ja": "リバーシ"
     },
     "category": "Game",
     "version": "1.0",
