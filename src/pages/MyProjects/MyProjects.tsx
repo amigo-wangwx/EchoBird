@@ -62,6 +62,7 @@ export const MyProjectsMain: React.FC = () => {
   const initStore = useMyProjectsStore((s) => s.init);
   const ensureBuiltinDirs = useMyProjectsStore((s) => s.ensureBuiltinDirs);
   const builtinDirs = useMyProjectsStore((s) => s.builtinDirs);
+  const hiddenBuiltins = useMyProjectsStore((s) => s.hiddenBuiltins);
   const detectedTools = useToolsStore((s) => s.detectedTools);
   // Reuse AppManager's selection state. Built-ins set their linkedToolId
   // so the right panel + launch button drive the existing bundled-tool
@@ -87,6 +88,7 @@ export const MyProjectsMain: React.FC = () => {
   // Same shape as user projects so the rest of the page treats them
   // uniformly; they're just not persisted.
   const builtinEntries: MyProject[] = BUILTIN_TOOL_IDS.map((id): MyProject | null => {
+    if (hiddenBuiltins.includes(id)) return null; // user-hidden
     const dir = builtinDirs[id];
     if (!dir) return null;
     const tool = detectedTools.find((tt) => tt.id === id);
@@ -192,6 +194,7 @@ const ProjectToolCard: React.FC<{
   const { t } = useI18n();
   const detectedTools = useToolsStore((s) => s.detectedTools);
   const deleteProject = useMyProjectsStore((s) => s.deleteProject);
+  const hideBuiltin = useMyProjectsStore((s) => s.hideBuiltin);
   const confirm = useConfirm();
 
   // Built-ins read live activeModel off the tool scan so swapping the
@@ -214,28 +217,33 @@ const ProjectToolCard: React.FC<{
       onClick={onSelect}
       actions={
         // Bracketed mono text — same visual as ModelCard's [delete] / [edit]
-        // in Model Nexus. Built-ins drop [delete] entirely (system data, not
-        // removable); user projects keep both with a danger-confirm modal
-        // before destructive action.
+        // in Model Nexus. For built-ins, [delete] hides the entry via a
+        // separate localStorage list (`hiddenBuiltins`) — the underlying
+        // reference files in ~/.echobird/<id>/ are untouched, and the
+        // built-in can be brought back by clearing that list. For user
+        // projects, [delete] removes the localStorage entry permanently.
         <div className="flex items-center justify-end gap-2">
-          {!isBuiltin && (
-            <button
-              onClick={async (e) => {
-                e.stopPropagation();
-                const ok = await confirm({
-                  title: t('myProjects.deleteTitle'),
-                  message: t('myProjects.deleteConfirm'),
-                  confirmText: t('btn.delete'),
-                  cancelText: t('btn.cancel'),
-                  type: 'danger',
-                });
-                if (ok) deleteProject(project.id);
-              }}
-              className="text-xs font-mono text-cyber-text-muted/70 hover:text-red-500 transition-colors"
-            >
-              [{t('btn.delete')}]
-            </button>
-          )}
+          <button
+            onClick={async (e) => {
+              e.stopPropagation();
+              const ok = await confirm({
+                title: t('myProjects.deleteTitle'),
+                message: t('myProjects.deleteConfirm'),
+                confirmText: t('btn.delete'),
+                cancelText: t('btn.cancel'),
+                type: 'danger',
+              });
+              if (!ok) return;
+              if (isBuiltin && project.linkedToolId) {
+                hideBuiltin(project.linkedToolId as BuiltinToolId);
+              } else {
+                deleteProject(project.id);
+              }
+            }}
+            className="text-xs font-mono text-cyber-text-muted/70 hover:text-red-500 transition-colors"
+          >
+            [{t('btn.delete')}]
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation();

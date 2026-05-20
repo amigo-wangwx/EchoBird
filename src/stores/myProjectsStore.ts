@@ -42,6 +42,11 @@ export interface MyProject {
 export type MyProjectInput = Omit<MyProject, 'id' | 'createdAt'>;
 
 const LS_KEY = 'echobird_my_projects';
+// Internal hidden list — built-in tool ids the user has "deleted" from
+// the page. Reference files in ~/.echobird/<id>/ are NOT touched; only
+// the card is removed from the displayed grid. Kept in its own LS slot
+// so it doesn't co-mingle with user projects.
+const HIDDEN_BUILTINS_KEY = 'echobird_my_projects_hidden_builtins';
 // Old flag from the previous seed-into-localStorage design. Cleaned up on
 // init so future versions don't trip on it; we never read it again.
 const LEGACY_SEED_FLAG_KEY = 'echobird_my_projects_seeded';
@@ -90,6 +95,29 @@ const saveToStorage = (projects: MyProject[]) => {
   }
 };
 
+const loadHiddenBuiltins = (): BuiltinToolId[] => {
+  try {
+    const raw = localStorage.getItem(HIDDEN_BUILTINS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (v): v is BuiltinToolId =>
+        typeof v === 'string' && (BUILTIN_TOOL_IDS as readonly string[]).includes(v)
+    );
+  } catch {
+    return [];
+  }
+};
+
+const saveHiddenBuiltins = (ids: BuiltinToolId[]) => {
+  try {
+    localStorage.setItem(HIDDEN_BUILTINS_KEY, JSON.stringify(ids));
+  } catch {
+    /* private mode — accept loss */
+  }
+};
+
 // Slug-from-name id is human-readable in localStorage and easy to debug, but we
 // append a short random suffix so two projects with the same name don't collide.
 const makeId = (name: string): string => {
@@ -122,9 +150,13 @@ interface MyProjectsState {
    *  these to build the on-the-fly built-in MyProject records (and to
    *  resolve the folder for the "open folder" affordance). */
   builtinDirs: Partial<Record<BuiltinToolId, string>>;
+  /** Built-in ids the user has hidden via [delete]. The page filters
+   *  these out when rendering. Files on disk are untouched. */
+  hiddenBuiltins: BuiltinToolId[];
   addProject: (input: MyProjectInput) => MyProject;
   updateProject: (id: string, patch: Partial<MyProjectInput>) => void;
   deleteProject: (id: string) => void;
+  hideBuiltin: (id: BuiltinToolId) => void;
   init: () => void;
   /** Idempotent — calls Rust seed_builtin_to_user_dir for each built-in
    *  present in the live tool scan, populating builtinDirs once we have a
@@ -136,6 +168,7 @@ interface MyProjectsState {
 export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
   projects: [],
   builtinDirs: {},
+  hiddenBuiltins: [],
   addProject: (input) => {
     const project: MyProject = {
       ...input,
@@ -157,6 +190,13 @@ export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
     saveToStorage(next);
     set({ projects: next });
   },
+  hideBuiltin: (id) => {
+    const current = get().hiddenBuiltins;
+    if (current.includes(id)) return;
+    const next = [...current, id];
+    saveHiddenBuiltins(next);
+    set({ hiddenBuiltins: next });
+  },
   init: () => {
     // Migration: strip seeded built-in entries from localStorage. They moved
     // out of user storage when we switched to the two-table model — keeping
@@ -171,7 +211,7 @@ export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
     } catch {
       /* private mode */
     }
-    set({ projects: filtered });
+    set({ projects: filtered, hiddenBuiltins: loadHiddenBuiltins() });
   },
   ensureBuiltinDirs: async (tools) => {
     const next: Partial<Record<BuiltinToolId, string>> = { ...get().builtinDirs };
