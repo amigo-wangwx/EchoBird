@@ -58,7 +58,8 @@ import {
   AiCoursesPanel,
 } from './pages/AiCourses';
 import { FeedbackMain } from './pages/Feedback';
-import { MyProjectsMain } from './pages/MyProjects';
+import { MyProjectsMain, MyProjectsPanel, MyProjectsBottom } from './pages/MyProjects';
+import { useMyProjectsStore } from './stores/myProjectsStore';
 
 function SidebarConnected({ onSettingsClick }: { onSettingsClick: () => void }) {
   // Selector form (one field per call) so unrelated store fields like
@@ -93,6 +94,13 @@ function App() {
   const activePage = useNavigationStore((s) => s.activePage);
   const setUpdateAvailable = useNavigationStore((s) => s.setUpdateAvailable);
   const scanTools = useToolsStore((s) => s.scanTools);
+  // When a user project is selected on "我的AI项目", the right panel +
+  // bottom bar swap to MyProjectsPanel / MyProjectsBottom (their state is
+  // mutually exclusive with AppManager.selectedTool; see myProjects'
+  // handleSelect). Read from the store at the root level so the swap is a
+  // single conditional render rather than per-component CSS toggles.
+  const selectedUserProjectId = useMyProjectsStore((s) => s.selectedUserProjectId);
+  const useMyProjectsPanel = activePage === 'myProjects' && !!selectedUserProjectId;
 
   // ── Post-mount work — the window is already shown (main.tsx fires
   // appReady after first paint). Scan installed tools and check for app
@@ -314,7 +322,7 @@ function App() {
                                 </div>
 
                                 <div className={page(is('apps') || is('myProjects'))}>
-                                  <AppManagerPanel />
+                                  {useMyProjectsPanel ? <MyProjectsPanel /> : <AppManagerPanel />}
                                 </div>
                                 <div className={page(is('localLlm'))}>
                                   <LocalServerPanel />
@@ -328,7 +336,7 @@ function App() {
 
                             {/* Bottom bars — always mounted, CSS hidden */}
                             <div className={page(is('apps') || is('myProjects'))}>
-                              <AppManagerBottom />
+                              {useMyProjectsPanel ? <MyProjectsBottom /> : <AppManagerBottom />}
                             </div>
                             <div className={page(is('localLlm'))}>
                               <LocalServerBottom />

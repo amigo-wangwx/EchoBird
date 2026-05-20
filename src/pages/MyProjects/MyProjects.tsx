@@ -63,6 +63,8 @@ export const MyProjectsMain: React.FC = () => {
   const ensureBuiltinDirs = useMyProjectsStore((s) => s.ensureBuiltinDirs);
   const builtinDirs = useMyProjectsStore((s) => s.builtinDirs);
   const hiddenBuiltins = useMyProjectsStore((s) => s.hiddenBuiltins);
+  const selectedUserProjectId = useMyProjectsStore((s) => s.selectedUserProjectId);
+  const setSelectedUserProjectId = useMyProjectsStore((s) => s.setSelectedUserProjectId);
   const detectedTools = useToolsStore((s) => s.detectedTools);
   // Reuse AppManager's selection state. Built-ins set their linkedToolId
   // so the right panel + launch button drive the existing bundled-tool
@@ -116,16 +118,15 @@ export const MyProjectsMain: React.FC = () => {
 
   const handleSelect = (project: MyProject) => {
     if (project.linkedToolId) {
-      // Built-in — hand selection off to AppManager so the right panel
-      // shows that tool's model list and the launch button runs the
-      // existing bundled-tool flow.
+      // Built-in — AppManager owns the right side; clear the user-project
+      // selection so MyProjectsPanel/Bottom don't double-render.
+      setSelectedUserProjectId(null);
       setSelectedTool(project.linkedToolId);
     } else {
-      // User project — clear AppManager selection for now; Phase D will
-      // synthesise a virtual tool from the project's models.json so the
-      // right panel can show its models and the launch button can spawn
-      // the user-provided exe.
+      // User project — own the right side via selectedUserProjectId; clear
+      // AppManager's selection so its panel/bottom don't overlay.
       setSelectedTool(null);
+      setSelectedUserProjectId(project.id);
     }
   };
 
@@ -153,7 +154,7 @@ export const MyProjectsMain: React.FC = () => {
               key={p.id}
               project={p}
               isBuiltin={false}
-              selected={false}
+              selected={selectedUserProjectId === p.id}
               onSelect={() => handleSelect(p)}
               onEdit={openEdit}
             />

@@ -153,10 +153,28 @@ interface MyProjectsState {
   /** Built-in ids the user has hidden via [delete]. The page filters
    *  these out when rendering. Files on disk are untouched. */
   hiddenBuiltins: BuiltinToolId[];
+  /** Project id selected for the right-side panel + bottom launch bar.
+   *  Mutually exclusive with AppManager's selectedTool (the caller is
+   *  responsible for clearing the other side when one is set). null =
+   *  no user project is the active selection. */
+  selectedUserProjectId: string | null;
+  /** Per-project model choice — what the user picked in the right panel.
+   *  Keyed by project id, value is ModelConfig.internalId. */
+  userProjectModelChoice: Record<string, string | null>;
+  /** Whether to apply the selected model before launch (mirrors
+   *  AppManager.launchAfterApply). */
+  userProjectLaunchAfterApply: boolean;
+  /** Whether the user agreed to write into their own config file (mirrors
+   *  AppManager.agreedConfigPolicy). */
+  userProjectAgreedConfigPolicy: boolean;
   addProject: (input: MyProjectInput) => MyProject;
   updateProject: (id: string, patch: Partial<MyProjectInput>) => void;
   deleteProject: (id: string) => void;
   hideBuiltin: (id: BuiltinToolId) => void;
+  setSelectedUserProjectId: (id: string | null) => void;
+  setUserProjectModelChoice: (projectId: string, modelInternalId: string | null) => void;
+  setUserProjectLaunchAfterApply: (v: boolean) => void;
+  setUserProjectAgreedConfigPolicy: (v: boolean) => void;
   init: () => void;
   /** Idempotent — calls Rust seed_builtin_to_user_dir for each built-in
    *  present in the live tool scan, populating builtinDirs once we have a
@@ -169,6 +187,10 @@ export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
   projects: [],
   builtinDirs: {},
   hiddenBuiltins: [],
+  selectedUserProjectId: null,
+  userProjectModelChoice: {},
+  userProjectLaunchAfterApply: true,
+  userProjectAgreedConfigPolicy: true,
   addProject: (input) => {
     const project: MyProject = {
       ...input,
@@ -197,6 +219,13 @@ export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
     saveHiddenBuiltins(next);
     set({ hiddenBuiltins: next });
   },
+  setSelectedUserProjectId: (id) => set({ selectedUserProjectId: id }),
+  setUserProjectModelChoice: (projectId, modelInternalId) =>
+    set((s) => ({
+      userProjectModelChoice: { ...s.userProjectModelChoice, [projectId]: modelInternalId },
+    })),
+  setUserProjectLaunchAfterApply: (v) => set({ userProjectLaunchAfterApply: v }),
+  setUserProjectAgreedConfigPolicy: (v) => set({ userProjectAgreedConfigPolicy: v }),
   init: () => {
     // Migration: strip seeded built-in entries from localStorage. They moved
     // out of user storage when we switched to the two-table model — keeping
