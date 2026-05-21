@@ -148,9 +148,27 @@ extensive prior art (Replit, Vercel, CodeSandbox, itch.io, etc.).
 What is claimed is the much narrower intersection of three conditions,
 all simultaneously satisfied by EchoBird's architecture:
 
-  1. **Desktop store form factor** — a desktop application acting as a
-     unified store/manager for other applications, not a web-hosted
-     gallery and not a cloud chat front-end.
+  1. **Store/manager form factor (platform-agnostic)** — a unified
+     application acting as a store/manager for multiple other
+     applications, with a central catalog, per-entry detail/launch
+     UI, and a shared resource pool consumed by all entries. The
+     claim applies regardless of platform — desktop, web, mobile,
+     or any future platform — because trade dress under U.S. and
+     comparable jurisdictions protects the distinctive look-and-feel
+     of a product, not the medium it runs on (cf. Apple v. Samsung,
+     where iPhone trade dress applied to both phones and tablets).
+     EchoBird's first realization is the desktop application shipped
+     2026-03-02; any later realization (a web port, a mobile port,
+     etc.) of the same product format remains within the claim, and
+     any competitor's port to a different platform that reproduces
+     the form factor is not excluded by platform alone.
+
+     Disqualified by ARCHITECTURE (not platform): galleries of
+     independent demos with no store/manager structure
+     (e.g., HuggingFace Spaces); cloud chat front-ends acting as a
+     single product, not a multi-app store (e.g., individual GPTs);
+     generic code-runner sandboxes with no catalog/launch structure.
+
   2. **AI applications AND AI games together** — both domains present
      in the same surface as first-class peer entities. Apps without
      games (or games without apps) does not match this claim.
@@ -163,9 +181,11 @@ all simultaneously satisfied by EchoBird's architecture:
 
 **No known prior art for any of the following:**
 
-- A *desktop* store of **AI applications AND AI games** where every
-  entry is **model-bound** (depends on a configured model from the
-  store's central pool to function).
+- A store of **AI applications AND AI games** (on any platform) where
+  every entry is **model-bound** (depends on a configured model from
+  the store's central pool to function). EchoBird's first realization
+  is desktop; the claim is form-factor-based and not limited to that
+  platform.
 - A unified `models.json` + `paths.json` convention that lets a user's
   own model-bound AI app or game be registered into the desktop store
   **identically to a built-in entry**.
@@ -184,18 +204,20 @@ day-one inclusion of both an AI *game* (Reversi) and an AI *application*
 (Translator), each of which **cannot function without a model
 connection from EchoBird's central Model Nexus**, is not incidental.
 The architecture as published 2026-03-02 already prefigures EchoBird's
-trajectory toward a **"desktop store of model-bound AI applications
-and AI games"**. As of 2026-05-22, no other company is known to operate
+trajectory toward a **"store of model-bound AI applications and AI
+games"** — initially realized on desktop, with the trade-dress claim
+extending to any later web, mobile, or other platform realization of
+the same product format. As of 2026-05-22, no other company is known to operate
 in this specific intersection:
 
-| Candidate | Why it does NOT match the claim |
+| Candidate | Why it does NOT match the claim (architectural reason, not platform) |
 |---|---|
-| OpenAI GPTs Store | Cloud, no desktop; no game dimension; single-vendor model lock |
-| HuggingFace Spaces | Web-hosted demos; not a store; no app/game split |
+| OpenAI GPTs Store | Each GPT is a single product (not a multi-app store from the user's side); no game dimension; single-vendor model lock |
+| HuggingFace Spaces | Gallery of independent demos with no store/manager catalog; no app/game split; entries are not model-bound to a store-level pool |
 | Ollama Library | Model files only, no applications |
-| Civitai | Image-model + LoRA gallery, not an app/game store |
-| Replit / Vercel / CodeSandbox | Generic PaaS; not model-bound; not desktop |
-| Apple / Google App Store | Generic stores; no model-bound architecture; no store-level model pool |
+| Civitai | Image-model + LoRA gallery, not an application store |
+| Replit / Vercel / CodeSandbox | Generic code-runner PaaS; entries are not model-bound to a store-level pool |
+| Apple / Google App Store | Generic application stores; no model-bound architecture; no store-level model pool |
 | Steam / itch.io | Game stores; no AI dimension; not model-bound |
 
 Any later entrant whose product format adopts three or more of the §3
@@ -424,8 +446,19 @@ AI 项目」面板里。
 itch.io 等)。此处主张的是**远比这更狭窄的「三条件交集」**,目前由 EchoBird
 架构同时满足:
 
-  1. **桌面 store 形态** —— 一个桌面应用作为其他应用的统一 store / 管理器,
-     **不是**网页托管的画廊,**也不是**云端聊天前端。
+  1. **Store / 管理器形态(不限平台)** —— 一个统一应用作为多个其他应用
+     的 store / 管理器,包含中央目录、逐项详情/启动界面、以及所有条目
+     共享的资源池。**本主张不限平台** —— 桌面、网页、手机或任何未来平台
+     都适用,因为美国及类似法域的 trade dress 保护的是**产品的独特整体形态
+     与感觉**,而不是其运行的介质(参见 Apple v. Samsung 案,iPhone trade
+     dress 同时适用于手机与平板)。EchoBird 的首次实现是 2026-03-02 发布的
+     桌面应用;**未来任何 web port / mobile port** 复刻同一产品形态都仍在
+     主张范围内,**竞争对手把同一形态搬到不同平台也不能凭平台不同免责**。
+
+     **按架构(非平台)取消资格的:** 独立 demo 的画廊,无 store/管理器
+     结构(如 HuggingFace Spaces);作为单一产品的云端聊天前端,不是多应用
+     store(如单个 GPT);无目录/启动结构的通用代码运行器沙箱。
+
   2. **AI 应用与 AI 游戏并列** —— 两个领域作为对等的一级实体共存于同一界面。
      只有应用没游戏(或只有游戏没应用)**不符合**本主张。
   3. **模型绑定,而非代码绑定** —— store 内每一个应用和游戏都**根本性地**
@@ -435,8 +468,9 @@ itch.io 等)。此处主张的是**远比这更狭窄的「三条件交集」**,
 
 **以下组合无任何已知先例:**
 
-- 一个**桌面**端**模型绑定的 AI 应用 + AI 游戏 store** —— 每一项条目都依赖
-  中央模型池中的某个配置才能运行
+- **模型绑定的 AI 应用 + AI 游戏 store(任何平台)** —— 每一项条目都依赖
+  中央模型池中的某个配置才能运行。EchoBird 首次实现是桌面;主张基于**形态**
+  而非平台,不限于桌面
 - 统一的 `models.json` + `paths.json` 约定,让用户自己写的**模型绑定型**
   AI 应用或游戏能**与内置条目完全相同的方式**注册进桌面 store
 - (a)参考应用作教程模板 + (b)官方工具与用户自定义实体共用同一卡片
@@ -449,17 +483,18 @@ itch.io 等)。此处主张的是**远比这更狭窄的「三条件交集」**,
 **前瞻性声明(在此作为优先权锚定记录)。** 首日同时内置一个 AI **游戏**
 (黑白棋)与一个 AI **应用**(翻译器),**且两者都无法在缺少 EchoBird 中央
 Model Nexus 模型连接的情况下运行**,并非偶然 —— 2026-03-02 公开发布的架构
-已经预示了 EchoBird 朝**「模型绑定型 AI 应用与 AI 游戏的桌面 store」** 方向
-的产品轨迹。截至 2026-05-22,**没有已知公司在此具体交集内运营**:
+已经预示了 EchoBird 朝**「模型绑定型 AI 应用与 AI 游戏的 store」** 方向的
+产品轨迹 —— 首次实现是桌面,trade dress 主张延伸至**未来任何 web / mobile /
+其他平台**实现的同一产品形态。截至 2026-05-22,**没有已知公司在此具体交集内运营**:
 
-| 候选 | 不符合本主张的原因 |
+| 候选 | 不符合本主张的原因(按架构,而非平台) |
 |---|---|
-| OpenAI GPTs Store | 云端,无桌面;无游戏维度;单家厂商模型锁 |
-| HuggingFace Spaces | 网页托管 demo;不是 store;无应用/游戏区分 |
+| OpenAI GPTs Store | 每个 GPT 是单一产品(从用户视角不是多应用 store);无游戏维度;单家厂商模型锁 |
+| HuggingFace Spaces | 独立 demo 画廊,无 store/管理器目录;无应用/游戏区分;条目不绑定 store 级别模型池 |
 | Ollama Library | 只是模型文件,无应用 |
-| Civitai | 图像模型 + LoRA 画廊,不是应用/游戏 store |
-| Replit / Vercel / CodeSandbox | 通用 PaaS;非模型绑定;非桌面 |
-| Apple / Google App Store | 通用 store;无模型绑定架构;无 store 级别模型池 |
+| Civitai | 图像模型 + LoRA 画廊,不是应用 store |
+| Replit / Vercel / CodeSandbox | 通用代码运行器 PaaS;条目不绑定 store 级别模型池 |
+| Apple / Google App Store | 通用应用 store;无模型绑定架构;无 store 级别模型池 |
 | Steam / itch.io | 游戏 store;无 AI 维度;非模型绑定 |
 
 任何**后续**进入此领域的产品,若其产品形态采用 §3 三个或以上 UI 界面,
