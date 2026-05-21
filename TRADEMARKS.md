@@ -169,9 +169,25 @@ all simultaneously satisfied by EchoBird's architecture:
      single product, not a multi-app store (e.g., individual GPTs);
      generic code-runner sandboxes with no catalog/launch structure.
 
-  2. **AI applications AND AI games together** — both domains present
-     in the same surface as first-class peer entities. Apps without
-     games (or games without apps) does not match this claim.
+  2. **AI applications and/or AI games as the store's content type.**
+
+     **Primary claim (stronger):** EchoBird's specific realization
+     includes BOTH AI applications and AI games side-by-side as
+     first-class peer entities in a single store. The "apps + games
+     in the same surface" form is itself distinctive and documented
+     from 2026-03-02 day one (Reversi as a game + AI Translator as
+     an application).
+
+     **Secondary claim (anti-circumvention):** A store containing
+     ONLY AI applications, OR ONLY AI games, that reproduces the
+     other §4 conditions (model-bound entries, store/manager form
+     factor, reference-app-as-template pattern, shared central
+     model pool) is ALSO within the claim. Splitting categories
+     across two separate competing products in order to avoid the
+     "both" condition is a recognized circumvention pattern and is
+     treated as derived trade dress, evaluated against the same
+     priority dates. A "generic application store" or a "generic
+     game store" without the other §4 conditions is unaffected.
   3. **Model-bound, not code-bound** — every app and game in the store
      is *fundamentally* dependent on a configured AI model to run. The
      unified `models.json` convention is the architectural realization:
@@ -459,8 +475,19 @@ itch.io 等)。此处主张的是**远比这更狭窄的「三条件交集」**,
      结构(如 HuggingFace Spaces);作为单一产品的云端聊天前端,不是多应用
      store(如单个 GPT);无目录/启动结构的通用代码运行器沙箱。
 
-  2. **AI 应用与 AI 游戏并列** —— 两个领域作为对等的一级实体共存于同一界面。
-     只有应用没游戏(或只有游戏没应用)**不符合**本主张。
+  2. **AI 应用与/或 AI 游戏作为 store 的内容类型。**
+
+     **首要主张(更强):** EchoBird 的具体实现是**同一 store 内 AI 应用与
+     AI 游戏并列**,作为对等的一级实体。这种「应用 + 游戏共界面」的形态
+     本身就是独特设计,自 2026-03-02 首日落地(黑白棋作为游戏 + AI 翻译
+     作为应用)。
+
+     **次要主张(反规避):** 一个**只包含 AI 应用**或**只包含 AI 游戏**
+     的 store,若复制了 §4 其他条件(条目模型绑定 / store/管理器形态 /
+     参考应用模板模式 / 共享中央模型池),**同样落入本主张**。**将类别
+     拆分到两个独立的竞争性产品以规避「两者并列」条件**,**视为已识别
+     的规避企图**,按衍生 trade dress 处理,适用相同优先权日。**不带 §4
+     其他条件的通用应用商店或通用游戏商店**则不受影响。
   3. **模型绑定,而非代码绑定** —— store 内每一个应用和游戏都**根本性地**
      依赖一个配置好的 AI 模型才能运行。统一的 `models.json` 约定是这种依赖
      的架构实现:没有模型,应用做不了任何有意义的事。这条排除了所有通用代码
