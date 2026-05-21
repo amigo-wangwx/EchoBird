@@ -3,288 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EchoBird AI 应用商店</title>
+<title>EchoBird AI 应用商店 — 概念</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #f5f5f7;
-    color: #1d1d1f;
-    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'SF Pro Display', sans-serif;
+    background: #0a0e0a;
+    color: #c4e8c4;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
     min-height: 100vh;
+    padding: 40px 24px;
   }
-  .topbar {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid #d2d2d7;
-    padding: 14px 32px;
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  header {
+    border-bottom: 1px solid #2a3a2a;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .topline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    margin-bottom: 16px;
   }
-  .topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.2px; }
-  .topbar .brand span { color: #86868b; font-weight: 400; }
-  .topbar .lang { color: #0071e3; text-decoration: none; font-size: 14px; }
-  .topbar .lang:hover { text-decoration: underline; }
-
-  main { max-width: 1080px; margin: 0 auto; padding: 32px; }
-
-  .hero {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
-    border-radius: 20px;
-    padding: 48px 40px;
-    color: #fff;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
+  .brand {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #6abc6a;
+    font-size: 13px;
+    letter-spacing: 2px;
   }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 60%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  .lang {
+    color: #6abc6a;
+    text-decoration: none;
+    font-family: 'Monaco', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid #2a3a2a;
+    padding: 4px 10px;
+    border-radius: 2px;
   }
-  .hero .label { font-size: 13px; opacity: 0.85; letter-spacing: 1px; margin-bottom: 8px; }
-  .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
-  .hero .sub { font-size: 18px; opacity: 0.9; max-width: 540px; line-height: 1.5; }
-
-  .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 24px 0 16px;
+  .lang:hover { border-color: #6abc6a; color: #d4f8d4; }
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #d4f8d4;
+    margin-bottom: 8px;
   }
-  .section-sub {
-    color: #86868b;
-    font-size: 15px;
-    margin-bottom: 20px;
+  .sub {
+    color: #8aaa8a;
+    font-size: 14px;
+    margin-bottom: 16px;
   }
-
-  .applist {
-    background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  .status {
+    display: inline-block;
+    border: 1px solid #2a3a2a;
+    padding: 6px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    color: #6abc6a;
+    letter-spacing: 1px;
   }
-  .row {
+  .categories {
     display: flex;
-    align-items: center;
-    padding: 14px 20px;
-    border-bottom: 0.5px solid #e5e5ea;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .cat {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    color: #8aaa8a;
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: default;
+  }
+  .cat.active {
+    border-color: #6abc6a;
+    color: #d4f8d4;
+    background: #1a221a;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
-  .row:last-child { border-bottom: none; }
-  .row:hover { background: #fafafa; }
-
+  .card {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    padding: 20px;
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card:hover {
+    border-color: #6abc6a;
+    background: #1a221a;
+  }
   .ico {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    flex-shrink: 0;
-    color: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08);
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    background: #0a0e0a;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
   }
-  .ico.c1 { background: linear-gradient(135deg, #5b8bf5, #4f46e5); }
-  .ico.c2 { background: linear-gradient(135deg, #ff6ec4, #7873f5); }
-  .ico.c3 { background: linear-gradient(135deg, #00d4aa, #02b1cc); }
-  .ico.c4 { background: linear-gradient(135deg, #fcb045, #fd1d1d); }
-  .ico.c5 { background: linear-gradient(135deg, #fd5c63, #c81e6e); }
-  .ico.c6 { background: linear-gradient(135deg, #11998e, #38ef7d); }
-  .ico.c7 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-  .ico.c8 { background: linear-gradient(135deg, #f093fb, #f5576c); }
-  .ico.c9 { background: linear-gradient(135deg, #ffd700, #ff8c00); }
-  .ico.c10 { background: linear-gradient(135deg, #667eea, #764ba2); }
-  .ico.c11 { background: linear-gradient(135deg, #43cea2, #185a9d); }
-  .ico.c12 { background: linear-gradient(135deg, #ee0979, #ff6a00); }
-
-  .info { flex: 1; min-width: 0; }
-  .info .name { font-size: 17px; font-weight: 500; letter-spacing: -0.3px; color: #1d1d1f; margin-bottom: 2px; }
-  .info .desc { font-size: 14px; color: #86868b; line-height: 1.45; }
-
-  .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
-  .badge {
-    font-size: 10px;
-    color: #86868b;
-    font-weight: 500;
-    letter-spacing: 0.4px;
-  }
-  .get {
-    background: #f2f2f7;
-    color: #0071e3;
-    border: none;
-    padding: 6px 18px;
-    border-radius: 100px;
+  .card h2 {
+    font-size: 16px;
+    color: #d4f8d4;
+    margin-bottom: 4px;
     font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    cursor: default;
-    font-family: inherit;
   }
-  .get.installed { color: #86868b; }
-
-  .disclaimer {
-    margin-top: 32px;
-    padding: 24px;
-    background: #fff;
-    border-radius: 14px;
-    color: #86868b;
+  .card .desc {
     font-size: 13px;
+    color: #8aaa8a;
+    margin-bottom: 16px;
+    line-height: 1.6;
+    min-height: 42px;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a3a2a;
+    padding-top: 12px;
+  }
+  .model {
+    font-family: 'Monaco', monospace;
+    font-size: 10px;
+    color: #6abc6a;
+    letter-spacing: 0.5px;
+  }
+  .install {
+    background: transparent;
+    border: 1px solid #6abc6a;
+    color: #6abc6a;
+    padding: 5px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: default;
+    border-radius: 2px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #2a3a2a;
+    color: #6a8a6a;
+    font-size: 12px;
     line-height: 1.7;
   }
-  .disclaimer strong { color: #1d1d1f; }
-  .disclaimer a { color: #0071e3; text-decoration: none; }
-  .disclaimer a:hover { text-decoration: underline; }
-  .stamp { font-family: 'SF Mono', 'Monaco', monospace; font-size: 11px; color: #aaa; margin-top: 12px; letter-spacing: 0.5px; }
+  footer a { color: #8aaa8a; text-decoration: none; border-bottom: 1px dotted #2a3a2a; }
+  footer a:hover { color: #d4f8d4; border-bottom-color: #6abc6a; }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="topbar">
-  <div class="brand">EchoBird <span>· AI 应用商店</span></div>
-  <a href="../" class="lang">English →</a>
+<header>
+  <div class="topline">
+    <div class="brand">[ ECHOBIRD ]</div>
+    <a href="../" class="lang">English →</a>
+  </div>
+  <h1>AI 应用商店</h1>
+  <p class="sub">AI 应用,可以在 EchoBird 切换模型</p>
+  <span class="status">CONCEPT · 2026-05-22</span>
+</header>
+
+<div class="categories">
+  <span class="cat active">全部</span>
+  <span class="cat">写作</span>
+  <span class="cat">图像</span>
+  <span class="cat">代码</span>
+  <span class="cat">效率</span>
+  <span class="cat">语音</span>
+  <span class="cat">数据</span>
+  <span class="cat">翻译</span>
+  <span class="cat">教育</span>
 </div>
 
-<main>
+<div class="grid">
 
-  <div class="hero">
-    <div class="label">编辑精选</div>
-    <h1>AI 应用,一次配置,全部生效。</h1>
-    <p class="sub">本商店中的每个应用都接入 EchoBird 中央模型枢纽(Model Nexus)—— 模型配置一次,所有应用立即可用。</p>
+  <div class="card">
+    <div class="ico">📝</div>
+    <h2>AI 写作大师</h2>
+    <p class="desc">生成长篇文章、随笔、营销文案,支持风格控制。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
   </div>
 
-  <h2 class="section-title">精选 AI 应用</h2>
-  <p class="section-sub">12 款模型绑定型应用 · 每个条目都需要 Model Nexus 中央池里的 AI 模型才能运行</p>
-
-  <div class="applist">
-
-    <div class="row">
-      <div class="ico c1">📝</div>
-      <div class="info">
-        <div class="name">AI 写作大师</div>
-        <div class="desc">生成长篇文章、随笔、营销文案,支持风格控制。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c2">🎨</div>
-      <div class="info">
-        <div class="name">AI 图像工作室</div>
-        <div class="desc">文生图、局部重绘、风格迁移,本地或云端扩散模型均可。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c3">🔍</div>
-      <div class="info">
-        <div class="name">AI 代码评审</div>
-        <div class="desc">静态分析 + LLM 代码评审,结合项目上下文。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c4">📓</div>
-      <div class="info">
-        <div class="name">智能笔记</div>
-        <div class="desc">AI 增强的笔记应用,支持语义搜索与自动摘要。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c5">🎙️</div>
-      <div class="info">
-        <div class="name">AI 语音生成器</div>
-        <div class="desc">文本转语音,支持声音克隆、多语言与情感控制。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c6">📊</div>
-      <div class="info">
-        <div class="name">AI 数据分析师</div>
-        <div class="desc">用自然语言提问,自动生成 SQL、图表与洞察。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c7">✉️</div>
-      <div class="info">
-        <div class="name">AI 邮件撰写</div>
-        <div class="desc">撰写、润色、翻译邮件,自动调整语气与对象。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c8">🎯</div>
-      <div class="info">
-        <div class="name">AI 会议纪要</div>
-        <div class="desc">转录会议、提取行动项、自动生成跟进邮件。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c9">🎓</div>
-      <div class="info">
-        <div class="name">个人 AI 家教</div>
-        <div class="desc">学科个性化辅导,自适应难度与进度跟踪。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c10">📄</div>
-      <div class="info">
-        <div class="name">AI 文档识别</div>
-        <div class="desc">从扫描件提取文本,理解版式,自然语言问答。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c11">🌐</div>
-      <div class="info">
-        <div class="name">AI 翻译</div>
-        <div class="desc">实时双语翻译,保留上下文。自 2026-03-02 起随 EchoBird 内置。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get installed">已安装</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c12">📈</div>
-      <div class="info">
-        <div class="name">AI 表格</div>
-        <div class="desc">自然语言公式、自动分类、智能数据透视。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
+  <div class="card">
+    <div class="ico">🎨</div>
+    <h2>AI 图像工作室</h2>
+    <p class="desc">文生图、局部重绘、风格迁移,本地或云端扩散模型均可。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
   </div>
 
-  <div class="disclaimer">
-    <p><strong>EchoBird AI 应用商店</strong> —— 概念文档,尚未商业发布。</p>
-    <p style="margin-top:8px;">商店中所有条目均为**模型绑定型** —— 每个应用都需要 EchoBird 中央 <strong>Model Nexus</strong> 中配置好的 AI 模型才能运行。统一的产品架构记录于本项目 <a href="../../../TRADEMARKS.md">TRADEMARKS.md</a> §3-§4 与 <a href="../../../NOTICE">NOTICE</a> A 段。</p>
-    <p style="margin-top:8px;">本页面作为 EchoBird AI 应用商店概念与底层 trade dress 的**防御性公开**(defensive publication)证据存档。首次公开 commit 见 <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-app-store/zh/index.html">git 历史</a>。</p>
-    <p class="stamp">CONCEPT · 非生产环境 · 无实际安装动作 · 2026-05-22</p>
+  <div class="card">
+    <div class="ico">🔍</div>
+    <h2>AI 代码评审</h2>
+    <p class="desc">静态分析 + LLM 代码评审,结合项目上下文。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
   </div>
 
-</main>
+  <div class="card">
+    <div class="ico">📓</div>
+    <h2>智能笔记</h2>
+    <p class="desc">AI 增强的笔记应用,支持语义搜索与自动摘要。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
 
+  <div class="card">
+    <div class="ico">🎙️</div>
+    <h2>AI 语音生成器</h2>
+    <p class="desc">文本转语音,支持声音克隆、多语言与情感控制。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">📊</div>
+    <h2>AI 数据分析师</h2>
+    <p class="desc">用自然语言提问,自动生成 SQL、图表与洞察。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">✉️</div>
+    <h2>AI 邮件撰写</h2>
+    <p class="desc">撰写、润色、翻译邮件,自动调整语气与对象。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🎯</div>
+    <h2>AI 会议纪要</h2>
+    <p class="desc">转录会议、提取行动项、自动生成跟进邮件。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🎓</div>
+    <h2>个人 AI 家教</h2>
+    <p class="desc">学科个性化辅导,自适应难度与进度跟踪。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">📄</div>
+    <h2>AI 文档识别</h2>
+    <p class="desc">从扫描件提取文本,理解版式,自然语言问答。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🌐</div>
+    <h2>AI 翻译</h2>
+    <p class="desc">实时双语翻译,保留上下文。<em>(自 2026-03-02 起随 EchoBird 内置)</em></p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">已安装</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">📈</div>
+    <h2>AI 表格</h2>
+    <p class="desc">自然语言公式、自动分类、智能数据透视。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>EchoBird AI 应用商店</strong> —— 概念文档,尚未商业发布。</p>
+  <p>商店中所有条目均为**模型绑定型** —— 每个应用都需要 EchoBird 中央 <a href="../../">Model Nexus</a> 中配置好的 AI 模型才能运行。统一的产品架构记录于本项目 <a href="../../../TRADEMARKS.md">TRADEMARKS.md</a> §3-§4 与 <a href="../../../NOTICE">NOTICE</a> A 段。</p>
+  <p style="margin-top:12px;">本页面作为 EchoBird AI 应用商店概念与底层 trade dress 的**防御性公开**(defensive publication)证据存档。首次公开 commit 见 <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-app-store/zh/index.html">git 历史</a>。</p>
+  <p style="margin-top:12px;font-family:'Monaco',monospace;font-size:11px;color:#4a6a4a;">CONCEPT · 非生产环境 · 无实际获取动作 · 2026-05-22</p>
+</footer>
+
+</div>
 </body>
 </html>

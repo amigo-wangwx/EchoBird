@@ -3,289 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EchoBird AI Game Store</title>
+<title>EchoBird AI Game Store — Concept</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #f5f5f7;
-    color: #1d1d1f;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Segoe UI', sans-serif;
+    background: #0a0e0a;
+    color: #c4e8c4;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
     min-height: 100vh;
+    padding: 40px 24px;
   }
-  .topbar {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid #d2d2d7;
-    padding: 14px 32px;
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  header {
+    border-bottom: 1px solid #2a3a2a;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .topline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    margin-bottom: 16px;
   }
-  .topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.2px; }
-  .topbar .brand span { color: #86868b; font-weight: 400; }
-  .topbar .lang { color: #0071e3; text-decoration: none; font-size: 14px; }
-  .topbar .lang:hover { text-decoration: underline; }
-
-  main { max-width: 1080px; margin: 0 auto; padding: 32px; }
-
-  .hero {
-    background: linear-gradient(135deg, #0f172a 0%, #4338ca 50%, #f59e0b 100%);
-    border-radius: 20px;
-    padding: 48px 40px;
-    color: #fff;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
+  .brand {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #6abc6a;
+    font-size: 13px;
+    letter-spacing: 2px;
   }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 60%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  .lang {
+    color: #6abc6a;
+    text-decoration: none;
+    font-family: 'Monaco', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid #2a3a2a;
+    padding: 4px 10px;
+    border-radius: 2px;
   }
-  .hero .label { font-size: 13px; opacity: 0.85; letter-spacing: 1px; margin-bottom: 8px; }
-  .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
-  .hero .sub { font-size: 18px; opacity: 0.9; max-width: 540px; line-height: 1.4; }
-
-  .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 24px 0 16px;
+  .lang:hover { border-color: #6abc6a; color: #d4f8d4; }
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #d4f8d4;
+    margin-bottom: 8px;
   }
-  .section-sub {
-    color: #86868b;
-    font-size: 15px;
-    margin-bottom: 20px;
+  .sub {
+    color: #8aaa8a;
+    font-size: 14px;
+    margin-bottom: 16px;
   }
-
-  .applist {
-    background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  .status {
+    display: inline-block;
+    border: 1px solid #2a3a2a;
+    padding: 6px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    color: #6abc6a;
+    letter-spacing: 1px;
   }
-  .row {
+  .categories {
     display: flex;
-    align-items: center;
-    padding: 14px 20px;
-    border-bottom: 0.5px solid #e5e5ea;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .cat {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    color: #8aaa8a;
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: default;
+  }
+  .cat.active {
+    border-color: #6abc6a;
+    color: #d4f8d4;
+    background: #1a221a;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
-  .row:last-child { border-bottom: none; }
-  .row:hover { background: #fafafa; }
-
+  .card {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    padding: 20px;
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card:hover {
+    border-color: #6abc6a;
+    background: #1a221a;
+  }
   .ico {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    flex-shrink: 0;
-    color: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08);
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    background: #0a0e0a;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
   }
-  .ico.c1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
-  .ico.c2 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
-  .ico.c3 { background: linear-gradient(135deg, #f59e0b, #dc2626); }
-  .ico.c4 { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
-  .ico.c5 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
-  .ico.c6 { background: linear-gradient(135deg, #10b981, #06b6d4); }
-  .ico.c7 { background: linear-gradient(135deg, #374151, #6b7280); }
-  .ico.c8 { background: linear-gradient(135deg, #f43f5e, #ec4899); }
-  .ico.c9 { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
-  .ico.c10 { background: linear-gradient(135deg, #581c87, #9333ea); }
-  .ico.c11 { background: linear-gradient(135deg, #16a34a, #15803d); }
-  .ico.c12 { background: linear-gradient(135deg, #0c4a6e, #0369a1); }
-
-  .info { flex: 1; min-width: 0; }
-  .info .name { font-size: 17px; font-weight: 500; letter-spacing: -0.3px; color: #1d1d1f; margin-bottom: 2px; }
-  .info .desc { font-size: 14px; color: #86868b; line-height: 1.35; }
-
-  .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
-  .badge {
-    font-size: 10px;
-    color: #86868b;
-    font-weight: 500;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-  }
-  .get {
-    background: #f2f2f7;
-    color: #0071e3;
-    border: none;
-    padding: 6px 18px;
-    border-radius: 100px;
+  .card h2 {
+    font-size: 16px;
+    color: #d4f8d4;
+    margin-bottom: 4px;
     font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    cursor: default;
-    font-family: inherit;
   }
-  .get.installed { color: #86868b; }
-
-  .disclaimer {
-    margin-top: 32px;
-    padding: 24px;
-    background: #fff;
-    border-radius: 14px;
-    color: #86868b;
+  .card .desc {
     font-size: 13px;
+    color: #8aaa8a;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    min-height: 38px;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a3a2a;
+    padding-top: 12px;
+  }
+  .model {
+    font-family: 'Monaco', monospace;
+    font-size: 10px;
+    color: #6abc6a;
+    letter-spacing: 0.5px;
+  }
+  .install {
+    background: transparent;
+    border: 1px solid #6abc6a;
+    color: #6abc6a;
+    padding: 5px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: default;
+    border-radius: 2px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #2a3a2a;
+    color: #6a8a6a;
+    font-size: 12px;
     line-height: 1.6;
   }
-  .disclaimer strong { color: #1d1d1f; }
-  .disclaimer a { color: #0071e3; text-decoration: none; }
-  .disclaimer a:hover { text-decoration: underline; }
-  .stamp { font-family: 'SF Mono', 'Monaco', monospace; font-size: 11px; color: #aaa; margin-top: 12px; letter-spacing: 0.5px; }
+  footer a { color: #8aaa8a; text-decoration: none; border-bottom: 1px dotted #2a3a2a; }
+  footer a:hover { color: #d4f8d4; border-bottom-color: #6abc6a; }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="topbar">
-  <div class="brand">EchoBird <span>· AI Game Store</span></div>
-  <a href="zh/" class="lang">中文 →</a>
+<header>
+  <div class="topline">
+    <div class="brand">[ ECHOBIRD ]</div>
+    <a href="zh/" class="lang">中文 →</a>
+  </div>
+  <h1>AI Game Store</h1>
+  <p class="sub">AI Games — switch models inside EchoBird</p>
+  <span class="status">CONCEPT · 2026-05-22</span>
+</header>
+
+<div class="categories">
+  <span class="cat active">All</span>
+  <span class="cat">Strategy</span>
+  <span class="cat">Board</span>
+  <span class="cat">Narrative</span>
+  <span class="cat">Puzzle</span>
+  <span class="cat">Creative</span>
+  <span class="cat">Card</span>
+  <span class="cat">Roleplay</span>
+  <span class="cat">Trivia</span>
 </div>
 
-<main>
+<div class="grid">
 
-  <div class="hero">
-    <div class="label">EDITOR'S COLLECTION</div>
-    <h1>AI Games, configured once.</h1>
-    <p class="sub">Every game in this store taps into EchoBird's central Model Nexus — set up your model once, every game works.</p>
+  <div class="card">
+    <div class="ico">⚫</div>
+    <h2>Reversi vs AI</h2>
+    <p class="desc">Human-vs-AI Othello with tunable difficulty + trash-talking opponent. <em>(Bundled with EchoBird since 2026-03-02)</em></p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALLED</span></div>
   </div>
 
-  <h2 class="section-title">Featured AI Games</h2>
-  <p class="section-sub">12 model-bound games · all entries require an AI model from your Model Nexus pool</p>
-
-  <div class="applist">
-
-    <div class="row">
-      <div class="ico c1">⚫</div>
-      <div class="info">
-        <div class="name">Reversi vs AI</div>
-        <div class="desc">Human-vs-AI Othello with tunable difficulty and trash-talking opponent. Bundled with EchoBird since 2026-03-02.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get installed">INSTALLED</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c2">♟️</div>
-      <div class="info">
-        <div class="name">AI Chess Master</div>
-        <div class="desc">Play chess against an LLM-driven opponent that explains its moves.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c3">📖</div>
-      <div class="info">
-        <div class="name">AI Story Adventure</div>
-        <div class="desc">Choose-your-own-adventure with infinite branching, all written by your model.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c4">🎨</div>
-      <div class="info">
-        <div class="name">AI Pixel Painter</div>
-        <div class="desc">Collaborative pixel art creation with your AI as co-artist.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c5">🧠</div>
-      <div class="info">
-        <div class="name">AI Trivia Battle</div>
-        <div class="desc">Multiplayer quiz with questions generated on-the-fly by your model.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c6">🔤</div>
-      <div class="info">
-        <div class="name">AI Word Duel</div>
-        <div class="desc">Word-association and wordplay games against an LLM that taunts in style.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c7">🔍</div>
-      <div class="info">
-        <div class="name">AI Detective Mystery</div>
-        <div class="desc">Procedurally generated crime cases — interview AI-driven suspects to solve them.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c8">🎵</div>
-      <div class="info">
-        <div class="name">AI Music Composer</div>
-        <div class="desc">Compose original tracks interactively with model-driven melody and harmony.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c9">⚔️</div>
-      <div class="info">
-        <div class="name">Tactical AI Wars</div>
-        <div class="desc">Turn-based strategy with an opponent that adapts to your playstyle.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c10">🏰</div>
-      <div class="info">
-        <div class="name">AI Dungeon Master</div>
-        <div class="desc">Open-ended D&amp;D-style RPG with your model as game master.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c11">🧩</div>
-      <div class="info">
-        <div class="name">AI Riddles</div>
-        <div class="desc">Endless puzzle generator — riddles, ciphers, lateral-thinking challenges.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c12">🃏</div>
-      <div class="info">
-        <div class="name">AI Card Battles</div>
-        <div class="desc">Collectible card game with an AI opponent that builds decks on the fly.</div>
-      </div>
-      <div class="actions"><span class="badge">REQUIRES MODEL</span><button class="get">GET</button></div>
-    </div>
-
+  <div class="card">
+    <div class="ico">♟️</div>
+    <h2>AI Chess Master</h2>
+    <p class="desc">Play chess against an LLM-driven opponent that explains its moves.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
   </div>
 
-  <div class="disclaimer">
-    <p><strong>EchoBird AI Game Store</strong> — concept document, not commercially released.</p>
-    <p style="margin-top:8px;">All entries shown are model-bound: each game requires a configured AI model from EchoBird's central Model Nexus to function. The unified architecture is documented in the project's <a href="../../TRADEMARKS.md">TRADEMARKS.md</a> §3–§4 and <a href="../../NOTICE">NOTICE</a> §A.</p>
-    <p style="margin-top:8px;">This page exists as defensive publication evidence for the EchoBird AI Game Store concept and its underlying trade dress. First public commit: <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-game-store/index.html">git history</a>.</p>
-    <p class="stamp">CONCEPT · NOT FOR PRODUCTION USE · NO INSTALL ACTION IS WIRED · 2026-05-22</p>
+  <div class="card">
+    <div class="ico">📖</div>
+    <h2>AI Story Adventure</h2>
+    <p class="desc">Choose-your-own-adventure with infinite branching, all written by your model.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
   </div>
 
-</main>
+  <div class="card">
+    <div class="ico">🎨</div>
+    <h2>AI Pixel Painter</h2>
+    <p class="desc">Collaborative pixel art creation with your AI as co-artist.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
 
+  <div class="card">
+    <div class="ico">🧠</div>
+    <h2>AI Trivia Battle</h2>
+    <p class="desc">Multiplayer quiz with questions generated on-the-fly by your model.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🔤</div>
+    <h2>AI Word Duel</h2>
+    <p class="desc">Word-association and wordplay games against an LLM that taunts in style.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🔍</div>
+    <h2>AI Detective Mystery</h2>
+    <p class="desc">Procedurally generated crime cases — interview AI-driven suspects to solve them.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🎵</div>
+    <h2>AI Music Composer</h2>
+    <p class="desc">Compose original tracks interactively with model-driven melody and harmony.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">⚔️</div>
+    <h2>Tactical AI Wars</h2>
+    <p class="desc">Turn-based strategy with an opponent that adapts to your playstyle.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🏰</div>
+    <h2>AI Dungeon Master</h2>
+    <p class="desc">Open-ended D&amp;D-style RPG with your model as game master.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🧩</div>
+    <h2>AI Riddles</h2>
+    <p class="desc">Endless puzzle generator — riddles, ciphers, lateral-thinking challenges.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🃏</div>
+    <h2>AI Card Battles</h2>
+    <p class="desc">Collectible card game with an AI opponent that builds decks on the fly.</p>
+    <div class="meta"><span class="model">REQUIRES MODEL</span><span class="install">INSTALL</span></div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>EchoBird AI Game Store</strong> — concept document, not commercially released.</p>
+  <p>All entries shown are model-bound: each game requires a configured AI model from EchoBird's central <a href="../">Model Nexus</a> to function. The unified architecture is documented in the project's <a href="../../TRADEMARKS.md">TRADEMARKS.md</a> §3–§4 and <a href="../../NOTICE">NOTICE</a> §A.</p>
+  <p style="margin-top:12px;">This page exists as defensive publication evidence for the EchoBird AI Game Store concept and its underlying trade dress. First public commit: see git history of this file at <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-game-store/index.html">github.com/edison7009/EchoBird</a>.</p>
+  <p style="margin-top:12px;font-family:'Monaco',monospace;font-size:11px;color:#4a6a4a;">CONCEPT · NOT FOR PRODUCTION USE · NO INSTALL ACTION IS WIRED · 2026-05-22</p>
+</footer>
+
+</div>
 </body>
 </html>

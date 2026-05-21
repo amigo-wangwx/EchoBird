@@ -3,288 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EchoBird AI 游戏商店</title>
+<title>EchoBird AI 游戏商店 — 概念</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #f5f5f7;
-    color: #1d1d1f;
-    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'SF Pro Display', sans-serif;
+    background: #0a0e0a;
+    color: #c4e8c4;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
     min-height: 100vh;
+    padding: 40px 24px;
   }
-  .topbar {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid #d2d2d7;
-    padding: 14px 32px;
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  header {
+    border-bottom: 1px solid #2a3a2a;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .topline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    margin-bottom: 16px;
   }
-  .topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.2px; }
-  .topbar .brand span { color: #86868b; font-weight: 400; }
-  .topbar .lang { color: #0071e3; text-decoration: none; font-size: 14px; }
-  .topbar .lang:hover { text-decoration: underline; }
-
-  main { max-width: 1080px; margin: 0 auto; padding: 32px; }
-
-  .hero {
-    background: linear-gradient(135deg, #0f172a 0%, #4338ca 50%, #f59e0b 100%);
-    border-radius: 20px;
-    padding: 48px 40px;
-    color: #fff;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
+  .brand {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #6abc6a;
+    font-size: 13px;
+    letter-spacing: 2px;
   }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 60%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  .lang {
+    color: #6abc6a;
+    text-decoration: none;
+    font-family: 'Monaco', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid #2a3a2a;
+    padding: 4px 10px;
+    border-radius: 2px;
   }
-  .hero .label { font-size: 13px; opacity: 0.85; letter-spacing: 1px; margin-bottom: 8px; }
-  .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
-  .hero .sub { font-size: 18px; opacity: 0.9; max-width: 540px; line-height: 1.5; }
-
-  .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 24px 0 16px;
+  .lang:hover { border-color: #6abc6a; color: #d4f8d4; }
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #d4f8d4;
+    margin-bottom: 8px;
   }
-  .section-sub {
-    color: #86868b;
-    font-size: 15px;
-    margin-bottom: 20px;
+  .sub {
+    color: #8aaa8a;
+    font-size: 14px;
+    margin-bottom: 16px;
   }
-
-  .applist {
-    background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  .status {
+    display: inline-block;
+    border: 1px solid #2a3a2a;
+    padding: 6px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    color: #6abc6a;
+    letter-spacing: 1px;
   }
-  .row {
+  .categories {
     display: flex;
-    align-items: center;
-    padding: 14px 20px;
-    border-bottom: 0.5px solid #e5e5ea;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .cat {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    color: #8aaa8a;
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: default;
+  }
+  .cat.active {
+    border-color: #6abc6a;
+    color: #d4f8d4;
+    background: #1a221a;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
-  .row:last-child { border-bottom: none; }
-  .row:hover { background: #fafafa; }
-
+  .card {
+    background: #131713;
+    border: 1px solid #2a3a2a;
+    padding: 20px;
+    border-radius: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card:hover {
+    border-color: #6abc6a;
+    background: #1a221a;
+  }
   .ico {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    flex-shrink: 0;
-    color: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08);
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    background: #0a0e0a;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
   }
-  .ico.c1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
-  .ico.c2 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
-  .ico.c3 { background: linear-gradient(135deg, #f59e0b, #dc2626); }
-  .ico.c4 { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
-  .ico.c5 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
-  .ico.c6 { background: linear-gradient(135deg, #10b981, #06b6d4); }
-  .ico.c7 { background: linear-gradient(135deg, #374151, #6b7280); }
-  .ico.c8 { background: linear-gradient(135deg, #f43f5e, #ec4899); }
-  .ico.c9 { background: linear-gradient(135deg, #b91c1c, #7c2d12); }
-  .ico.c10 { background: linear-gradient(135deg, #581c87, #9333ea); }
-  .ico.c11 { background: linear-gradient(135deg, #16a34a, #15803d); }
-  .ico.c12 { background: linear-gradient(135deg, #0c4a6e, #0369a1); }
-
-  .info { flex: 1; min-width: 0; }
-  .info .name { font-size: 17px; font-weight: 500; letter-spacing: -0.3px; color: #1d1d1f; margin-bottom: 2px; }
-  .info .desc { font-size: 14px; color: #86868b; line-height: 1.45; }
-
-  .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
-  .badge {
-    font-size: 10px;
-    color: #86868b;
-    font-weight: 500;
-    letter-spacing: 0.4px;
-  }
-  .get {
-    background: #f2f2f7;
-    color: #0071e3;
-    border: none;
-    padding: 6px 18px;
-    border-radius: 100px;
+  .card h2 {
+    font-size: 16px;
+    color: #d4f8d4;
+    margin-bottom: 4px;
     font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    cursor: default;
-    font-family: inherit;
   }
-  .get.installed { color: #86868b; }
-
-  .disclaimer {
-    margin-top: 32px;
-    padding: 24px;
-    background: #fff;
-    border-radius: 14px;
-    color: #86868b;
+  .card .desc {
     font-size: 13px;
+    color: #8aaa8a;
+    margin-bottom: 16px;
+    line-height: 1.6;
+    min-height: 42px;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a3a2a;
+    padding-top: 12px;
+  }
+  .model {
+    font-family: 'Monaco', monospace;
+    font-size: 10px;
+    color: #6abc6a;
+    letter-spacing: 0.5px;
+  }
+  .install {
+    background: transparent;
+    border: 1px solid #6abc6a;
+    color: #6abc6a;
+    padding: 5px 12px;
+    font-family: 'Monaco', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: default;
+    border-radius: 2px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #2a3a2a;
+    color: #6a8a6a;
+    font-size: 12px;
     line-height: 1.7;
   }
-  .disclaimer strong { color: #1d1d1f; }
-  .disclaimer a { color: #0071e3; text-decoration: none; }
-  .disclaimer a:hover { text-decoration: underline; }
-  .stamp { font-family: 'SF Mono', 'Monaco', monospace; font-size: 11px; color: #aaa; margin-top: 12px; letter-spacing: 0.5px; }
+  footer a { color: #8aaa8a; text-decoration: none; border-bottom: 1px dotted #2a3a2a; }
+  footer a:hover { color: #d4f8d4; border-bottom-color: #6abc6a; }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="topbar">
-  <div class="brand">EchoBird <span>· AI 游戏商店</span></div>
-  <a href="../" class="lang">English →</a>
+<header>
+  <div class="topline">
+    <div class="brand">[ ECHOBIRD ]</div>
+    <a href="../" class="lang">English →</a>
+  </div>
+  <h1>AI 游戏商店</h1>
+  <p class="sub">AI 游戏,可以在 EchoBird 切换模型</p>
+  <span class="status">CONCEPT · 2026-05-22</span>
+</header>
+
+<div class="categories">
+  <span class="cat active">全部</span>
+  <span class="cat">策略</span>
+  <span class="cat">棋牌</span>
+  <span class="cat">叙事</span>
+  <span class="cat">解谜</span>
+  <span class="cat">创作</span>
+  <span class="cat">卡牌</span>
+  <span class="cat">角色扮演</span>
+  <span class="cat">问答</span>
 </div>
 
-<main>
+<div class="grid">
 
-  <div class="hero">
-    <div class="label">编辑精选</div>
-    <h1>AI 游戏,一次配置,全部生效。</h1>
-    <p class="sub">本商店中的每款游戏都接入 EchoBird 中央模型枢纽(Model Nexus)—— 模型配置一次,所有游戏立即可玩。</p>
+  <div class="card">
+    <div class="ico">⚫</div>
+    <h2>黑白棋(人机对战)</h2>
+    <p class="desc">人机对战黑白棋,难度可调,带毒舌 AI 对手。<em>(自 2026-03-02 起随 EchoBird 内置)</em></p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">已安装</span></div>
   </div>
 
-  <h2 class="section-title">精选 AI 游戏</h2>
-  <p class="section-sub">12 款模型绑定型游戏 · 每个条目都需要 Model Nexus 中央池里的 AI 模型才能运行</p>
-
-  <div class="applist">
-
-    <div class="row">
-      <div class="ico c1">⚫</div>
-      <div class="info">
-        <div class="name">黑白棋(人机对战)</div>
-        <div class="desc">人机对战黑白棋,难度可调,带毒舌 AI 对手。自 2026-03-02 起随 EchoBird 内置。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get installed">已安装</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c2">♟️</div>
-      <div class="info">
-        <div class="name">AI 国际象棋大师</div>
-        <div class="desc">与 LLM 驱动的 AI 对手下国际象棋,每一步都会解释思路。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c3">📖</div>
-      <div class="info">
-        <div class="name">AI 故事冒险</div>
-        <div class="desc">无限分支选项的互动小说,故事完全由你的 AI 模型生成。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c4">🎨</div>
-      <div class="info">
-        <div class="name">AI 像素画家</div>
-        <div class="desc">与 AI 协同创作像素艺术,AI 作为你的共创艺术家。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c5">🧠</div>
-      <div class="info">
-        <div class="name">AI 智力问答</div>
-        <div class="desc">多人在线问答,题目由你的 AI 模型实时生成。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c6">🔤</div>
-      <div class="info">
-        <div class="name">AI 文字对决</div>
-        <div class="desc">与会怼人的 LLM 玩词语联想与文字游戏。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c7">🔍</div>
-      <div class="info">
-        <div class="name">AI 侦探推理</div>
-        <div class="desc">程序生成的案件 —— 审问 AI 嫌疑人,推理破案。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c8">🎵</div>
-      <div class="info">
-        <div class="name">AI 音乐创作</div>
-        <div class="desc">交互式创作原创乐曲,旋律与和声由 AI 协同生成。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c9">⚔️</div>
-      <div class="info">
-        <div class="name">AI 战略对战</div>
-        <div class="desc">回合制策略游戏,AI 对手会自适应你的打法。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c10">🏰</div>
-      <div class="info">
-        <div class="name">AI 跑团大师</div>
-        <div class="desc">开放式 D&amp;D 风格 RPG,你的 AI 模型担任游戏主持人。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c11">🧩</div>
-      <div class="info">
-        <div class="name">AI 谜题</div>
-        <div class="desc">永不重复的谜题生成器 —— 谜语、密码、侧向思维挑战。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
-    <div class="row">
-      <div class="ico c12">🃏</div>
-      <div class="info">
-        <div class="name">AI 卡牌对战</div>
-        <div class="desc">集换式卡牌游戏,AI 对手会即时组建卡组应战。</div>
-      </div>
-      <div class="actions"><span class="badge">需要模型</span><button class="get">获取</button></div>
-    </div>
-
+  <div class="card">
+    <div class="ico">♟️</div>
+    <h2>AI 国际象棋大师</h2>
+    <p class="desc">与 LLM 驱动的 AI 对手下国际象棋,每一步都会解释思路。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
   </div>
 
-  <div class="disclaimer">
-    <p><strong>EchoBird AI 游戏商店</strong> —— 概念文档,尚未商业发布。</p>
-    <p style="margin-top:8px;">商店中所有条目均为**模型绑定型** —— 每款游戏都需要 EchoBird 中央 <strong>Model Nexus</strong> 中配置好的 AI 模型才能运行。统一的产品架构记录于本项目 <a href="../../../TRADEMARKS.md">TRADEMARKS.md</a> §3-§4 与 <a href="../../../NOTICE">NOTICE</a> A 段。</p>
-    <p style="margin-top:8px;">本页面作为 EchoBird AI 游戏商店概念与底层 trade dress 的**防御性公开**(defensive publication)证据存档。首次公开 commit 见 <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-game-store/zh/index.html">git 历史</a>。</p>
-    <p class="stamp">CONCEPT · 非生产环境 · 无实际安装动作 · 2026-05-22</p>
+  <div class="card">
+    <div class="ico">📖</div>
+    <h2>AI 故事冒险</h2>
+    <p class="desc">无限分支选项的互动小说,故事完全由你的 AI 模型生成。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
   </div>
 
-</main>
+  <div class="card">
+    <div class="ico">🎨</div>
+    <h2>AI 像素画家</h2>
+    <p class="desc">与 AI 协同创作像素艺术,AI 作为你的共创艺术家。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
 
+  <div class="card">
+    <div class="ico">🧠</div>
+    <h2>AI 智力问答</h2>
+    <p class="desc">多人在线问答,题目由你的 AI 模型实时生成。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🔤</div>
+    <h2>AI 文字对决</h2>
+    <p class="desc">与会怼人的 LLM 玩词语联想与文字游戏。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🔍</div>
+    <h2>AI 侦探推理</h2>
+    <p class="desc">程序生成的案件 —— 审问 AI 嫌疑人,推理破案。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🎵</div>
+    <h2>AI 音乐创作</h2>
+    <p class="desc">交互式创作原创乐曲,旋律与和声由 AI 协同生成。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">⚔️</div>
+    <h2>AI 战略对战</h2>
+    <p class="desc">回合制策略游戏,AI 对手会自适应你的打法。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🏰</div>
+    <h2>AI 跑团大师</h2>
+    <p class="desc">开放式 D&amp;D 风格 RPG,你的 AI 模型担任游戏主持人。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🧩</div>
+    <h2>AI 谜题</h2>
+    <p class="desc">永不重复的谜题生成器 —— 谜语、密码、侧向思维挑战。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ico">🃏</div>
+    <h2>AI 卡牌对战</h2>
+    <p class="desc">集换式卡牌游戏,AI 对手会即时组建卡组应战。</p>
+    <div class="meta"><span class="model">需要模型</span><span class="install">获取</span></div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>EchoBird AI 游戏商店</strong> —— 概念文档,尚未商业发布。</p>
+  <p>商店中所有条目均为**模型绑定型** —— 每款游戏都需要 EchoBird 中央 <a href="../../">Model Nexus</a> 中配置好的 AI 模型才能运行。统一的产品架构记录于本项目 <a href="../../../TRADEMARKS.md">TRADEMARKS.md</a> §3-§4 与 <a href="../../../NOTICE">NOTICE</a> A 段。</p>
+  <p style="margin-top:12px;">本页面作为 EchoBird AI 游戏商店概念与底层 trade dress 的**防御性公开**(defensive publication)证据存档。首次公开 commit 见 <a href="https://github.com/edison7009/EchoBird/commits/main/docs/ai-game-store/zh/index.html">git 历史</a>。</p>
+  <p style="margin-top:12px;font-family:'Monaco',monospace;font-size:11px;color:#4a6a4a;">CONCEPT · 非生产环境 · 无实际获取动作 · 2026-05-22</p>
+</footer>
+
+</div>
 </body>
 </html>
