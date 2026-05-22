@@ -70,9 +70,9 @@ AI_KEYWORDS = [
 ]
 AI_RE = re.compile(r"\b(" + "|".join(re.escape(k) for k in AI_KEYWORDS) + r")\b", re.IGNORECASE)
 
-# Host blocklist: x.com / twitter.com items are individual KOL posts, not news.
+# Host blocklist: x.com / twitter.com are KOL posts, v2ex.com is forum chatter.
 # Kept in sync with scripts/filter_pulse.py (applied to the ZH feed at refresh time).
-BLOCKED_HOST_RE = re.compile(r"^https?://([^/]+\.)?(x|twitter)\.com/", re.IGNORECASE)
+BLOCKED_HOST_RE = re.compile(r"^https?://([^/]+\.)?(x|twitter|v2ex)\.com/", re.IGNORECASE)
 
 
 # ─── HTTP helpers ─────────────────────────────────────────────────────────────

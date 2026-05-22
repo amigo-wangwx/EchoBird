@@ -19,7 +19,7 @@ The pulse workflow:
    so the existing client surfaces the curation source for free.
 3. Builds the EN feed via [scripts/build_en_pulse.py](../../scripts/build_en_pulse.py).
 4. Runs [scripts/filter_pulse.py](../../scripts/filter_pulse.py) to strip
-   blocklisted hosts (`x.com` / `twitter.com`) and promo-marker titles
+   blocklisted hosts (`x.com` / `twitter.com` / `v2ex.com`) and promo-marker titles
    (`【广告】` / `【推广】` / `【赞助】` / `[AD]` / `[PR]` etc.) before commit.
 
 Sourcing through our own repo means all five frontend mirrors (worker,

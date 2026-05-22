@@ -19,10 +19,11 @@ import re
 import sys
 from pathlib import Path
 
-# Match the full host segment (incl. any subdomain). Two hosts:
-#   x.com / *.x.com
-#   twitter.com / *.twitter.com
-BLOCKED_HOST_RE = re.compile(r"^https?://([^/]+\.)?(x|twitter)\.com/", re.IGNORECASE)
+# Match the full host segment (incl. any subdomain). Three hosts:
+#   x.com / *.x.com           — KOL posts, not reporting
+#   twitter.com / *.twitter.com — same
+#   v2ex.com / *.v2ex.com     — forum chatter, very low signal for AI news
+BLOCKED_HOST_RE = re.compile(r"^https?://([^/]+\.)?(x|twitter|v2ex)\.com/", re.IGNORECASE)
 
 # Match items whose title is platform moderation/announcement noise OR
 # obvious paid placement / promotional content.

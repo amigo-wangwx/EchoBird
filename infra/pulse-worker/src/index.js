@@ -6,7 +6,7 @@
 //                       .github/workflows/refresh-pulse-data.yml — which mirrors
 //                       the SuYxh/ai-news-aggregator ZH feed, builds the EN feed
 //                       via scripts/build_en_pulse.py, and runs scripts/filter_pulse.py
-//                       to strip x.com / twitter.com items).
+//                       to strip x.com / twitter.com / v2ex.com items).
 //                       e.g. /pulse/latest-24h.json, /pulse/latest-7d.json,
 //                            /pulse/latest-7d-en.json
 //   /courses/<file>   → dispatched by file name:
