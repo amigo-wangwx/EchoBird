@@ -1,9 +1,14 @@
-// AI Courses — Curated public AI/ML courses, sourced from a maintained awesome-list.
-// Source: dair-ai/ML-YouTube-Courses (17k★, ~80 courses, 10 categories, actively maintained).
-// Mirror chain: echobird.ai/courses/README.md → CF Worker → GitHub raw fallback.
+// AI Courses — Curated, application-oriented AI courses for builders, indie hackers,
+// and creators. Focus: "how to USE AI to ship things" (vibe coding, agent orchestration,
+// content creation, AI-powered startups) — NOT how to research/train LLMs.
 //
-// Each card click opens the course URL in the system browser.
-// Right panel filters by category (parsed from the README TOC).
+// Both lists live as JSON on echobird.ai/courses (CF Worker), with GitHub raw at
+// docs/courses/{cn,en}.json as the secondary mirror. Edit those files to add/remove
+// entries without shipping a release; users pull fresh data within the 6h cache window
+// (or instantly via the refresh button).
+//
+// The bundled CN_COURSES / EN_COURSES arrays below are the offline floor: shown on
+// cold start before remote fetch completes and as a fallback when both mirrors fail.
 
 import {
   createContext,
@@ -21,17 +26,9 @@ import { usePulseScroll } from '../../hooks/usePulseScroll';
 
 // ===== Mirror config =====
 
+// Both langs share the same mirror chain; only the file name differs. Primary is
+// echobird.ai's CF Worker; GitHub raw is the cold backup that auto-tracks main.
 const COURSES_MIRRORS: { name: string; base: string }[] = [
-  { name: 'echobird', base: 'https://echobird.ai/courses' },
-  { name: 'github', base: 'https://raw.githubusercontent.com/dair-ai/ML-YouTube-Courses/main' },
-];
-
-const COURSES_FILE = 'README.md';
-
-// CN list lives at echobird.ai/courses/cn.json (CF Worker), with GitHub raw as backup.
-// Format: { courses: Omit<Course, 'lang'>[], categories: string[] }
-// Edit cn.json to add/remove entries without shipping a release.
-const COURSES_MIRRORS_CN: { name: string; base: string }[] = [
   { name: 'echobird', base: 'https://echobird.ai/courses' },
   {
     name: 'github',
@@ -39,6 +36,7 @@ const COURSES_MIRRORS_CN: { name: string; base: string }[] = [
   },
 ];
 
+const COURSES_FILE_EN = 'en.json';
 const COURSES_FILE_CN = 'cn.json';
 
 // ===== Types =====
@@ -54,8 +52,6 @@ interface Course {
   lang: Lang;
 }
 
-// Persisted shapes — one per remote source. Bundled CN_COURSES / CN_CATEGORIES
-// arrays below are the offline floor used when both CN mirrors fail.
 interface CachedEn {
   enCourses: Course[];
   enCategories: string[];
@@ -68,7 +64,6 @@ interface CachedZh {
   fetchedAt: number;
 }
 
-// Runtime shape exposed via context — EN cache merged with CN supplement.
 interface Catalog {
   courses: Course[];
   categoriesByLang: Record<Lang, string[]>;
@@ -77,13 +72,11 @@ interface Catalog {
 
 // ===== Bundled CN fallback =====
 //
-// dair-ai/ML-YouTube-Courses is 100% YouTube — blocked in mainland China, so we
-// maintain our own CN list. The live source is echobird.ai/courses/cn.json,
-// manually edited for content updates without shipping a release.
-//
-// This array is the offline floor: shown on first launch before the remote fetch
-// completes, and as a fallback when all mirrors fail. Keep it in sync with
-// docs/courses/cn.json only when you want new entries baked into a release.
+// Mirror of docs/courses/cn.json — manually kept in sync when shipping a release
+// so first-launch / offline users see content immediately.
+
+const CN_CATEGORIES = ['AI 创业', 'AI 编程', 'AI 内容创作', 'Prompt 与 Agent', '学习平台'];
+
 const CN_COURSES: Course[] = [
   {
     id: 'cn-claude-founders-playbook',
@@ -91,84 +84,82 @@ const CN_COURSES: Course[] = [
     url: 'https://coffeecli.com/courses/founders-playbook',
     description:
       '面向独立开发者与创业者的 AI 实战课,讲解如何用 Claude 等大模型搭建产品并跑通商业闭环',
-    category: '大模型',
+    category: 'AI 创业',
     lang: 'zh',
   },
   {
-    id: 'cn-lihongyi-ml',
-    name: '李宏毅 · 机器学习',
-    url: 'https://www.bilibili.com/video/BV1Wv411h7kN',
-    description:
-      '台大李宏毅教授,中文圈最受欢迎的机器学习课程,涵盖 ML / DL / 强化学习 / Transformer / Diffusion',
-    category: '机器学习',
+    id: 'cn-datawhale-easy-vibe',
+    name: 'Datawhale · Easy-Vibe',
+    url: 'https://datawhalechina.github.io/easy-vibe/welcome.html',
+    description: 'Datawhale 出品的零基础 Vibe Coding 四阶段课程,GitHub 13.9k stars,中文社区背书',
+    category: 'AI 编程',
     lang: 'zh',
   },
   {
-    id: 'cn-andrew-ng-ml',
-    name: '吴恩达 · 机器学习',
-    url: 'https://www.bilibili.com/video/BV1Bq421A74G',
-    description: '斯坦福 CS229 经典机器学习课程,B站官方中文字幕版',
-    category: '机器学习',
+    id: 'cn-liyupi-ai-guide',
+    name: '程序员鱼皮 · AI 编程指南',
+    url: 'https://github.com/liyupi/ai-guide',
+    description: 'GitHub 14.3k stars 的中文 AI 资源大全,涵盖 Vibe Coding、Claude 玩法、AI 产品变现',
+    category: 'AI 编程',
     lang: 'zh',
   },
   {
-    id: 'cn-andrew-ng-dl',
-    name: '吴恩达 · 深度学习专项课',
-    url: 'https://www.bilibili.com/video/BV1FT4y1E74V',
-    description:
-      '深度学习五部曲:神经网络与深度学习 / 改善深层 NN / 结构化机器学习项目 / CNN / 序列模型',
-    category: '深度学习',
+    id: 'cn-bilibili-yincode-claude',
+    name: '10 分钟学会 24 个 Claude Code 使用技巧',
+    url: 'https://www.bilibili.com/video/BV1SddcBFESs/',
+    description: 'B 站 UP 主 Yin_Code,8.7w 播放的 Claude Code 快速上手实战',
+    category: 'AI 编程',
     lang: 'zh',
   },
   {
-    id: 'cn-limu-d2l',
-    name: '李沐 · 动手学深度学习',
-    url: 'https://courses.d2l.ai/zh-v2/',
-    description: 'Amazon 资深首席科学家李沐主讲,中文 PyTorch 实现,教材免费在线阅读',
-    category: '深度学习',
+    id: 'cn-tukuaiai-vibe-coding',
+    name: 'Vibe Coding 中文教程',
+    url: 'https://github.com/tukuaiai/vibe-coding-cn',
+    description: 'Prompt / Skill / Workflow / Codex 实战的中文 Vibe Coding 教程仓库',
+    category: 'AI 编程',
     lang: 'zh',
   },
   {
-    id: 'cn-limu-bilibili',
-    name: '跟李沐学 AI · B 站频道',
-    url: 'https://space.bilibili.com/1567748478',
-    description: '李沐持续更新的论文精读、深度学习、面试经验等系列视频',
-    category: '深度学习',
+    id: 'cn-bilibili-coze-jianying',
+    name: 'Coze + 剪映 智能体保姆级搭建',
+    url: 'https://www.bilibili.com/video/BV1cjoCY3EbD/',
+    description: 'DeepSeek + 通义万相 + Vidu + 剪映全流程,从 0 搭一个能批量出短视频的智能体',
+    category: 'AI 内容创作',
     lang: 'zh',
   },
   {
-    id: 'cn-tsinghua-nlp',
-    name: '清华 NLP · 刘知远',
-    url: 'https://www.bilibili.com/video/BV1Pe4y1B72v',
-    description: '清华大学刘知远团队主讲的自然语言处理课程,从词向量到大模型',
-    category: '自然语言处理',
+    id: 'cn-baoyu-share',
+    name: '宝玉的分享',
+    url: 'https://baoyu.io/',
+    description: '中文 Prompt 工程头部博主,系统性翻译与整理 Prompt 实战、多 Agent 协作范本',
+    category: 'Prompt 与 Agent',
     lang: 'zh',
   },
   {
-    id: 'cn-zju-ml-huhaoji',
-    name: '浙大 · 胡浩基机器学习',
-    url: 'https://www.bilibili.com/video/BV1qf4y1x7kB',
-    description: '浙江大学胡浩基副教授主讲,理论推导清晰,适合数学基础扎实的学习者',
-    category: '机器学习',
+    id: 'cn-waytoagi',
+    name: 'WaytoAGI · 通往 AGI 之路',
+    url: 'https://www.waytoagi.com/zh',
+    description: '900w 学习者的中文 AI 知识库,含教程、问答、Agent 章节',
+    category: 'Prompt 与 Agent',
     lang: 'zh',
   },
   {
-    id: 'cn-cs231n-zh',
-    name: '斯坦福 CS231n',
-    url: 'https://www.bilibili.com/video/BV1nJ411z7fe',
-    description: '李飞飞团队的计算机视觉名课,B 站中文翻译版',
-    category: '计算机视觉',
+    id: 'cn-langgpt-wonderful-prompts',
+    name: 'LangGPT · Wonderful Prompts',
+    url: 'https://github.com/langgptai/wonderful-prompts',
+    description: '中文 Prompt 精选合集,提升 ChatGPT / Claude 实际可用性',
+    category: 'Prompt 与 Agent',
     lang: 'zh',
   },
+  // ── 学习平台 / 资源入口 ──
   {
-    id: 'cn-llm-tutorial',
-    name: 'LLM 大模型从入门到实战',
-    url: 'https://www.bilibili.com/video/BV1iz421h7Kv',
-    description: '社区维护的大模型实战课,涵盖 RAG / 微调 / Agent / Prompt Engineering',
-    category: '大模型',
+    id: 'cn-ai-bot',
+    name: 'AI 工具集',
+    url: 'https://ai-bot.cn/',
+    description: '1000+ 国内外 AI 工具导航,带教程板块,产品入门必经',
+    category: '学习平台',
     lang: 'zh',
   },
-  // ── 学习平台 (gateway entries — let the platform itself handle search & nav) ──
   {
     id: 'cn-platform-atomgit',
     name: 'AtomGit AI Hub · 学习中心',
@@ -242,13 +233,134 @@ const CN_COURSES: Course[] = [
     lang: 'zh',
   },
 ];
-const CN_CATEGORIES = ['学习平台', '机器学习', '深度学习', '自然语言处理', '计算机视觉', '大模型'];
+
+// ===== Bundled EN fallback =====
+//
+// Mirror of docs/courses/en.json — same role as CN_COURSES, just for non-CN locales.
+
+const EN_CATEGORIES = [
+  'AI Founders',
+  'AI Coding',
+  'Content Creation',
+  'Prompts & Agents',
+  'Learning Hubs',
+];
+
+const EN_COURSES: Course[] = [
+  {
+    id: 'en-greg-isenberg',
+    name: 'Greg Isenberg · Startup Ideas',
+    url: 'https://www.youtube.com/@GregIsenberg',
+    description:
+      'Late Checkout CEO breaks down AI startup ideas weekly — pricing, growth, vibe marketing. High-density idea source for indie hackers.',
+    category: 'AI Founders',
+    lang: 'en',
+  },
+  {
+    id: 'en-david-ondrej',
+    name: 'David Ondrej · Build Anything with AI',
+    url: 'https://www.youtube.com/@DavidOndrej',
+    description:
+      '"Build Anything with X" series covering LLama, CrewAI, n8n — turning agents into cashflow.',
+    category: 'AI Founders',
+    lang: 'en',
+  },
+  {
+    id: 'en-indie-hackers',
+    name: 'Indie Hackers',
+    url: 'https://www.indiehackers.com/',
+    description:
+      'Largest bootstrapping community — real MRR stories and AI SaaS case studies from solo founders.',
+    category: 'AI Founders',
+    lang: 'en',
+  },
+  {
+    id: 'en-anthropic-academy',
+    name: 'Anthropic Academy',
+    url: 'https://anthropic.skilljar.com/',
+    description:
+      'Official Anthropic courses — Claude Code 101, Claude Code in Action, Agent Skills, Subagents. Free with certificates.',
+    category: 'AI Coding',
+    lang: 'en',
+  },
+  {
+    id: 'en-riley-brown',
+    name: 'Riley Brown · Vibe Coding',
+    url: 'https://www.youtube.com/@rileybrownai/videos',
+    description:
+      'Popularizer of "vibe coding" — practical breakdowns across Lovable, Bolt, v0, Cursor for shipping real apps.',
+    category: 'AI Coding',
+    lang: 'en',
+  },
+  {
+    id: 'en-deeplearning-langgraph',
+    name: 'DeepLearning.AI · AI Agents in LangGraph',
+    url: 'https://www.deeplearning.ai/courses/ai-agents-in-langgraph',
+    description: 'Harrison Chase walks through the agent loop in 1.5 hours. Free.',
+    category: 'AI Coding',
+    lang: 'en',
+  },
+  {
+    id: 'en-matt-wolfe',
+    name: 'Matt Wolfe · AI Tool Reviews',
+    url: 'https://www.youtube.com/@mreflow',
+    description:
+      'FutureTools.io founder — fastest channel for new AI tool and model reviews. Essential for creators tracking the frontier.',
+    category: 'Content Creation',
+    lang: 'en',
+  },
+  {
+    id: 'en-prompting-guide',
+    name: 'Prompt Engineering Guide',
+    url: 'https://www.promptingguide.ai/',
+    description:
+      "Dair-AI's reference guide — 74.8k stars, 13 languages, the de facto standard for prompt engineering.",
+    category: 'Prompts & Agents',
+    lang: 'en',
+  },
+  {
+    id: 'en-langchain-academy',
+    name: 'LangChain Academy',
+    url: 'https://academy.langchain.com/',
+    description:
+      'Official free courses on LangGraph, Deep Agents, and Deep Research with LangGraph.',
+    category: 'Prompts & Agents',
+    lang: 'en',
+  },
+  {
+    id: 'en-deeplearning-prompt',
+    name: 'DeepLearning.AI · Prompt Engineering for Developers',
+    url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers',
+    description:
+      'Andrew Ng + Isa Fulford — the non-negotiable starting point for prompt engineering.',
+    category: 'Prompts & Agents',
+    lang: 'en',
+  },
+  {
+    id: 'en-huggingface-learn',
+    name: 'Hugging Face · Learn',
+    url: 'https://huggingface.co/learn',
+    description:
+      "Free courses on NLP, Deep RL, Audio, ML for Games — paired with the Hub's models and datasets.",
+    category: 'Learning Hubs',
+    lang: 'en',
+  },
+  {
+    id: 'en-deeplearning-catalog',
+    name: 'DeepLearning.AI · Short Courses',
+    url: 'https://www.deeplearning.ai/courses/',
+    description:
+      'Catalog of free hands-on courses covering RAG, agents, evaluation, fine-tuning, and more.',
+    category: 'Learning Hubs',
+    lang: 'en',
+  },
+];
 
 // ===== Local cache =====
-
-// Versioned cache keys (`:en` / `:zh`) so any old persisted blob from prior schema
-// versions is naturally ignored — no migration code needed.
-const CACHE_KEY_EN = 'courses:cache:en';
+//
+// `:v2` bump invalidates the old dair-ai academic content that used to live under
+// `courses:cache:en` so users instantly see the new applied-direction list after upgrade.
+const CACHE_KEY_EN = 'courses:cache:en:v2';
 const CACHE_KEY_ZH = 'courses:cache:zh';
 const REFRESH_AFTER_MS = 6 * 3600 * 1000;
 
@@ -290,62 +402,39 @@ const saveCachedZh = (c: CachedZh) => {
   }
 };
 
-// Build the runtime catalog: EN from remote (no local fallback), CN from remote
-// with bundled CN_COURSES / CN_CATEGORIES as the floor.
+// Each lang has both a remote source and a bundled fallback now — buildCatalog
+// merges remote-or-bundled per lang.
 const buildCatalog = (en: CachedEn | null, zh: CachedZh | null): Catalog => {
+  const enCourses = en?.enCourses?.length ? en.enCourses : EN_COURSES;
+  const enCategories = en?.enCategories?.length ? en.enCategories : EN_CATEGORIES;
   const zhCourses = zh?.zhCourses?.length ? zh.zhCourses : CN_COURSES;
   const zhCategories = zh?.zhCategories?.length ? zh.zhCategories : CN_CATEGORIES;
   return {
-    courses: [...(en?.enCourses || []), ...zhCourses],
-    categoriesByLang: { en: en?.enCategories || [], zh: zhCategories },
+    courses: [...enCourses, ...zhCourses],
+    categoriesByLang: { en: enCategories, zh: zhCategories },
     fetchedAt: Math.max(en?.fetchedAt ?? 0, zh?.fetchedAt ?? 0) || Date.now(),
   };
 };
 
-// ===== Network: mirror-aware fetch =====
-
-let preferredMirror = 0;
+// ===== Network: mirror-aware JSON fetch =====
+//
+// Same shape for both lists: { courses: Omit<Course, 'lang'>[], categories: string[] }.
+// No preferredMirror optimization — VPN switches change which mirror works, so don't
+// cache the choice.
 
 const looksLikeHtml = (s: string): boolean => {
   const head = s.slice(0, 200).trimStart().toLowerCase();
   return head.startsWith('<!doctype html') || head.startsWith('<html');
 };
 
-async function fetchReadme(): Promise<string> {
-  const order = [
-    ...COURSES_MIRRORS.slice(preferredMirror),
-    ...COURSES_MIRRORS.slice(0, preferredMirror),
-  ];
-  let lastErr: any = null;
-  for (let i = 0; i < order.length; i++) {
-    const mirror = order[i];
-    try {
-      const res = await fetch(`${mirror.base}/${COURSES_FILE}`, { cache: 'no-cache' });
-      if (!res.ok) {
-        lastErr = new Error(`${mirror.name} ${res.status}`);
-        continue;
-      }
-      const text = await res.text();
-      if (looksLikeHtml(text)) {
-        lastErr = new Error(`${mirror.name} returned HTML`);
-        continue;
-      }
-      preferredMirror = (preferredMirror + i) % COURSES_MIRRORS.length;
-      return text;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error('all mirrors failed');
-}
-
-// CN list: try each mirror in fixed order (echobird → github raw). No preferredMirror
-// optimization — VPN switches change which one works, so don't cache the choice.
-async function fetchCnJson(): Promise<{ courses: Course[]; categories: string[] }> {
+async function fetchCoursesJson(
+  file: string,
+  lang: Lang
+): Promise<{ courses: Course[]; categories: string[] }> {
   let lastErr: unknown = null;
-  for (const mirror of COURSES_MIRRORS_CN) {
+  for (const mirror of COURSES_MIRRORS) {
     try {
-      const res = await fetch(`${mirror.base}/${COURSES_FILE_CN}`, { cache: 'no-cache' });
+      const res = await fetch(`${mirror.base}/${file}`, { cache: 'no-cache' });
       if (!res.ok) {
         lastErr = new Error(`${mirror.name} ${res.status}`);
         continue;
@@ -362,119 +451,14 @@ async function fetchCnJson(): Promise<{ courses: Course[]; categories: string[] 
       }
       const courses: Course[] = json.courses.map((c: Omit<Course, 'lang'>) => ({
         ...c,
-        lang: 'zh' as const,
+        lang,
       }));
       return { courses, categories: json.categories as string[] };
     } catch (e) {
       lastErr = e;
     }
   }
-  throw lastErr instanceof Error ? lastErr : new Error('all CN mirrors failed');
-}
-
-// ===== Markdown parser =====
-//
-// dair-ai/ML-YouTube-Courses layout:
-//
-//   # 📺 ML YouTube Courses
-//   <intro paragraph>
-//
-//   **Machine Learning**            ← category header (TOC)
-//   - [Stanford CS229](#anchor)     ← TOC entry
-//   - ...
-//
-//   **Deep Learning**
-//   - ...
-//
-//   ## Stanford CS229: Machine Learning   ← course body
-//   <description bullets>
-//   🔗 [Link to Course](https://...)
-//
-// We parse the TOC to map course-name → category, then walk the course bodies.
-
-const slugify = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[^\w一-鿿]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 80);
-
-function parseDairAi(md: string): { courses: Course[]; categories: string[] } {
-  const lines = md.split('\n');
-  const categoryByCourse = new Map<string, string>();
-  const seenCategories: string[] = [];
-
-  // Phase 1: TOC scan — runs until the first `## ` body section.
-  let inToc = true;
-  let curCat = '';
-  for (const line of lines) {
-    if (line.startsWith('## ')) {
-      inToc = false;
-      break;
-    }
-    if (!inToc) continue;
-    const catMatch = line.match(/^\s*\*\*([^*]+)\*\*\s*$/);
-    if (catMatch) {
-      curCat = catMatch[1].trim();
-      if (!seenCategories.includes(curCat)) seenCategories.push(curCat);
-      continue;
-    }
-    const linkMatch = line.match(/^\s*-\s*\[([^\]]+)\]\(#([^)]+)\)/);
-    if (linkMatch && curCat) {
-      categoryByCourse.set(linkMatch[1].trim(), curCat);
-    }
-  }
-
-  // Phase 2: course bodies
-  const courses: Course[] = [];
-  let curName = '';
-  let curBullets: string[] = [];
-  let curUrl = '';
-
-  const flush = () => {
-    if (curName && curUrl) {
-      // Cap description: first ~3 short bullets joined
-      const desc = curBullets
-        .slice(0, 3)
-        .map((b) => b.replace(/^\s*[-•*]\s*/, '').trim())
-        .filter(Boolean)
-        .join(' · ');
-      courses.push({
-        id: slugify(curName),
-        name: curName,
-        url: curUrl,
-        description: desc,
-        category: categoryByCourse.get(curName) || 'Others',
-        lang: 'en',
-      });
-    }
-    curName = '';
-    curBullets = [];
-    curUrl = '';
-  };
-
-  for (const line of lines) {
-    if (line.startsWith('## ')) {
-      flush();
-      curName = line.slice(3).trim();
-      continue;
-    }
-    if (!curName) continue;
-    const linkMatch = line.match(/🔗\s*\[Link to Course\]\(([^)]+)\)/);
-    if (linkMatch) {
-      curUrl = linkMatch[1].trim();
-      continue;
-    }
-    const bulletMatch = line.match(/^\s*[-*]\s+(.+)/);
-    if (bulletMatch) {
-      const text = bulletMatch[1].trim();
-      // Skip TOC-style anchor links that may appear inside a section
-      if (!/^\[.+\]\(#/.test(text)) curBullets.push(text);
-    }
-  }
-  flush();
-
-  return { courses, categories: seenCategories };
+  throw lastErr instanceof Error ? lastErr : new Error(`all ${lang} mirrors failed`);
 }
 
 // ===== Helpers =====
@@ -491,7 +475,7 @@ const hostnameOf = (url: string): string => {
 // ===== Context =====
 
 interface AiCoursesContextValue {
-  catalog: Catalog; // always populated (CN supplement is the floor)
+  catalog: Catalog;
   initialLoading: boolean;
   syncing: boolean;
   error: string | null;
@@ -516,9 +500,9 @@ export function AiCoursesProvider({ children }: { children: React.ReactNode }) {
   const initialCachedZh = useMemo(() => loadCachedZh(), []);
   const [cachedEn, setCachedEn] = useState<CachedEn | null>(initialCachedEn);
   const [cachedZh, setCachedZh] = useState<CachedZh | null>(initialCachedZh);
-  // Skeleton only when BOTH caches are cold — bundled CN_COURSES still renders
-  // for zh-Hans users even when nothing is cached, so the skeleton gate is
-  // really "anything to show at all".
+  // Skeleton only when BOTH caches are cold — bundled arrays still render content
+  // for both langs even when nothing is cached, so this is more of a "first sync
+  // is in flight" hint than a "we have nothing to show" gate.
   const [initialLoading, setInitialLoading] = useState(
     initialCachedEn === null && initialCachedZh === null
   );
@@ -535,7 +519,6 @@ export function AiCoursesProvider({ children }: { children: React.ReactNode }) {
     cacheRefZh.current = cachedZh;
   }, [cachedZh]);
 
-  // Catalog merges both caches; CN_COURSES is the floor when remote CN is unavailable.
   const catalog = useMemo(() => buildCatalog(cachedEn, cachedZh), [cachedEn, cachedZh]);
 
   const sync = useCallback(async (force = false) => {
@@ -558,13 +541,12 @@ export function AiCoursesProvider({ children }: { children: React.ReactNode }) {
 
     if (!enFresh) {
       tasks.push(
-        fetchReadme()
-          .then((md) => {
+        fetchCoursesJson(COURSES_FILE_EN, 'en')
+          .then(({ courses, categories }) => {
             if (my !== seq.current) return;
-            const parsed = parseDairAi(md);
             const fresh: CachedEn = {
-              enCourses: parsed.courses,
-              enCategories: parsed.categories,
+              enCourses: courses,
+              enCategories: categories,
               fetchedAt: Date.now(),
             };
             saveCachedEn(fresh);
@@ -578,7 +560,7 @@ export function AiCoursesProvider({ children }: { children: React.ReactNode }) {
 
     if (!zhFresh) {
       tasks.push(
-        fetchCnJson()
+        fetchCoursesJson(COURSES_FILE_CN, 'zh')
           .then(({ courses, categories }) => {
             if (my !== seq.current) return;
             const fresh: CachedZh = {
@@ -598,8 +580,8 @@ export function AiCoursesProvider({ children }: { children: React.ReactNode }) {
     await Promise.allSettled(tasks);
 
     if (my === seq.current) {
-      // Error UI only surfaces when visible.length === 0 anyway — CN fallback
-      // ensures zh-Hans users never see it.
+      // Error UI only surfaces when visible.length === 0 anyway — bundled fallbacks
+      // mean users never see it in practice.
       if (latestError) setError(latestError);
       setInitialLoading(false);
       setSyncing(false);
@@ -694,10 +676,10 @@ export function AiCoursesMain() {
   const { t, locale } = useI18n();
   const { catalog, initialLoading, syncing, error, selectedCategory, retry } = useAiCourses();
   const scrollRef = usePulseScroll<HTMLDivElement>();
-  // Only zh-Hans gets the CN supplement (李宏毅 / 李沐 / 飞桨 etc. on Bilibili
-  // and CN-domestic platforms). zh-Hant (TW/HK/MO) and ja users see the
-  // upstream dair-ai EN list — TW/HK devs follow the international AI stack
-  // (PyTorch + CUDA + arXiv), not the CN-domestic Bilibili / 飞桨 ecosystem.
+  // Only zh-Hans gets the CN list (Bilibili / Datawhale / 飞桨 etc. on CN-domestic
+  // platforms). zh-Hant (TW/HK/MO) and ja users see the EN list — TW/HK builders
+  // follow the international AI stack (Anthropic Academy / LangChain / HF), not the
+  // CN-domestic ecosystem.
   const lang: Lang = locale === 'zh-Hans' ? 'zh' : 'en';
 
   const visible = useMemo(() => {
@@ -767,10 +749,7 @@ export function AiCoursesPanel() {
   const { t, locale } = useI18n();
   const { catalog, selectedCategory, setSelectedCategory } = useAiCourses();
   const scrollRef = usePulseScroll<HTMLDivElement>();
-  // Only zh-Hans gets the CN supplement (李宏毅 / 李沐 / 飞桨 etc. on Bilibili
-  // and CN-domestic platforms). zh-Hant (TW/HK/MO) and ja users see the
-  // upstream dair-ai EN list — TW/HK devs follow the international AI stack
-  // (PyTorch + CUDA + arXiv), not the CN-domestic Bilibili / 飞桨 ecosystem.
+  // Same lang fork as AiCoursesMain — see comment there.
   const lang: Lang = locale === 'zh-Hans' ? 'zh' : 'en';
 
   // Reset filter when categories of the current lang don't include the selection

@@ -1,0 +1,95 @@
+{
+  "categories": [
+    "AI Founders",
+    "AI Coding",
+    "Content Creation",
+    "Prompts & Agents",
+    "Learning Hubs"
+  ],
+  "courses": [
+    {
+      "id": "en-greg-isenberg",
+      "name": "Greg Isenberg · Startup Ideas",
+      "url": "https://www.youtube.com/@GregIsenberg",
+      "description": "Late Checkout CEO breaks down AI startup ideas weekly — pricing, growth, vibe marketing. High-density idea source for indie hackers.",
+      "category": "AI Founders"
+    },
+    {
+      "id": "en-david-ondrej",
+      "name": "David Ondrej · Build Anything with AI",
+      "url": "https://www.youtube.com/@DavidOndrej",
+      "description": "\"Build Anything with X\" series covering LLama, CrewAI, n8n — turning agents into cashflow.",
+      "category": "AI Founders"
+    },
+    {
+      "id": "en-indie-hackers",
+      "name": "Indie Hackers",
+      "url": "https://www.indiehackers.com/",
+      "description": "Largest bootstrapping community — real MRR stories and AI SaaS case studies from solo founders.",
+      "category": "AI Founders"
+    },
+    {
+      "id": "en-anthropic-academy",
+      "name": "Anthropic Academy",
+      "url": "https://anthropic.skilljar.com/",
+      "description": "Official Anthropic courses — Claude Code 101, Claude Code in Action, Agent Skills, Subagents. Free with certificates.",
+      "category": "AI Coding"
+    },
+    {
+      "id": "en-riley-brown",
+      "name": "Riley Brown · Vibe Coding",
+      "url": "https://www.youtube.com/@rileybrownai/videos",
+      "description": "Popularizer of \"vibe coding\" — practical breakdowns across Lovable, Bolt, v0, Cursor for shipping real apps.",
+      "category": "AI Coding"
+    },
+    {
+      "id": "en-deeplearning-langgraph",
+      "name": "DeepLearning.AI · AI Agents in LangGraph",
+      "url": "https://www.deeplearning.ai/courses/ai-agents-in-langgraph",
+      "description": "Harrison Chase walks through the agent loop in 1.5 hours. Free.",
+      "category": "AI Coding"
+    },
+    {
+      "id": "en-matt-wolfe",
+      "name": "Matt Wolfe · AI Tool Reviews",
+      "url": "https://www.youtube.com/@mreflow",
+      "description": "FutureTools.io founder — fastest channel for new AI tool and model reviews. Essential for creators tracking the frontier.",
+      "category": "Content Creation"
+    },
+    {
+      "id": "en-prompting-guide",
+      "name": "Prompt Engineering Guide",
+      "url": "https://www.promptingguide.ai/",
+      "description": "Dair-AI's reference guide — 74.8k stars, 13 languages, the de facto standard for prompt engineering.",
+      "category": "Prompts & Agents"
+    },
+    {
+      "id": "en-langchain-academy",
+      "name": "LangChain Academy",
+      "url": "https://academy.langchain.com/",
+      "description": "Official free courses on LangGraph, Deep Agents, and Deep Research with LangGraph.",
+      "category": "Prompts & Agents"
+    },
+    {
+      "id": "en-deeplearning-prompt",
+      "name": "DeepLearning.AI · Prompt Engineering for Developers",
+      "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers",
+      "description": "Andrew Ng + Isa Fulford — the non-negotiable starting point for prompt engineering.",
+      "category": "Prompts & Agents"
+    },
+    {
+      "id": "en-huggingface-learn",
+      "name": "Hugging Face · Learn",
+      "url": "https://huggingface.co/learn",
+      "description": "Free courses on NLP, Deep RL, Audio, ML for Games — paired with the Hub's models and datasets.",
+      "category": "Learning Hubs"
+    },
+    {
+      "id": "en-deeplearning-catalog",
+      "name": "DeepLearning.AI · Short Courses",
+      "url": "https://www.deeplearning.ai/courses/",
+      "description": "Catalog of free hands-on courses covering RAG, agents, evaluation, fine-tuning, and more.",
+      "category": "Learning Hubs"
+    }
+  ]
+}

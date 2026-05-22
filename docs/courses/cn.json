@@ -1,75 +1,75 @@
 {
-  "categories": ["学习平台", "机器学习", "深度学习", "自然语言处理", "计算机视觉", "大模型"],
+  "categories": ["AI 创业", "AI 编程", "AI 内容创作", "Prompt 与 Agent", "学习平台"],
   "courses": [
     {
       "id": "cn-claude-founders-playbook",
       "name": "Claude 教你用 AI 创业",
       "url": "https://coffeecli.com/courses/founders-playbook",
       "description": "面向独立开发者与创业者的 AI 实战课,讲解如何用 Claude 等大模型搭建产品并跑通商业闭环",
-      "category": "大模型"
+      "category": "AI 创业"
     },
     {
-      "id": "cn-lihongyi-ml",
-      "name": "李宏毅 · 机器学习",
-      "url": "https://www.bilibili.com/video/BV1Wv411h7kN",
-      "description": "台大李宏毅教授,中文圈最受欢迎的机器学习课程,涵盖 ML / DL / 强化学习 / Transformer / Diffusion",
-      "category": "机器学习"
+      "id": "cn-datawhale-easy-vibe",
+      "name": "Datawhale · Easy-Vibe",
+      "url": "https://datawhalechina.github.io/easy-vibe/welcome.html",
+      "description": "Datawhale 出品的零基础 Vibe Coding 四阶段课程,GitHub 13.9k stars,中文社区背书",
+      "category": "AI 编程"
     },
     {
-      "id": "cn-andrew-ng-ml",
-      "name": "吴恩达 · 机器学习",
-      "url": "https://www.bilibili.com/video/BV1Bq421A74G",
-      "description": "斯坦福 CS229 经典机器学习课程,B站官方中文字幕版",
-      "category": "机器学习"
+      "id": "cn-liyupi-ai-guide",
+      "name": "程序员鱼皮 · AI 编程指南",
+      "url": "https://github.com/liyupi/ai-guide",
+      "description": "GitHub 14.3k stars 的中文 AI 资源大全,涵盖 Vibe Coding、Claude 玩法、AI 产品变现",
+      "category": "AI 编程"
     },
     {
-      "id": "cn-andrew-ng-dl",
-      "name": "吴恩达 · 深度学习专项课",
-      "url": "https://www.bilibili.com/video/BV1FT4y1E74V",
-      "description": "深度学习五部曲:神经网络与深度学习 / 改善深层 NN / 结构化机器学习项目 / CNN / 序列模型",
-      "category": "深度学习"
+      "id": "cn-bilibili-yincode-claude",
+      "name": "10 分钟学会 24 个 Claude Code 使用技巧",
+      "url": "https://www.bilibili.com/video/BV1SddcBFESs/",
+      "description": "B 站 UP 主 Yin_Code,8.7w 播放的 Claude Code 快速上手实战",
+      "category": "AI 编程"
     },
     {
-      "id": "cn-limu-d2l",
-      "name": "李沐 · 动手学深度学习",
-      "url": "https://courses.d2l.ai/zh-v2/",
-      "description": "Amazon 资深首席科学家李沐主讲,中文 PyTorch 实现,教材免费在线阅读",
-      "category": "深度学习"
+      "id": "cn-tukuaiai-vibe-coding",
+      "name": "Vibe Coding 中文教程",
+      "url": "https://github.com/tukuaiai/vibe-coding-cn",
+      "description": "Prompt / Skill / Workflow / Codex 实战的中文 Vibe Coding 教程仓库",
+      "category": "AI 编程"
     },
     {
-      "id": "cn-limu-bilibili",
-      "name": "跟李沐学 AI · B 站频道",
-      "url": "https://space.bilibili.com/1567748478",
-      "description": "李沐持续更新的论文精读、深度学习、面试经验等系列视频",
-      "category": "深度学习"
+      "id": "cn-bilibili-coze-jianying",
+      "name": "Coze + 剪映 智能体保姆级搭建",
+      "url": "https://www.bilibili.com/video/BV1cjoCY3EbD/",
+      "description": "DeepSeek + 通义万相 + Vidu + 剪映全流程,从 0 搭一个能批量出短视频的智能体",
+      "category": "AI 内容创作"
     },
     {
-      "id": "cn-tsinghua-nlp",
-      "name": "清华 NLP · 刘知远",
-      "url": "https://www.bilibili.com/video/BV1Pe4y1B72v",
-      "description": "清华大学刘知远团队主讲的自然语言处理课程,从词向量到大模型",
-      "category": "自然语言处理"
+      "id": "cn-baoyu-share",
+      "name": "宝玉的分享",
+      "url": "https://baoyu.io/",
+      "description": "中文 Prompt 工程头部博主,系统性翻译与整理 Prompt 实战、多 Agent 协作范本",
+      "category": "Prompt 与 Agent"
     },
     {
-      "id": "cn-zju-ml-huhaoji",
-      "name": "浙大 · 胡浩基机器学习",
-      "url": "https://www.bilibili.com/video/BV1qf4y1x7kB",
-      "description": "浙江大学胡浩基副教授主讲,理论推导清晰,适合数学基础扎实的学习者",
-      "category": "机器学习"
+      "id": "cn-waytoagi",
+      "name": "WaytoAGI · 通往 AGI 之路",
+      "url": "https://www.waytoagi.com/zh",
+      "description": "900w 学习者的中文 AI 知识库,含教程、问答、Agent 章节",
+      "category": "Prompt 与 Agent"
     },
     {
-      "id": "cn-cs231n-zh",
-      "name": "斯坦福 CS231n",
-      "url": "https://www.bilibili.com/video/BV1nJ411z7fe",
-      "description": "李飞飞团队的计算机视觉名课,B 站中文翻译版",
-      "category": "计算机视觉"
+      "id": "cn-langgpt-wonderful-prompts",
+      "name": "LangGPT · Wonderful Prompts",
+      "url": "https://github.com/langgptai/wonderful-prompts",
+      "description": "中文 Prompt 精选合集,提升 ChatGPT / Claude 实际可用性",
+      "category": "Prompt 与 Agent"
     },
     {
-      "id": "cn-llm-tutorial",
-      "name": "LLM 大模型从入门到实战",
-      "url": "https://www.bilibili.com/video/BV1iz421h7Kv",
-      "description": "社区维护的大模型实战课,涵盖 RAG / 微调 / Agent / Prompt Engineering",
-      "category": "大模型"
+      "id": "cn-ai-bot",
+      "name": "AI 工具集",
+      "url": "https://ai-bot.cn/",
+      "description": "1000+ 国内外 AI 工具导航,带教程板块,产品入门必经",
+      "category": "学习平台"
     },
     {
       "id": "cn-platform-atomgit",
