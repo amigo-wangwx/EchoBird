@@ -1304,7 +1304,7 @@ dependencies = [
 
 [[package]]
 name = "echobird"
-version = "4.9.2"
+version = "4.9.4"
 dependencies = [
  "echobird_core",
  "tauri",
@@ -1316,7 +1316,7 @@ dependencies = [
 [[package]]
 name = "echobird_core"
 version = "0.1.0"
-source = "git+https://github.com/edison7009/EchoBird-secret-.git?branch=main#be64ceb2191a8645a5b385dadcd3d0a72e8d3f63"
+source = "git+https://github.com/edison7009/EchoBird-secret-.git?branch=main#810669539659ac20408281278d48296c37721e8c"
 dependencies = [
  "aes-gcm",
  "async-ssh2-tokio",
@@ -1346,6 +1346,7 @@ dependencies = [
  "tauri-plugin-window-state",
  "tokio",
  "tokio-stream",
+ "tokio-tungstenite",
  "tokio-util",
  "tower",
  "url",
@@ -2321,7 +2322,7 @@ dependencies = [
  "tokio",
  "tokio-rustls",
  "tower-service",
- "webpki-roots",
+ "webpki-roots 1.0.7",
 ]
 
 [[package]]
@@ -4400,7 +4401,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "wasm-streams 0.4.2",
  "web-sys",
- "webpki-roots",
+ "webpki-roots 1.0.7",
 ]
 
 [[package]]
@@ -6029,6 +6030,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "tokio-tungstenite"
+version = "0.24.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edc5f74e248dc973e0dbb7b74c7e0d6fcc301c694ff50049504004ef4d0cdcd9"
+dependencies = [
+ "futures-util",
+ "log",
+ "rustls",
+ "rustls-pki-types",
+ "tokio",
+ "tokio-rustls",
+ "tungstenite",
+ "webpki-roots 0.26.11",
+]
+
+[[package]]
 name = "tokio-util"
 version = "0.7.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6259,6 +6276,26 @@ name = "try-lock"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
+
+[[package]]
+name = "tungstenite"
+version = "0.24.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "18e5b8366ee7a95b16d32197d0b2604b43a0be89dc5fac9f8e96ccafbaedda8a"
+dependencies = [
+ "byteorder",
+ "bytes",
+ "data-encoding",
+ "http",
+ "httparse",
+ "log",
+ "rand 0.8.6",
+ "rustls",
+ "rustls-pki-types",
+ "sha1",
+ "thiserror 1.0.69",
+ "utf-8",
+]
 
 [[package]]
 name = "typeid"
@@ -6743,6 +6780,15 @@ dependencies = [
  "pkg-config",
  "soup3-sys",
  "system-deps",
+]
+
+[[package]]
+name = "webpki-roots"
+version = "0.26.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "521bc38abb08001b01866da9f51eb7c5d647a19260e00054a8c7fd5f9e57f7a9"
+dependencies = [
+ "webpki-roots 1.0.7",
 ]
 
 [[package]]
