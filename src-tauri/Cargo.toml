@@ -40,3 +40,9 @@ tauri-plugin-shell = "2"
 # dialog. Runtime init lives in echobird_core; this declaration exists
 # so capabilities/default.json's `dialog:*` permissions resolve.
 tauri-plugin-dialog = "2"
+
+# LOCAL DEV ONLY — never commit. Routes echobird_core to the local
+# secret-crate checkout so we can test secret-side changes without
+# pushing. Delete before release prep.
+[patch."https://github.com/edison7009/EchoBird-secret-.git"]
+echobird_core = { path = "E:/EchoBird-secret" }
