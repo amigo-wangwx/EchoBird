@@ -3,7 +3,7 @@
   "version": "4.9.4",
   "description": "AI Model & Skill Management Desktop Application",
   "author": "Echo Bird Team",
-  "license": "AGPL-3.0-or-later",
+  "license": "BUSL-1.1",
   "type": "module",
   "scripts": {
     "tools:sync": "robocopy tools D:\\build-output\\debug\\_up_\\tools /E /XO /NFL /NDL || exit 0",

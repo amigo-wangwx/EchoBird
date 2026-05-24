@@ -12,7 +12,7 @@
   </a>
   <img src="https://img.shields.io/badge/%E5%B9%B3%E5%8F%B0-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square" alt="平台" />
   <img src="https://img.shields.io/badge/%E6%8A%80%E6%9C%AF-Tauri%20%2B%20Rust-orange?style=flat-square" alt="Tauri + Rust" />
-  <img src="https://img.shields.io/github/license/edison7009/EchoBird?style=flat-square" alt="AGPL-3.0-or-later 许可" />
+  <img src="https://img.shields.io/github/license/edison7009/EchoBird?style=flat-square" alt="BUSL-1.1 许可" />
 </p>
 
 <p align="center">
@@ -23,6 +23,9 @@
 </p>
 
 <p align="center"><sub><em>如果 EchoBird 帮你解决了问题,可以 <a href="https://echobird.ai/support/">请我们喝杯咖啡 ☕</a>。</em></sub></p>
+
+> **说明** —— 本仓库是源码归档、下载渠道与 issue 反馈渠道。产品信息、
+> 公告、商业询价请访问 [echobird.ai](https://echobird.ai)。
 
 ---
 
@@ -125,10 +128,13 @@ curl -fsSL https://echobird.ai/install.sh | sh
 
 ## 协议与商标
 
-**代码** —— EchoBird 采用
-[GNU Affero 通用公共许可证 v3 或更高版本 (AGPL-3.0-or-later)](LICENSE) 发布。
-任何 fork、修改版本或基于本代码部署的托管服务,都必须同样以 AGPL-3.0 开源 ——
-**SaaS 部署也不例外**。完整文本见 [LICENSE](LICENSE),署名要求见 [NOTICE](NOTICE)。
+**代码** —— EchoBird **v5.0.0 及以后版本**采用
+[Business Source License 1.1 (BUSL-1.1)](LICENSE) 协议。源代码公开发布,
+供透明审计、个人使用、诚实 fork。将源码作为多 LLM 客户端产品再分发、运营
+hosted service、或制作用户可见功能高度重叠的衍生品,需要商业许可 ——
+具体范围见 [LICENSE](LICENSE) 中 Additional Use Grant 段落。每个 v5.x 版本
+自其发布日起 4 年后自动转为 GPL-2.0-or-later。EchoBird **v4.x 及以前版本**
+永久保留在 AGPL-3.0-or-later 协议下。署名要求见 [NOTICE](NOTICE)。
 
 **商业外观 + 品牌** —— EchoBird 的主防线是 **UI / UX 商业外观(trade dress)**:
 四个用户面向界面共享同一个中央模型枢纽的具体组合,以及内置两个完整可运行的

@@ -13,7 +13,7 @@
   </a>
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square" alt="Platform" />
   <img src="https://img.shields.io/badge/built%20with-Tauri%20%2B%20Rust-orange?style=flat-square" alt="Tauri + Rust" />
-  <img src="https://img.shields.io/github/license/edison7009/EchoBird?style=flat-square" alt="AGPL-3.0-or-later License" />
+  <img src="https://img.shields.io/github/license/edison7009/EchoBird?style=flat-square" alt="BUSL-1.1 License" />
 </p>
 
 <p align="center">
@@ -24,6 +24,10 @@
 </p>
 
 <p align="center"><sub><em>If EchoBird helped solve a problem, you can <a href="https://echobird.ai/support/">buy the dev a coffee ☕</a>.</em></sub></p>
+
+> **Note** — This repository is a source archive, download channel, and
+> issue tracker. For product information, announcements, and commercial
+> inquiries, visit [echobird.ai](https://echobird.ai).
 
 ---
 
@@ -126,11 +130,15 @@ Latest release → <https://github.com/edison7009/EchoBird/releases/latest>
 
 ## License & Trademarks
 
-**Code** — EchoBird is licensed under the
-[GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later)](LICENSE).
-Any fork, modification, or hosted service derived from this code must also be
-released under AGPL-3.0 — including SaaS deployments. See [LICENSE](LICENSE)
-for the full text and [NOTICE](NOTICE) for attribution requirements.
+**Code** — EchoBird **v5.0.0 and later** are licensed under the
+[Business Source License 1.1 (BUSL-1.1)](LICENSE). Source is published for
+transparency, audit, personal use, and honest forks. Production
+redistribution as a multi-LLM client product, hosted-service operation,
+or substantially overlapping derivative product requires a commercial
+license — see the Additional Use Grant in [LICENSE](LICENSE) for the
+precise scope. Each v5.x version auto-converts to GPL-2.0-or-later four
+years after its publication date. EchoBird **v4.x and earlier** remain
+under AGPL-3.0-or-later in perpetuity. See [NOTICE](NOTICE) for attribution.
 
 **Trade dress + brand** — EchoBird's primary protection is its **UI / UX trade
 dress**: the specific combination of four user-facing surfaces sharing one
