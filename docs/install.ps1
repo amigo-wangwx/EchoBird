@@ -14,12 +14,21 @@ Write-Host ""
 Write-Host "  EchoBird Installer" -ForegroundColor Cyan
 Write-Host "  ------------------" -ForegroundColor DarkGray
 
-# Resolve version + Windows asset URL via GitHub Releases API.
-# We hit api.github.com directly (the user's own anonymous quota is 60/h,
-# plenty for a single install) so the script needs no companion server.
+# Resolve version + Windows asset URL with a two-tier lookup:
+#   1) GitHub Releases API — full release record (matches old behavior).
+#   2) echobird.ai/api/version/index.json — our own version manifest, no
+#      rate limit, no anonymous quota. Used as a fallback because
+#      api.github.com's 60-req/hour anonymous bucket gets exhausted fast
+#      when a user retries within a minute of release publication, and
+#      Github also occasionally serves region-specific 403s. The manifest
+#      is updated by sync-version-manifest.yml on the same `release:
+#      published` event that makes the binaries downloadable, so a
+#      manifest-reported version is always already-downloadable.
 Write-Host "  Fetching latest version..." -ForegroundColor Gray
 $latestVer = $null
 $downloadUrl = $null
+
+# Tier 1: GitHub Releases API.
 try {
     $release = Invoke-RestMethod "https://api.github.com/repos/edison7009/EchoBird/releases/latest" `
         -Headers @{ "User-Agent" = "EchoBird-Install" } -TimeoutSec 15
@@ -34,7 +43,23 @@ try {
         $downloadUrl = $winAsset.browser_download_url
     }
 } catch {
-    Write-Host "  GitHub API unreachable: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "  GitHub API unreachable ($($_.Exception.Message)), trying echobird.ai..." -ForegroundColor DarkYellow
+}
+
+# Tier 2: echobird.ai manifest fallback.
+if (-not $latestVer) {
+    try {
+        $manifest = Invoke-RestMethod "https://echobird.ai/api/version/index.json" `
+            -Headers @{ "User-Agent" = "EchoBird-Install" } -TimeoutSec 15
+        if ($manifest.version) {
+            $latestVer = $manifest.version
+            # Asset name pattern is stable since release.yml's rename-assets job.
+            # See .github/workflows/release.yml — keep in sync.
+            $downloadUrl = "https://github.com/edison7009/EchoBird/releases/download/v$latestVer/EchoBird_${latestVer}_Windows_x64-setup.exe"
+        }
+    } catch {
+        Write-Host "  echobird.ai unreachable: $($_.Exception.Message)" -ForegroundColor Red
+    }
 }
 
 # Detect currently installed version from the Windows registry

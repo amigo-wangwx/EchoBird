@@ -101,19 +101,62 @@ else
   exit 1
 fi
 
-# Pull the latest release JSON. Anonymous quota is 60/h per IP, plenty for one install.
+# Resolve version + asset URL with a two-tier lookup. Tier 1 is the GitHub
+# Releases API (matches old behavior; works for most users). Tier 2 is our
+# own version manifest at echobird.ai/api/version/index.json — no rate
+# limit, no anonymous quota. The api.github.com 60-req/hour bucket runs
+# out fast when a user retries within a minute of release publication,
+# and Github also occasionally serves region-specific 403s. The manifest
+# is updated by sync-version-manifest.yml on the same `release: published`
+# event that makes binaries downloadable, so any version it reports is
+# already-downloadable.
 echo "  ${GRAY}Fetching latest version...${RESET}"
+LATEST_VER=""
+DOWNLOAD_URL=""
+
+# Tier 1: GitHub API.
 GH_JSON=$(curl -fsSL -H "User-Agent: EchoBird-Install" "$GITHUB_API" 2>/dev/null || true)
-if [ -z "$GH_JSON" ]; then
+if [ -n "$GH_JSON" ]; then
+  LATEST_VER=$(echo "$GH_JSON" | grep -oE '"tag_name"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed -E 's/.*"([^"]*)"$/\1/' | sed 's/^v//')
+  DOWNLOAD_URL=$(echo "$GH_JSON" | grep -oE "\"browser_download_url\"[[:space:]]*:[[:space:]]*\"[^\"]*${ASSET_GREP}\"" | head -1 | sed -E 's/.*"(https[^"]*)"$/\1/')
+fi
+
+# Tier 2: echobird.ai manifest fallback. Triggers when GitHub API is
+# unreachable (rate-limited / 403'd / region-blocked) OR when the API
+# response didn't carry our platform's asset (rare; only during the
+# narrow window between rename-assets job finishing and `release:
+# published` firing — once published, manifest reflects the new version
+# and assets are renamed).
+if [ -z "$LATEST_VER" ] || [ -z "$DOWNLOAD_URL" ]; then
+  MANIFEST_VER=$(curl -fsSL -H "User-Agent: EchoBird-Install" "https://echobird.ai/api/version/index.json" 2>/dev/null \
+    | grep -oE '"version"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 \
+    | sed -E 's/.*"([^"]*)"$/\1/')
+  if [ -n "$MANIFEST_VER" ]; then
+    LATEST_VER="$MANIFEST_VER"
+    # Construct the renamed-asset URL per .github/workflows/release.yml
+    # rename-assets job. Keep ASSET_NAME in sync with that workflow.
+    case "$PLATFORM" in
+      macos)            ASSET_NAME="EchoBird_${LATEST_VER}_macOS_arm64.dmg" ;;
+      macos-intel)      ASSET_NAME="EchoBird_${LATEST_VER}_macOS_x64.dmg" ;;
+      linux-x64-deb)    ASSET_NAME="EchoBird_${LATEST_VER}_Linux_x64.deb" ;;
+      linux-arm64-deb)  ASSET_NAME="EchoBird_${LATEST_VER}_Linux_arm64.deb" ;;
+      linux-x64-rpm)    ASSET_NAME="EchoBird_${LATEST_VER}_Linux_x64.rpm" ;;
+      linux-arm64-rpm)  ASSET_NAME="EchoBird_${LATEST_VER}_Linux_arm64.rpm" ;;
+      *)                ASSET_NAME="" ;;
+    esac
+    if [ -n "$ASSET_NAME" ]; then
+      DOWNLOAD_URL="https://github.com/edison7009/EchoBird/releases/download/v${LATEST_VER}/${ASSET_NAME}"
+    fi
+  fi
+fi
+
+if [ -z "$LATEST_VER" ]; then
   echo ""
-  echo "  ${RED}Could not reach api.github.com.${RESET}"
+  echo "  ${RED}Could not reach api.github.com or echobird.ai.${RESET}"
   echo "  ${YELLOW}Manual download: https://github.com/edison7009/EchoBird/releases/latest${RESET}"
   echo ""
   exit 1
 fi
-
-LATEST_VER=$(echo "$GH_JSON" | grep -oE '"tag_name"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed -E 's/.*"([^"]*)"$/\1/' | sed 's/^v//')
-DOWNLOAD_URL=$(echo "$GH_JSON" | grep -oE "\"browser_download_url\"[[:space:]]*:[[:space:]]*\"[^\"]*${ASSET_GREP}\"" | head -1 | sed -E 's/.*"(https[^"]*)"$/\1/')
 
 # Empty download URL = our platform's asset isn't out yet (mid-CI for a
 # just-tagged release: Linux runner usually finishes first, mac/Win take
