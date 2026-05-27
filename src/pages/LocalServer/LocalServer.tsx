@@ -685,6 +685,9 @@ export const LocalServerMain: React.FC = () => {
                 { id: '32768', label: '32K' },
                 { id: '65536', label: '64K' },
                 { id: '131072', label: '128K' },
+                { id: '262144', label: '256K' },
+                { id: '524288', label: '512K' },
+                { id: '1048576', label: '1M' },
               ]}
               className="flex-1"
             />
