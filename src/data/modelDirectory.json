@@ -2,6 +2,14 @@
   "$schema-comment": "Right-panel model directory. Each entry: name (display + matched against getModelIcon), url (website opened by ↗), baseUrl (OpenAI-protocol API base, prefilled into Add-Model when + is clicked), anthropicUrl (Anthropic-protocol API base — only filled if vendor natively serves /v1/messages, not via gateway adaptation), modelId (default model id; empty = leave blank in form), region ('cn' | 'global', controls locale-aware sort: zh locales surface 'cn' first, others surface 'global' first). URLs sourced from songquanpeng/one-api channeltype/url.go (2026-05) and vendor docs; some legacy URLs in one-api have been replaced with the current OpenAI-compatible v2 endpoint. Edit this file to fill in URLs / model IDs for each vendor.",
   "providers": [
     {
+      "name": "Xiaomi 小米",
+      "url": "https://platform.xiaomimimo.com/",
+      "baseUrl": "https://token-plan-cn.xiaomimimo.com/v1",
+      "anthropicUrl": "https://token-plan-cn.xiaomimimo.com/anthropic",
+      "modelId": "mimo-v2.5-pro",
+      "region": "cn"
+    },
+    {
       "name": "OpenAI",
       "url": "https://openai.com",
       "baseUrl": "https://api.openai.com/v1",
@@ -136,14 +144,6 @@
       "anthropicUrl": "",
       "modelId": "",
       "region": "global"
-    },
-    {
-      "name": "Xiaomi 小米",
-      "url": "https://platform.xiaomimimo.com/",
-      "baseUrl": "https://api.xiaomimimo.com/v1",
-      "anthropicUrl": "https://api.xiaomimimo.com/anthropic",
-      "modelId": "",
-      "region": "cn"
     },
     {
       "name": "Cohere",
