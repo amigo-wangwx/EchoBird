@@ -19,7 +19,7 @@ import { useConfirm } from '../../components/ConfirmDialog';
 import { useDownload } from '../../components/DownloadContext';
 import * as api from '../../api/tauri';
 import type { SystemInfo } from '../../api/tauri';
-import type { StoreModel } from '../../api/types';
+import { normalizeStoreModels, type StoreModel } from '../../api/types';
 import { useNavigationStore } from '../../stores/navigationStore';
 import { LocalServerContext, useLocalServer } from './context';
 import type { EngineStatus, GgufFileEntry } from './context';
@@ -1061,21 +1061,22 @@ export const LocalServerPanel: React.FC = () => {
       setIsLoadingStore(true);
       api
         .getStoreModels()
-        .then((data: StoreModel[]) => {
-          if (data && data.length > 0) {
-            setStoreModels(data);
+        .then((data: unknown) => {
+          const normalized = normalizeStoreModels(data);
+          if (normalized.length > 0) {
+            setStoreModels(normalized);
           } else {
             // Fallback to static JSON
             return fetch('./api/store/models.json')
               .then((r) => r.json())
-              .then((fallback: StoreModel[]) => setStoreModels(fallback));
+              .then((fallback: unknown) => setStoreModels(normalizeStoreModels(fallback)));
           }
         })
         .catch(() => {
           // Double fallback
           fetch('./api/store/models.json')
             .then((r) => r.json())
-            .then((fallback: StoreModel[]) => setStoreModels(fallback))
+            .then((fallback: unknown) => setStoreModels(normalizeStoreModels(fallback)))
             .catch((e) => console.error('[ModelStore] All sources failed:', e));
         })
         .finally(() => setIsLoadingStore(false));

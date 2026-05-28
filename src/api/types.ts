@@ -146,6 +146,52 @@ export interface StoreModelVariant {
   recommendedVRAM: string;
 }
 
+/** Normalize a store-model payload that may still carry the legacy
+ *  `fileName: string` field instead of `files: string[]`. Applied at the
+ *  data-entry point (after fetch_store_models) so internal code can rely
+ *  on `variant.files` always being a non-empty array. Drops variants
+ *  that have neither — they're malformed and can't be downloaded. */
+export function normalizeStoreModels(raw: unknown): StoreModel[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((entry: unknown): StoreModel | null => {
+      if (!entry || typeof entry !== 'object') return null;
+      const m = entry as Record<string, unknown>;
+      if (!Array.isArray(m.variants)) return null;
+      const variants: StoreModelVariant[] = (m.variants as unknown[])
+        .map((vEntry: unknown): StoreModelVariant | null => {
+          if (!vEntry || typeof vEntry !== 'object') return null;
+          const v = vEntry as Record<string, unknown>;
+          const files: string[] | undefined =
+            Array.isArray(v.files) && v.files.length
+              ? (v.files as string[])
+              : typeof v.fileName === 'string' && v.fileName
+                ? [v.fileName]
+                : undefined;
+          if (!files) return null;
+          return {
+            quantization: String(v.quantization ?? ''),
+            files,
+            fileSize: Number(v.fileSize ?? 0),
+            recommendedVRAM: String(v.recommendedVRAM ?? ''),
+          };
+        })
+        .filter((v): v is StoreModelVariant => v !== null);
+      if (!variants.length) return null;
+      return {
+        id: String(m.id ?? ''),
+        name: String(m.name ?? ''),
+        icon: String(m.icon ?? ''),
+        description: String(m.description ?? ''),
+        huggingfaceRepo: String(m.huggingfaceRepo ?? ''),
+        modelScopeRepo: typeof m.modelScopeRepo === 'string' ? m.modelScopeRepo : undefined,
+        runtimes: Array.isArray(m.runtimes) ? (m.runtimes as unknown[]).map(String) : undefined,
+        variants,
+      };
+    })
+    .filter((m): m is StoreModel => m !== null);
+}
+
 export interface StoreModel {
   id: string;
   name: string;
