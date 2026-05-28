@@ -181,6 +181,7 @@
     "variants": [
       {
         "quantization": "Q4_K_M",
+        "fileName": "Qwen3.6-27B-Q4_K_M.gguf",
         "files": [
           "Qwen3.6-27B-Q4_K_M.gguf"
         ],
@@ -189,6 +190,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Qwen3.6-27B-Q6_K.gguf",
         "files": [
           "Qwen3.6-27B-Q6_K.gguf"
         ],
@@ -197,6 +199,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Qwen3.6-27B-Q8_0.gguf",
         "files": [
           "Qwen3.6-27B-Q8_0.gguf"
         ],
@@ -219,6 +222,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "Qwen3.6-35B-A3B-UD-IQ2_M.gguf",
         "files": [
           "Qwen3.6-35B-A3B-UD-IQ2_M.gguf"
         ],
@@ -227,6 +231,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
         "files": [
           "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"
         ],
@@ -235,6 +240,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Qwen3.6-35B-A3B-UD-Q6_K.gguf",
         "files": [
           "Qwen3.6-35B-A3B-UD-Q6_K.gguf"
         ],
@@ -243,6 +249,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Qwen3.6-35B-A3B-Q8_0.gguf",
         "files": [
           "Qwen3.6-35B-A3B-Q8_0.gguf"
         ],
@@ -265,6 +272,7 @@
     "variants": [
       {
         "quantization": "I-Nano",
+        "fileName": "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Nano.gguf",
         "files": [
           "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Nano.gguf"
         ],
@@ -273,6 +281,7 @@
       },
       {
         "quantization": "I-Compact",
+        "fileName": "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Compact.gguf",
         "files": [
           "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Compact.gguf"
         ],
@@ -281,6 +290,7 @@
       },
       {
         "quantization": "I-Quality",
+        "fileName": "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Quality.gguf",
         "files": [
           "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Quality.gguf"
         ],
@@ -289,6 +299,7 @@
       },
       {
         "quantization": "I-Balanced",
+        "fileName": "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Balanced.gguf",
         "files": [
           "Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning-Distilled-APEX-MTP-I-Balanced.gguf"
         ],
@@ -311,6 +322,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "gemma-4-31B-it-UD-IQ2_M.gguf",
         "files": [
           "gemma-4-31B-it-UD-IQ2_M.gguf"
         ],
@@ -319,6 +331,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "gemma-4-31B-it-Q4_K_M.gguf",
         "files": [
           "gemma-4-31B-it-Q4_K_M.gguf"
         ],
@@ -327,6 +340,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "gemma-4-31B-it-Q6_K.gguf",
         "files": [
           "gemma-4-31B-it-Q6_K.gguf"
         ],
@@ -335,6 +349,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "gemma-4-31B-it-Q8_0.gguf",
         "files": [
           "gemma-4-31B-it-Q8_0.gguf"
         ],
@@ -357,6 +372,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "gemma-4-26B-A4B-it-UD-IQ2_M.gguf",
         "files": [
           "gemma-4-26B-A4B-it-UD-IQ2_M.gguf"
         ],
@@ -365,6 +381,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf",
         "files": [
           "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf"
         ],
@@ -373,6 +390,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "gemma-4-26B-A4B-it-UD-Q6_K.gguf",
         "files": [
           "gemma-4-26B-A4B-it-UD-Q6_K.gguf"
         ],
@@ -381,6 +399,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "gemma-4-26B-A4B-it-Q8_0.gguf",
         "files": [
           "gemma-4-26B-A4B-it-Q8_0.gguf"
         ],
@@ -403,6 +422,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-IQ2_M.gguf",
         "files": [
           "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-IQ2_M.gguf"
         ],
@@ -411,6 +431,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-Q4_K_M.gguf",
         "files": [
           "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-Q4_K_M.gguf"
         ],
@@ -419,6 +440,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-Q6_K.gguf",
         "files": [
           "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-Q6_K.gguf"
         ],
@@ -427,6 +449,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-Q8_0.gguf",
         "files": [
           "NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-Q8_0.gguf"
         ],
@@ -449,6 +472,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "granite-4.1-30b-UD-IQ2_M.gguf",
         "files": [
           "granite-4.1-30b-UD-IQ2_M.gguf"
         ],
@@ -457,6 +481,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "granite-4.1-30b-Q4_K_M.gguf",
         "files": [
           "granite-4.1-30b-Q4_K_M.gguf"
         ],
@@ -465,6 +490,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "granite-4.1-30b-Q6_K.gguf",
         "files": [
           "granite-4.1-30b-Q6_K.gguf"
         ],
@@ -473,6 +499,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "granite-4.1-30b-Q8_0.gguf",
         "files": [
           "granite-4.1-30b-Q8_0.gguf"
         ],
@@ -495,6 +522,7 @@
     "variants": [
       {
         "quantization": "Q4_K_M",
+        "fileName": "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q4_k_m.gguf",
         "files": [
           "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q4_k_m.gguf"
         ],
@@ -503,6 +531,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q6_k.gguf",
         "files": [
           "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q6_k.gguf"
         ],
@@ -511,6 +540,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q8_0.gguf",
         "files": [
           "Qwen3.6-27B-Claude-Opus-Reasoning-Distill.q8_0.gguf"
         ],
@@ -533,6 +563,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "Qwen3.5-9B-UD-IQ2_M.gguf",
         "files": [
           "Qwen3.5-9B-UD-IQ2_M.gguf"
         ],
@@ -541,6 +572,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "Qwen3.5-9B-Q4_K_M.gguf",
         "files": [
           "Qwen3.5-9B-Q4_K_M.gguf"
         ],
@@ -549,6 +581,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Qwen3.5-9B-Q6_K.gguf",
         "files": [
           "Qwen3.5-9B-Q6_K.gguf"
         ],
@@ -557,6 +590,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Qwen3.5-9B-Q8_0.gguf",
         "files": [
           "Qwen3.5-9B-Q8_0.gguf"
         ],
@@ -579,6 +613,7 @@
     "variants": [
       {
         "quantization": "Q4_K_M",
+        "fileName": "Negentropy-claude-opus-4.7-9B-Q4_K_M.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-9B-Q4_K_M.gguf"
         ],
@@ -587,6 +622,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Negentropy-claude-opus-4.7-9B-Q6_K.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-9B-Q6_K.gguf"
         ],
@@ -595,6 +631,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Negentropy-claude-opus-4.7-9B-Q8_0.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-9B-Q8_0.gguf"
         ],
@@ -617,6 +654,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "granite-4.1-8b-UD-IQ2_M.gguf",
         "files": [
           "granite-4.1-8b-UD-IQ2_M.gguf"
         ],
@@ -625,6 +663,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "granite-4.1-8b-Q4_K_M.gguf",
         "files": [
           "granite-4.1-8b-Q4_K_M.gguf"
         ],
@@ -633,6 +672,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "granite-4.1-8b-Q6_K.gguf",
         "files": [
           "granite-4.1-8b-Q6_K.gguf"
         ],
@@ -641,6 +681,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "granite-4.1-8b-Q8_0.gguf",
         "files": [
           "granite-4.1-8b-Q8_0.gguf"
         ],
@@ -663,6 +704,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "gemma-4-E4B-it-UD-IQ2_M.gguf",
         "files": [
           "gemma-4-E4B-it-UD-IQ2_M.gguf"
         ],
@@ -671,6 +713,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "gemma-4-E4B-it-Q4_K_M.gguf",
         "files": [
           "gemma-4-E4B-it-Q4_K_M.gguf"
         ],
@@ -679,6 +722,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "gemma-4-E4B-it-Q6_K.gguf",
         "files": [
           "gemma-4-E4B-it-Q6_K.gguf"
         ],
@@ -687,6 +731,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "gemma-4-E4B-it-Q8_0.gguf",
         "files": [
           "gemma-4-E4B-it-Q8_0.gguf"
         ],
@@ -709,6 +754,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "Qwen3.5-4B-UD-IQ2_M.gguf",
         "files": [
           "Qwen3.5-4B-UD-IQ2_M.gguf"
         ],
@@ -717,6 +763,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "Qwen3.5-4B-Q4_K_M.gguf",
         "files": [
           "Qwen3.5-4B-Q4_K_M.gguf"
         ],
@@ -725,6 +772,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Qwen3.5-4B-Q6_K.gguf",
         "files": [
           "Qwen3.5-4B-Q6_K.gguf"
         ],
@@ -733,6 +781,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Qwen3.5-4B-Q8_0.gguf",
         "files": [
           "Qwen3.5-4B-Q8_0.gguf"
         ],
@@ -755,6 +804,7 @@
     "variants": [
       {
         "quantization": "Q4_K_M",
+        "fileName": "Negentropy-claude-opus-4.7-4B-Q4_K_M.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-4B-Q4_K_M.gguf"
         ],
@@ -763,6 +813,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "Negentropy-claude-opus-4.7-4B-Q6_K.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-4B-Q6_K.gguf"
         ],
@@ -771,6 +822,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "Negentropy-claude-opus-4.7-4B-Q8_0.gguf",
         "files": [
           "Negentropy-claude-opus-4.7-4B-Q8_0.gguf"
         ],
@@ -793,6 +845,7 @@
     "variants": [
       {
         "quantization": "UD-IQ2_M",
+        "fileName": "granite-4.1-3b-UD-IQ2_M.gguf",
         "files": [
           "granite-4.1-3b-UD-IQ2_M.gguf"
         ],
@@ -801,6 +854,7 @@
       },
       {
         "quantization": "Q4_K_M",
+        "fileName": "granite-4.1-3b-Q4_K_M.gguf",
         "files": [
           "granite-4.1-3b-Q4_K_M.gguf"
         ],
@@ -809,6 +863,7 @@
       },
       {
         "quantization": "Q6_K",
+        "fileName": "granite-4.1-3b-Q6_K.gguf",
         "files": [
           "granite-4.1-3b-Q6_K.gguf"
         ],
@@ -817,6 +872,7 @@
       },
       {
         "quantization": "Q8_0",
+        "fileName": "granite-4.1-3b-Q8_0.gguf",
         "files": [
           "granite-4.1-3b-Q8_0.gguf"
         ],
