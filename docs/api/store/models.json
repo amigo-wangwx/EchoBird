@@ -19,7 +19,7 @@
           "UD-Q2_K_XL/Kimi-K2.6-UD-Q2_K_XL-00008-of-00008.gguf"
         ],
         "fileSize": 340477209888,
-        "recommendedVRAM": "340 GB RAM"
+        "recommendedVRAM": "340 GB"
       },
       {
         "quantization": "UD-Q4_K_XL",
@@ -40,7 +40,7 @@
           "UD-Q4_K_XL/Kimi-K2.6-UD-Q4_K_XL-00014-of-00014.gguf"
         ],
         "fileSize": 583710875520,
-        "recommendedVRAM": "584 GB RAM"
+        "recommendedVRAM": "584 GB"
       }
     ],
     "runtimes": [
@@ -67,7 +67,7 @@
           "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00006-of-00006.gguf"
         ],
         "fileSize": 236185450176,
-        "recommendedVRAM": "256 GB RAM"
+        "recommendedVRAM": "256 GB"
       },
       {
         "quantization": "UD-Q4_K_M",
@@ -85,7 +85,7 @@
           "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00011-of-00011.gguf"
         ],
         "fileSize": 464504318304,
-        "recommendedVRAM": "480 GB RAM"
+        "recommendedVRAM": "480 GB"
       }
     ],
     "runtimes": [
@@ -114,7 +114,7 @@
           "UD-IQ2_XXS/MiMo-V2.5-Pro-UD-IQ2_XXS-00008-of-00008.gguf"
         ],
         "fileSize": 317152759232,
-        "recommendedVRAM": "320 GB RAM"
+        "recommendedVRAM": "320 GB"
       },
       {
         "quantization": "UD-Q4_K_XL",
@@ -136,7 +136,7 @@
           "UD-Q4_K_XL/MiMo-V2.5-Pro-UD-Q4_K_XL-00015-of-00015.gguf"
         ],
         "fileSize": 631047926144,
-        "recommendedVRAM": "640 GB RAM"
+        "recommendedVRAM": "640 GB"
       }
     ],
     "runtimes": [
@@ -160,7 +160,7 @@
           "UD-IQ2_M/MiniMax-M2.7-UD-IQ2_M-00003-of-00003.gguf"
         ],
         "fileSize": 70139281600,
-        "recommendedVRAM": "96 GB RAM"
+        "recommendedVRAM": "96 GB"
       },
       {
         "quantization": "UD-Q4_K_M",
@@ -171,7 +171,7 @@
           "UD-Q4_K_M/MiniMax-M2.7-UD-Q4_K_M-00004-of-00004.gguf"
         ],
         "fileSize": 140169905504,
-        "recommendedVRAM": "160 GB RAM"
+        "recommendedVRAM": "160 GB"
       }
     ],
     "runtimes": [

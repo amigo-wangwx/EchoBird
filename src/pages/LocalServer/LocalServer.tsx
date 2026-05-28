@@ -1549,8 +1549,9 @@ export const LocalServerPanel: React.FC = () => {
                                   <span className="text-xs font-mono font-bold text-cyber-text w-14 flex-shrink-0 whitespace-nowrap">
                                     {variant.quantization.replace(/^UD-/, '')}
                                   </span>
-                                  {/* VRAM + Size */}
-                                  <span className="text-[10px] text-cyber-text-secondary flex-1 whitespace-nowrap">
+                                  {/* VRAM + Size. min-w-0 + truncate ensures a long label can't
+                                      shove the fitness chip and download button off the row. */}
+                                  <span className="text-[10px] text-cyber-text-secondary flex-1 min-w-0 truncate">
                                     {variant.recommendedVRAM} · {formatSize(variant.fileSize)}
                                   </span>
                                   {/* Fitness label */}
