@@ -110,6 +110,10 @@ static BUNDLED: BundledAssets = BundledAssets {
             "grok",
             include_str!("../../docs/api/tools/install/grok.json"),
         ),
+        (
+            "vibe-trading",
+            include_str!("../../docs/api/tools/install/vibe-trading.json"),
+        ),
     ],
 };
 

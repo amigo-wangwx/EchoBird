@@ -158,7 +158,7 @@ const ja: Partial<Translations> = {
   'toolCat.agents': 'Agents',
   'toolCat.ide': 'IDE',
   'toolCat.cli': 'CLI Code',
-  'toolCat.autoTrading': '自動取引',
+  'toolCat.autoTrading': 'クオンツ分析',
   'toolCat.game': 'ゲーム',
   'toolCat.desktop': 'デスクトップ',
   'toolCat.utility': 'ユーティリティ',

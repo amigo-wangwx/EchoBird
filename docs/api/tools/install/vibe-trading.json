@@ -1,0 +1,44 @@
+{
+    "id": "vibe-trading",
+    "displayName": "Vibe-Trading (CLI)",
+    "homepage": "https://vibetrading.wiki/",
+    "docs": "https://vibetrading.wiki/docs/",
+    "github": "https://github.com/HKUDS/Vibe-Trading",
+    "kind": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "install": {
+        "pipx (all platforms - recommended)": "python -m pip install --user pipx && pipx install vibe-trading-ai",
+        "pip (all platforms - fallback)": "python -m pip install --user vibe-trading-ai",
+        "from source": "git clone https://github.com/HKUDS/Vibe-Trading && cd Vibe-Trading && pip install -e .",
+        "WARNING": "Vibe-Trading requires Python 3.11 or newer. If `python` is missing or older, install it first (winget Python.Python.3.12 / brew install python@3.12 / apt install python3 python3-pip). pipx is preferred over plain pip because it isolates the package in its own venv and puts the `vibe-trading` command on PATH automatically.",
+        "note": "After install, verify with `vibe-trading --help`. The model (provider / base URL / API key / model name) is written by Echobird's 'Update model config' flow into ~/.vibe-trading/.env - do NOT run the interactive `vibe-trading init` wizard when the user is configuring through Echobird, since the wizard would overwrite that file."
+    },
+    "install_flow": {
+        "summary": "Detect Python 3.11+ -> install pipx if missing -> pipx install vibe-trading-ai -> verify the command exists on disk",
+        "agent_steps": [
+            "Detect the OS, then verify Python >= 3.11 with `python --version` / `python3 --version`. If missing or older, install Python first via the platform package manager (winget Python.Python.3.12, brew install python@3.12, apt install python3 python3-pip).",
+            "Prefer pipx: `python -m pip install --user pipx`, then `python -m pipx ensurepath`, then `pipx install vibe-trading-ai`.",
+            "If pipx is unavailable and the user accepts a user-level pip install, `python -m pip install --user vibe-trading-ai` also works.",
+            "Verify by checking the binary on disk rather than trusting the current shell's PATH (a freshly added PATH entry is not visible to the shell Echobird launched): Windows `%USERPROFILE%\\.local\\bin\\vibe-trading.exe` or the active Python `Scripts\\vibe-trading.exe`; macOS/Linux `~/.local/bin/vibe-trading` or `/opt/homebrew/bin/vibe-trading`. As a secondary check run `vibe-trading --help`.",
+            "Tell the user the model is configured from Echobird's App Manager - applying a model writes ~/.vibe-trading/.env with `LANGCHAIN_PROVIDER=openai` plus the chosen base URL / API key / model name. They do not need to run `vibe-trading init`.",
+            "Tell the user that market data needs no extra key for A-shares (AKShare / mootdx), HK & US equities (yfinance), and crypto (OKX / CCXT); only A-share fundamentals need an optional `TUSHARE_TOKEN` line added to ~/.vibe-trading/.env.",
+            "Finally, tell the user to run `vibe-trading` in a terminal - that IS the interactive chat experience. Do NOT build the frontend, clone the repo, or start `vibe-trading serve` yourself: `serve` only exposes the raw API (`/docs`), not a chat UI, so pointing the user there would just confuse them."
+        ],
+        "tell_user": [
+            "Python 3.11+ prerequisite (and how to install it if missing)",
+            "That `vibe-trading` is now installed, and its location on disk (a shell restart may be needed before the command resolves on PATH)",
+            "That ~/.vibe-trading/.env is the config file Echobird writes when you apply a model",
+            "That free data sources cover A-share / HK / US / crypto out of the box; only fundamentals need an optional Tushare token",
+            "Run `vibe-trading` in a terminal to start the interactive chat (CLI)"
+        ]
+    },
+    "network_requirements": {
+        "test_urls": ["https://pypi.org", "https://vibetrading.wiki", "https://github.com/HKUDS/Vibe-Trading"],
+        "mirrors": {
+            "pip (China)": "python -m pip install --user vibe-trading-ai -i https://pypi.tuna.tsinghua.edu.cn/simple"
+        }
+    },
+    "identity_guard": {
+        "description": "Vibe-Trading is the open-source (MIT) AI trading-research agent from HKUDS - the HKU Data Science lab, same group behind LightRAG. Install ONLY the canonical `vibe-trading-ai` PyPI package, or from source at github.com/HKUDS/Vibe-Trading - NOT any similarly named fork, paid 'pro' build, or look-alike site. It is a research / analysis tool: it analyzes markets and produces decisions, and does not place real-money orders unless the user explicitly authorizes their own broker."
+    }
+}

@@ -39,6 +39,7 @@ Tools that are installed as separate executables:
 - **pi**: Pi assistant
 - **picoclaw**: Pico Claw
 - **nanobot**: Nano Bot
+- **vibe-trading**: AI quant-research / market-analysis agent (Quant Analysis category)
 
 ### 2. Desktop Apps
 
@@ -53,9 +54,6 @@ Tools that are desktop applications:
 Tools that run inside EchoBird's webview:
 
 - **reversi**: AI-powered Reversi game
-- **ai-trader**: AI trading assistant
-- **fingpt**: Financial GPT
-- **tradingagents**: Trading agents
 
 ## Configuration Files
 

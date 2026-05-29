@@ -173,7 +173,7 @@ const en: Translations = {
   'toolCat.agents': 'Agents',
   'toolCat.ide': 'IDE',
   'toolCat.cli': 'CLI Code',
-  'toolCat.autoTrading': 'AutoTrading',
+  'toolCat.autoTrading': 'Quant Analysis',
   'toolCat.game': 'Game',
   'toolCat.desktop': 'Desktop',
   'toolCat.utility': 'Utilities',
