@@ -1,0 +1,39 @@
+{
+    "id": "workbuddy",
+    "displayName": "WorkBuddy",
+    "homepage": "https://www.codebuddy.cn/work/",
+    "docs": "https://www.codebuddy.cn/docs/workbuddy/Overview",
+    "kind": "desktop_app",
+    "platforms": ["windows", "macos"],
+    "install": {
+        "windows_winget": "winget install --id Tencent.WorkBuddy --accept-package-agreements --accept-source-agreements",
+        "windows_download": "Open https://www.codebuddy.cn/work/ in the browser, click the Windows download. Saves to %USERPROFILE%\\Downloads by default.",
+        "macos_download": "Open https://www.codebuddy.cn/work/ in the browser, click the macOS download (.dmg). Saves to ~/Downloads by default.",
+        "linux": "Not supported. WorkBuddy is Windows / macOS only.",
+        "note": "WorkBuddy (腾讯 CodeBuddy 办公版) is a GUI desktop application. Prefer winget on Windows; otherwise tell the user the download location and ask them to follow the install wizard themselves."
+    },
+    "install_flow": {
+        "summary": "Download installer → user double-clicks → user clicks through the install wizard",
+        "agent_steps": [
+            "Detect OS first. WorkBuddy supports Windows and macOS only.",
+            "Windows: prefer `winget install --id Tencent.WorkBuddy --accept-package-agreements --accept-source-agreements` if winget is available.",
+            "macOS / Windows manual: download the installer to ~/Downloads (or %USERPROFILE%\\Downloads). There is no stable direct-download URL, so open https://www.codebuddy.cn/work/ and let the user click the download.",
+            "After download finishes, tell the user the EXACT file path.",
+            "Open the installer (`Start-Process` on Windows, `open` on macOS).",
+            "Tell the user: 'WorkBuddy 安装向导已打开,请按向导点击下一步完成安装。' / 'WorkBuddy installer opened — follow the wizard to finish.'",
+            "Do NOT try to automate the GUI wizard."
+        ],
+        "tell_user": [
+            "Download location (full path)",
+            "That the installer was opened",
+            "That they should click through the wizard themselves"
+        ]
+    },
+    "identity_guard": {
+        "description": "WorkBuddy is 腾讯 (Tencent)'s GUI workplace AI-agent desktop app — the 办公版 of CodeBuddy. It is DIFFERENT from the CodeBuddy coding IDE: WorkBuddy reads its local model config from ~/.workbuddy/models.json, separate from CodeBuddy's ~/.codebuddy. winget id is Tencent.WorkBuddy (NOT Tencent.CodeBuddy)."
+    },
+    "network_requirements": {
+        "test_urls": ["https://www.codebuddy.cn"],
+        "mirrors": {}
+    }
+}

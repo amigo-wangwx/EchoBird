@@ -1,0 +1,24 @@
+{
+    "name": "WorkBuddy",
+    "category": "Agents",
+    "apiProtocol": [
+        "openai"
+    ],
+    "docs": "https://www.codebuddy.cn/docs/workbuddy/Overview",
+    "website": "https://www.codebuddy.cn/work/",
+    "command": "",
+    "configDir": "~/.workbuddy",
+    "configFile": "~/.workbuddy/models.json",
+    "requireConfigFile": false,
+    "detectByConfigDir": true,
+    "paths": {
+        "win32": [],
+        "darwin": [],
+        "linux": []
+    },
+    "installHints": {
+        "windowsDisplayNamePrefixes": ["WorkBuddy"],
+        "windowsPublisher": "Tencent",
+        "macosAppName": "WorkBuddy"
+    }
+}

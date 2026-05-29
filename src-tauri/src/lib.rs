@@ -114,6 +114,10 @@ static BUNDLED: BundledAssets = BundledAssets {
             "vibe-trading",
             include_str!("../../docs/api/tools/install/vibe-trading.json"),
         ),
+        (
+            "workbuddy",
+            include_str!("../../docs/api/tools/install/workbuddy.json"),
+        ),
     ],
 };
 
