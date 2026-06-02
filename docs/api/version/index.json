@@ -1,5 +1,5 @@
 {
-  "version": "5.1.5",
-  "releaseDate": "2026-05-31",
+  "version": "5.1.7",
+  "releaseDate": "2026-06-02",
   "releaseNotes": "## 中文\n\n**本次更新**\n- 新增「桌面端」官方 Hermes 桌面端：一键安装并配置模型——支持 Windows / macOS / Linux，非常强大、切换主题艺术感拉满！\n\n## English\n\n**What's new**\n- New \"Desktop\" tool, the official Hermes Desktop: one-click install and model setup — runs on Windows, macOS, and Linux; seriously powerful, with theme switching that looks absolutely stunning!\n\n## 日本語\n\n**今回のアップデート**\n- 新ツール「デスクトップ」公式 Hermes Desktop：ワンクリックでインストールしてモデルを設定——Windows / macOS / Linux に対応、非常にパワフルで、テーマ切り替えのアート性が最高！"
 }
