@@ -1,5 +1,5 @@
 {
-  "version": "5.1.7",
-  "releaseDate": "2026-06-02",
+  "version": "5.1.8",
+  "releaseDate": "2026-06-03",
   "releaseNotes": "## 中文\n\n**本次更新**\n- 新增「OpenCode 桌面端」:一键安装并配置模型,支持 Windows / macOS / Linux\n- 修复部分「Claude 桌面端」安装后无法启动的问题\n- 修复「每次询问」未能每次弹出询问的界面问题\n\n## English\n\n**What's new**\n- New — OpenCode Desktop: one-click install and model setup, on Windows, macOS, and Linux\n- Fixed — some Claude Desktop installs failing to launch\n- Fixed — the \"always ask\" dialog not prompting every time\n\n## 日本語\n\n**今回のアップデート**\n- 新登場「OpenCode デスクトップ」:ワンクリックでインストールしてモデルを設定、Windows / macOS / Linux に対応\n- 修正 — 一部の「Claude デスクトップ」がインストール後に起動しない問題\n- 修正 —「毎回確認」が毎回表示されない問題"
 }
