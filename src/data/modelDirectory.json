@@ -36,8 +36,8 @@
     {
       "name": "GLM 智谱",
       "url": "https://www.zhipuai.cn",
-      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
-      "anthropicUrl": "https://api.z.ai/api/anthropic",
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "anthropicUrl": "https://open.bigmodel.cn/api/anthropic",
       "modelId": "glm-5.1",
       "region": "cn"
     },
