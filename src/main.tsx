@@ -7,6 +7,7 @@ import { useThemeStore } from './stores/themeStore';
 import { detectLocale, loadLocale, resolveLocale } from './i18n';
 import * as api from './api/tauri';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { IS_MACOS } from './utils/platform';
 
 // ── Boot pipeline ────────────────────────────────────────────────────────────
 // One linear sequence runs before the Tauri window becomes visible:
@@ -16,6 +17,11 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 // Each step exists because skipping it produced a visible artifact in cold
 // start. The window stays hidden (Tauri visible:false) the entire time, so
 // the user sees the *first* paint, not an intermediate state.
+
+// 0. Platform tag — set before the first paint so the macOS branch (drop the
+// borderless rounded shell; native decorations own the window corners) applies
+// without a flash. Windows/Linux keep the custom frameless chrome unchanged.
+if (IS_MACOS) document.documentElement.classList.add('is-macos');
 
 // 1. Theme — must run before any CSS reads --bg-base-rgb. Sync.
 useThemeStore.getState().init();

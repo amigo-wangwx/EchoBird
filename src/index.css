@@ -271,6 +271,13 @@ body,
 html.window-maximized #root {
   clip-path: none;
 }
+/* macOS uses native window decorations (titleBarStyle: Overlay), so the OS owns
+   the window shape and clips to its own rounded corners. The borderless rounded
+   shell would then double-round and leave opaque corner wedges, so drop it. The
+   .is-macos class is set on <html> in main.tsx before the first paint. */
+html.is-macos #root {
+  clip-path: none;
+}
 
 body {
   font-family: var(--font-sans);

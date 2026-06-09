@@ -5,6 +5,7 @@ import { getCurrentWindow, LogicalSize } from '@tauri-apps/api/window';
 import { getSettings, saveSettings } from '../api/tauri';
 import { CloseWindowDialog } from './CloseWindowDialog';
 import { useI18n } from '../hooks/useI18n';
+import { IS_MACOS } from '../utils/platform';
 
 interface TitleBarProps {
   onSettingsClick?: () => void;
@@ -136,24 +137,31 @@ export const TitleBar: React.FC<TitleBarProps> = ({ onSettingsClick, onFeedbackC
           >
             <Settings size={13} />
           </button>
-          <button
-            onClick={handleMinimize}
-            className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-cyber-text/20 hover:text-cyber-text transition-colors"
-          >
-            <Minus size={14} />
-          </button>
-          <button
-            onClick={handleMaximize}
-            className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-cyber-text/20 hover:text-cyber-text transition-colors"
-          >
-            {isMaximized ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
-          </button>
-          <button
-            onClick={handleClose}
-            className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-red-500/20 hover:text-red-400 transition-colors"
-          >
-            <X size={14} />
-          </button>
+          {/* Window controls — Windows/Linux only. macOS uses native traffic
+              lights on the left (titleBarStyle: Overlay), so we omit our custom
+              minimize/maximize/close here and keep just Feedback + Settings. */}
+          {!IS_MACOS && (
+            <>
+              <button
+                onClick={handleMinimize}
+                className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-cyber-text/20 hover:text-cyber-text transition-colors"
+              >
+                <Minus size={14} />
+              </button>
+              <button
+                onClick={handleMaximize}
+                className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-cyber-text/20 hover:text-cyber-text transition-colors"
+              >
+                {isMaximized ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
+              </button>
+              <button
+                onClick={handleClose}
+                className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-red-500/20 hover:text-red-400 transition-colors"
+              >
+                <X size={14} />
+              </button>
+            </>
+          )}
         </div>
       </div>
 

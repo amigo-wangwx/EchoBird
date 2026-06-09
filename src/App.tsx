@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { getVersion } from '@tauri-apps/api/app';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { listen } from '@tauri-apps/api/event';
+import { IS_MACOS } from './utils/platform';
 import { Sidebar, PageType, ToastProvider, ConfirmDialogProvider } from './components';
 import { isNewerVersion } from './utils/version';
 import { DownloadProvider } from './components/DownloadContext';
@@ -151,6 +153,17 @@ function App() {
     };
   }, []);
 
+  // Wire the macOS app-menu items to the same actions as the in-window buttons:
+  // Settings (⌘,) opens the Settings dialog, Feedback opens the Feedback page.
+  // The Rust menu handler emits these events; on Windows/Linux there is no app
+  // menu, so they simply never fire.
+  useEffect(() => {
+    const unlistens: Array<() => void> = [];
+    listen('menu-open-settings', () => setShowSettings(true)).then((u) => unlistens.push(u));
+    listen('menu-open-feedback', () => setActivePage('feedback')).then((u) => unlistens.push(u));
+    return () => unlistens.forEach((u) => u());
+  }, [setActivePage]);
+
   // Intercept window close to support "minimize to tray" behavior
   useEffect(() => {
     const win = getCurrentWindow();
@@ -209,7 +222,7 @@ function App() {
                   <AppManagerProvider>
                     <LocalServerProvider>
                       <div
-                        className={`flex flex-col h-screen w-full bg-cyber-bg overflow-hidden ${isMaximized ? '' : 'rounded-xl'}`}
+                        className={`flex flex-col h-screen w-full bg-cyber-bg overflow-hidden ${isMaximized || IS_MACOS ? '' : 'rounded-xl'}`}
                       >
                         {/* Title bar */}
                         <TitleBar
