@@ -1,0 +1,28 @@
+{
+    "id": "mimocode",
+    "displayName": "MiMo Code (CLI)",
+    "homepage": "https://mimo.xiaomi.com/mimocode/start",
+    "docs": "https://mimo.xiaomi.com/mimocode/start",
+    "github": "https://github.com/XiaomiMiMo/MiMo-Code",
+    "install": {
+        "curl (macOS / Linux — recommended)": "curl -fsSL https://mimo.xiaomi.com/install | bash",
+        "npm (all platforms)": "npm install -g @mimo-ai/cli",
+        "note": "CLI coding agent by Xiaomi, forked from OpenCode. The binary is `mimo` (curl installs to ~/.mimocode/bin and updates PATH; restart the shell or source the rc file before verifying). Windows: use npm. Do NOT install `opencode-ai` — MiMo Code is a separate product with its own npm package `@mimo-ai/cli`."
+    },
+    "network_requirements": {
+        "test_urls": [
+            "https://mimo.xiaomi.com",
+            "https://github.com/XiaomiMiMo/MiMo-Code"
+        ],
+        "blocked_regions": {
+            "zh-CN": "mimo.xiaomi.com itself is reachable in mainland China, but the curl installer downloads the binary from GitHub Releases, which is unreliable there. If the curl install stalls or fails, use npm instead: `npm install -g @mimo-ai/cli --registry=https://registry.npmmirror.com`."
+        },
+        "mirrors": {}
+    },
+    "first_run": {
+        "description": "On first launch `mimo` opens a TUI. To use Xiaomi's MiMo Platform models, run /connect inside the TUI, pick mimocode, and paste an API key from code.xiaomimimo.com/auth. Any OpenAI-compatible provider can also be added via the provider block in the config file.",
+        "config_global": "~/.config/mimocode/mimocode.json",
+        "config_project": ".mimocode/mimocode.json",
+        "verify": "mimo --version"
+    }
+}

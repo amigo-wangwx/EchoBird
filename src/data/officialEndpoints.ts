@@ -63,6 +63,14 @@ export const OFFICIAL_ENDPOINTS: Record<string, OfficialEndpoint> = {
     protocol: 'openai',
     modelId: 'grok-4',
   },
+  mimocode: {
+    // Restore removes our provider block; MiMo Code then falls back to the
+    // user's native /connect credentials for the Xiaomi MiMo Platform.
+    name: 'Xiaomi MiMo Official',
+    baseUrl: 'https://api.xiaomimimo.com/v1',
+    protocol: 'openai',
+    modelId: 'mimo-v2.5-pro',
+  },
   // OpenCode is a third-party tool, not OpenAI official
   // Community open-source tools (openclaw, zeroclaw, hermes, nanobot,
   // picoclaw, openfang, opencode) have no canonical vendor URL — restore is hidden.
