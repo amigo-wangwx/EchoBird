@@ -32,10 +32,14 @@ export default {
                     'Microsoft YaHei', 'Segoe UI', 'Roboto', 'Helvetica',
                     'Arial', 'sans-serif',
                 ],
+                // CJK families MUST sit before the generic keywords: a generic
+                // ends the per-glyph search at the WebView default, which for
+                // Chinese in a monospace context on Windows is SimSun (宋体).
                 mono: [
                     'CascadiaMono', 'Cascadia Code', 'JetBrains Mono',
-                    'SF Mono', 'Menlo', 'Monaco', 'Consolas',
-                    'Courier New', 'ui-monospace', 'monospace',
+                    'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Courier New',
+                    'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei',
+                    'ui-monospace', 'monospace',
                 ],
             },
             borderRadius: {
