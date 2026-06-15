@@ -61,6 +61,7 @@ import {
 } from './pages/AiCourses';
 import { FeedbackMain } from './pages/Feedback';
 import { MyProjectsMain, MyProjectsPanel, MyProjectsBottom } from './pages/MyProjects';
+import { AiCareerMain, AiCareerPanel, AiCareerTitleActions } from './pages/AiCareer';
 import { useMyProjectsStore } from './stores/myProjectsStore';
 
 function SidebarConnected({ onSettingsClick }: { onSettingsClick: () => void }) {
@@ -250,6 +251,7 @@ function App() {
 
                                         {is('apps') && t('page.appManager')}
                                         {is('myProjects') && t('page.myProjects')}
+                                        {is('aiCareer') && t('page.aiCareer')}
                                         {is('localLlm') && t('page.localServer')}
                                         {is('mother') && t('page.motherAgent')}
                                         {is('feedback') && t('page.feedback')}
@@ -261,6 +263,7 @@ function App() {
                                         {is('models') && 'ROSTER'}
                                         {is('apps') && 'STUDIO'}
                                         {is('myProjects') && 'VIBE CODING'}
+                                        {is('aiCareer') && 'CAREER'}
                                         {is('localLlm') && 'RUNTIME'}
                                         {is('mother') && 'AGENT'}
                                         {is('feedback') && 'SUPPORT'}
@@ -276,6 +279,9 @@ function App() {
                                     </span>
                                     <span className={page(is('models'))}>
                                       <ModelNexusTitleActions />
+                                    </span>
+                                    <span className={page(is('aiCareer'))}>
+                                      <AiCareerTitleActions />
                                     </span>
 
                                     {is('mother') && (
@@ -316,6 +322,9 @@ function App() {
                                   <div className={pageBlock(is('localLlm'))}>
                                     <LocalServerMain />
                                   </div>
+                                  <div className={pageScroll(is('aiCareer'))}>
+                                    <AiCareerMain />
+                                  </div>
                                   {/* MotherAgent: always mounted, hidden via CSS to preserve chat state */}
                                   <div
                                     className={`flex-1 flex flex-col overflow-hidden ${is('mother') ? '' : 'hidden'}`}
@@ -344,6 +353,9 @@ function App() {
                                 </div>
                                 <div className={page(is('localLlm'))}>
                                   <LocalServerPanel />
+                                </div>
+                                <div className={page(is('aiCareer'))}>
+                                  <AiCareerPanel />
                                 </div>
                                 {/* MotherAgent panel: always mounted, hidden via CSS */}
                                 <div className={!is('mother') ? 'hidden' : 'contents'}>

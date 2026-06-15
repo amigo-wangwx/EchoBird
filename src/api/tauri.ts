@@ -17,6 +17,7 @@ export * from './parasite';
 export * from './ssh';
 export * from './secret';
 export * from './bundled';
+export * from './aiCareer';
 
 // ─── Tool APIs ───
 

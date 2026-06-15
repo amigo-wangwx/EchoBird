@@ -294,6 +294,26 @@ export type TKey =
   | 'error.noModelSelected'
   | 'error.requestFailed'
   | 'error.userCancelled'
+  // 我的AI生涯 / My AI Career
+  | 'nav.aiCareer'
+  | 'page.aiCareer'
+  | 'aiCareer.editAvatar'
+  | 'aiCareer.familySuffix'
+  | 'aiCareer.legendLess'
+  | 'aiCareer.legendMore'
+  | 'aiCareer.stat.sessions'
+  | 'aiCareer.stat.messages'
+  | 'aiCareer.stat.tokens'
+  | 'aiCareer.stat.activeDays'
+  | 'aiCareer.stat.longestStreak'
+  | 'aiCareer.messages'
+  | 'aiCareer.copyPath'
+  | 'aiCareer.noSessions'
+  | 'aiCareer.timeJustNow'
+  | 'aiCareer.timeToday'
+  | 'aiCareer.timeYesterday'
+  | 'aiCareer.timeDaysAgo'
+  | 'aiCareer.noActivity'
   // App brand
   | 'app.name';
 

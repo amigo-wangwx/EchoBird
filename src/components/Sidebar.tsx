@@ -9,6 +9,7 @@ import {
   Star,
   GraduationCap,
   FolderHeart,
+  Trophy,
 } from 'lucide-react';
 import { NavItem } from './NavItem';
 import { useI18n } from '../hooks/useI18n';
@@ -23,6 +24,7 @@ export type PageType =
   | 'courses'
   | 'models'
   | 'apps'
+  | 'aiCareer'
   | 'myProjects'
   | 'localLlm'
   | 'mother'
@@ -114,6 +116,12 @@ export const Sidebar = ({
           label={t('nav.appManager')}
           active={activePage === 'apps'}
           onClick={() => onPageChange('apps')}
+        />
+        <NavItem
+          icon={<Trophy size={20} />}
+          label={t('nav.aiCareer')}
+          active={activePage === 'aiCareer'}
+          onClick={() => onPageChange('aiCareer')}
         />
         <NavItem
           icon={<FolderHeart size={20} />}
