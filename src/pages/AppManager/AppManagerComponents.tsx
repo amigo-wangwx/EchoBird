@@ -501,11 +501,13 @@ export const AppManagerPanel: React.FC = () => {
         )}
       </div>
 
-      {/* Relay-toggle row: only mounted for apps that actually expose the
-          toggle (Codex, Claude Desktop). For everything else nothing
-          renders here and the model list below claims the space — the
-          user explicitly preferred no reserved gap when the toggle is
-          absent. */}
+      {/* Toggle row: mounted when ANY toggle applies — the API Router /
+          Responses toggles (Codex, Claude Desktop) or the 1M toggle (Claude
+          Desktop, Claude Code). Each toggle inside is INDIVIDUALLY gated, so
+          e.g. Claude Code shows only 1M and never the API Router toggle
+          (which would otherwise cross-wire to Codex's relay flag). For apps
+          with no toggles nothing renders and the model list below claims the
+          space — the user preferred no reserved gap when toggles are absent. */}
       {(showRelayToggle || show1mToggle) && (
         <div className="px-3 h-9 flex items-center gap-2">
           {showResponsesToggle && (
@@ -524,12 +526,14 @@ export const AppManagerPanel: React.FC = () => {
               onChange={setClaude1mMode}
             />
           )}
-          <RoutingToggle
-            label={t('agent.codexRelayLabel')}
-            hint={t('agent.codexRelayHint')}
-            checked={relayModeValue}
-            onChange={setRelayModeValue}
-          />
+          {showRelayToggle && (
+            <RoutingToggle
+              label={t('agent.codexRelayLabel')}
+              hint={t('agent.codexRelayHint')}
+              checked={relayModeValue}
+              onChange={setRelayModeValue}
+            />
+          )}
         </div>
       )}
 
