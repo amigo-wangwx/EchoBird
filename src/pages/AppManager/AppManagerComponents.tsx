@@ -574,6 +574,7 @@ export const AppManagerPanel: React.FC = () => {
         <div className="px-3 h-9 flex items-center gap-2">
           {showResponsesToggle && (
             <RoutingToggle
+              key="responses"
               label={t('agent.codexResponsesLabel')}
               hint={t('agent.codexResponsesHint')}
               checked={codexResponsesPassthrough}
@@ -582,6 +583,7 @@ export const AppManagerPanel: React.FC = () => {
           )}
           {show1mToggle && (
             <RoutingToggle
+              key="1m"
               label="1M"
               hint={t('agent.claude1mHint')}
               copyCommand="/model claude-opus-4-8[1m]"
@@ -591,6 +593,7 @@ export const AppManagerPanel: React.FC = () => {
           )}
           {showRelayToggle && (
             <RoutingToggle
+              key="relay"
               label={t('agent.codexRelayLabel')}
               hint={t('agent.codexRelayHint')}
               checked={relayModeValue}

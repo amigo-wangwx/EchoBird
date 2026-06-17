@@ -449,6 +449,11 @@ export const LocalServerMain: React.FC = () => {
     } else {
       if (!selectedModelPath) return;
       setLogs([]);
+      // Reset the change-detection guard too — otherwise, if the backend
+      // returns a log buffer identical to the previous run's, the poll's
+      // `joined !== lastServerLogs.current` check stays false and the cleared
+      // panel never repopulates after a restart.
+      lastServerLogs.current = '';
       autoFollowRef.current = true;
       setShowScrollBtn(false);
       try {
