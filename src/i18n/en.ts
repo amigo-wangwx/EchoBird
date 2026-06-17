@@ -186,8 +186,6 @@ const en: Translations = {
   'agent.codexResponsesHint':
     'Enable this if your third-party model supports the Responses protocol for native integration. (Carefully read the official documentation of the model you purchased to confirm whether it supports the Responses protocol.)',
   'agent.claude1mHint':
-    'Enable the 1M context window. Claude Code applies it automatically once enabled.',
-  'agent.claude1mHintDesktop':
     'Enable 1M context. Claude Code applies it automatically; in Claude Desktop, enter this manually:',
   'agent.installViaMother': 'AI Auto-Install',
   // ToolCard labels

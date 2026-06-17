@@ -188,8 +188,6 @@ const ja: Partial<Translations> = {
   'agent.codexResponsesHint':
     'サードパーティモデルが Responses に対応していれば、有効化してネイティブに接続できます。（購入したモデルの公式ドキュメントをよく読み、Responses プロトコルに対応しているか確認してください。）',
   'agent.claude1mHint':
-    '1M コンテキストを有効化します。Claude Code は有効化すると自動的に適用されます。',
-  'agent.claude1mHintDesktop':
     '1M コンテキストを有効化。Claude Code は自動適用、Claude デスクトップでは次を手動入力：',
   'agent.installViaMother': 'AI 自動インストール',
   'tool.models': 'モデル',

@@ -182,8 +182,6 @@ const zhHant: Partial<Translations> = {
   'agent.codexResponsesHint':
     '第三方模型支援 Responses 可開啟此項，原生接入（仔細閱讀你購買模型的官方文件，是否支援 Responses 協定）',
   'agent.claude1mHint':
-    '啟用 1M 上下文，Claude Code 開啟後自動生效。',
-  'agent.claude1mHintDesktop':
     '啟用 1M 上下文，Claude Code 自動生效；Claude 桌面端需手動輸入：',
   'agent.installViaMother': 'AI 自動安裝',
   'tool.models': '模型',
