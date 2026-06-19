@@ -9,6 +9,7 @@ import * as api from './api/tauri';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { IS_MACOS } from './utils/platform';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ERROR_MESSAGES, pickErrorLang } from './components/errorMessages';
 
 // ── Boot pipeline ────────────────────────────────────────────────────────────
 // One linear sequence runs before the Tauri window becomes visible:
@@ -111,6 +112,7 @@ function showWindowAfterFirstPaint(): void {
 function renderBootError(err: unknown): void {
   const root = document.getElementById('root');
   if (!root) return;
+  const t = ERROR_MESSAGES[pickErrorLang()];
   const msg =
     err instanceof Error ? `${err.name}: ${err.message}\n\n${err.stack ?? ''}` : String(err);
   root.textContent = '';
@@ -121,7 +123,7 @@ function renderBootError(err: unknown): void {
   );
   const title = document.createElement('div');
   title.setAttribute('style', 'font-size:18px;font-weight:600;');
-  title.textContent = '启动失败 / Startup failed';
+  title.textContent = t.bootTitle;
   const pre = document.createElement('pre');
   pre.setAttribute(
     'style',
@@ -133,7 +135,7 @@ function renderBootError(err: unknown): void {
     'style',
     'padding:8px 16px;border-radius:8px;border:1px solid #444;background:#2a2a2a;color:#e8e8e8;cursor:pointer;font-size:13px;'
   );
-  reload.textContent = '重新加载 / Reload';
+  reload.textContent = t.reload;
   reload.addEventListener('click', () => window.location.reload());
   wrap.append(title, pre, reload);
   root.append(wrap);

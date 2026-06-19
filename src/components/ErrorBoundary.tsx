@@ -1,4 +1,5 @@
 import { Component, type CSSProperties, type ErrorInfo, type ReactNode } from 'react';
+import { ERROR_MESSAGES, pickErrorLang } from './errorMessages';
 
 interface Props {
   children: ReactNode;
@@ -64,6 +65,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (!this.state.error) return this.props.children;
+    const t = ERROR_MESSAGES[pickErrorLang()];
     return (
       <div
         style={{
@@ -81,10 +83,8 @@ export class ErrorBoundary extends Component<Props, State> {
           textAlign: 'center',
         }}
       >
-        <div style={{ fontSize: 18, fontWeight: 600 }}>应用出错了 / Something went wrong</div>
-        <div style={{ fontSize: 13, opacity: 0.7, maxWidth: 520 }}>
-          界面遇到一个未处理的错误。复制下面的错误信息发给我们,然后重新加载即可。
-        </div>
+        <div style={{ fontSize: 18, fontWeight: 600 }}>{t.title}</div>
+        <div style={{ fontSize: 13, opacity: 0.7, maxWidth: 520 }}>{t.body}</div>
         <pre
           style={{
             maxWidth: 640,
@@ -106,10 +106,10 @@ export class ErrorBoundary extends Component<Props, State> {
         </pre>
         <div style={{ display: 'flex', gap: 12 }}>
           <button type="button" onClick={this.handleCopy} style={btnStyle}>
-            复制错误信息 / Copy error
+            {t.copy}
           </button>
           <button type="button" onClick={() => window.location.reload()} style={btnStyle}>
-            重新加载 / Reload
+            {t.reload}
           </button>
         </div>
       </div>
