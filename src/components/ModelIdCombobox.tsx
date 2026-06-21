@@ -51,8 +51,7 @@ export function ModelIdCombobox({
   const opts = useMemo(() => Array.from(new Set(options)), [options]);
   const hasOptions = opts.length > 0;
   const query = value.trim().toLowerCase();
-  const filtered =
-    searching && query ? opts.filter((o) => o.toLowerCase().includes(query)) : opts;
+  const filtered = searching && query ? opts.filter((o) => o.toLowerCase().includes(query)) : opts;
   const showList = isOpen && hasOptions && filtered.length > 0;
 
   // Position the portal menu against the input, flipping up when the space
@@ -165,10 +164,7 @@ export function ModelIdCombobox({
           aria-label="Toggle model id suggestions"
           className="absolute right-1.5 top-1/2 -translate-y-1/2 text-cyber-text-muted hover:text-cyber-text"
         >
-          <ChevronDown
-            size={14}
-            className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          />
+          <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
       )}
       {showList &&
