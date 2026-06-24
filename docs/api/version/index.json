@@ -1,5 +1,5 @@
 {
-  "version": "5.3.5",
+  "version": "5.3.6",
   "releaseDate": "2026-06-24",
-  "releaseNotes": "## 中文\n\n- 模型目录新增火山引擎(Volcengine)专属品牌图标。\n- 修复模型 ID 下拉框:选择后再次展开只需单击(此前需点两次)。\n- Codex 第三方接入的连接问题排查与稳定性优化。\n\n## English\n\n- New dedicated Volcengine brand icon in the model directory.\n- Fixed the model-ID dropdown: re-opening it after a selection now takes a single click (previously two).\n- Improved third-party Codex connectivity troubleshooting & stability.\n\n## 日本語\n\n- モデルディレクトリに Volcengine(火山引擎)専用ブランドアイコンを追加。\n- モデル ID ドロップダウンを修正:選択後の再展開がワンクリックになりました(以前は2回)。\n- サードパーティ Codex 接続のトラブルシューティングと安定性を改善。"
+  "releaseNotes": "## 中文\n\n- 「应用管理」新增自定义扫描路径:点标题栏齿轮即可编辑各工具的安装路径,装在非默认目录也能被识别。\n- 刷新按钮移至标题栏并改为旋转图标,与其他页面保持一致。\n\n## English\n\n- App Manager: custom scan paths — click the gear in the title bar to edit where EchoBird looks for each tool, so installs in non-default locations are detected.\n- Moved the refresh button into the title bar with a spinning icon, consistent with the other pages.\n\n## 日本語\n\n- アプリ管理:カスタムスキャンパスを追加 — タイトルバーの歯車から各ツールの検索パスを編集でき、既定以外の場所にインストールされていても検出されます。\n- 更新ボタンをタイトルバーに移動し、回転アイコンに変更しました(他のページと統一)。"
 }
