@@ -3,6 +3,7 @@
 export { AppManagerProvider } from './AppManagerProvider';
 export {
   AppManagerMain,
+  AppManagerTitleActions,
   AppManagerPanel,
   AppManagerBottom,
   AppManagerErrorModal,

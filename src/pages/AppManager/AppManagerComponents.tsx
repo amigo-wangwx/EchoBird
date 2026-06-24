@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Server as ServerIcon, Box as BoxIcon, Copy, Check } from 'lucide-react';
+import { Server as ServerIcon, Box as BoxIcon, Copy, Check, RefreshCw, Settings } from 'lucide-react';
 import { ToolCard, getModelIcon } from '../../components';
 import { useI18n } from '../../hooks/useI18n';
+import * as api from '../../api/tauri';
 import type { ModelConfig, LocalTool } from '../../api/types';
 import { useAppManager, toolCategories } from './context';
 import { useNavigationStore } from '../../stores/navigationStore';
@@ -11,6 +12,45 @@ import {
   type OfficialEndpoint,
 } from '../../data/officialEndpoints';
 
+// ===== Title actions (refresh) — mounted in the shared page title bar,
+// keeping App Management consistent with the other pages =====
+
+export const AppManagerTitleActions: React.FC = () => {
+  const { t } = useI18n();
+  const { scanTools, isScanning } = useAppManager();
+
+  return (
+    <div className="ml-auto flex-shrink-0 flex items-center gap-2">
+      {/* Custom scan paths — opens ~/.echobird/tool-paths.json so users can
+          register install locations EchoBird's bundled defaults missed.
+          Borderless icon (no button chrome), sized to the refresh button's
+          height so the two read as a pair. */}
+      <button
+        onClick={() => {
+          void api.openToolPathsConfig().catch(() => {});
+        }}
+        title={t('btn.editPaths')}
+        aria-label={t('btn.editPaths')}
+        className="flex items-center text-cyber-text-secondary hover:text-cyber-text transition-colors outline-none"
+      >
+        <Settings size={20} />
+      </button>
+      <button
+        onClick={scanTools}
+        disabled={isScanning}
+        className={`text-sm px-3 py-1.5 border rounded-md transition-colors flex items-center gap-2 outline-none ${
+          !isScanning
+            ? 'border-cyber-border/50 text-cyber-text hover:bg-cyber-text/10'
+            : 'border-cyber-border text-cyber-text-muted cursor-not-allowed'
+        }`}
+      >
+        <RefreshCw size={13} className={isScanning ? 'animate-spin' : ''} />
+        {t('btn.refresh')}
+      </button>
+    </div>
+  );
+};
+
 // ===== Main Content (tool cards grid) =====
 
 export const AppManagerMain: React.FC = () => {
@@ -18,7 +58,6 @@ export const AppManagerMain: React.FC = () => {
   const {
     detectedTools,
     isScanning,
-    scanTools,
     activeToolCategory,
     setActiveToolCategory,
     selectedTool,
@@ -30,8 +69,9 @@ export const AppManagerMain: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Toolbar - Fixed */}
-      {/* Category tabs + Action buttons */}
-      <div className="flex items-center justify-between flex-shrink-0 pb-4 mb-4">
+      {/* Category tabs — the refresh action lives in the shared page
+          title bar (AppManagerTitleActions), consistent with other pages */}
+      <div className="flex items-center flex-shrink-0 pb-4 mb-4">
         <div className="flex gap-1">
           {toolCategories.map((cat) => (
             <button
@@ -57,15 +97,6 @@ export const AppManagerMain: React.FC = () => {
               })()}
             </button>
           ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={scanTools}
-            disabled={isScanning}
-            className="text-xs border border-cyber-border text-cyber-text px-3 py-1 hover:bg-cyber-text/10 transition-colors rounded disabled:opacity-50 outline-none"
-          >
-            {isScanning ? t('status.scanning') : t('btn.refresh')}
-          </button>
         </div>
       </div>
       {/* Tool cards - Scrolling */}

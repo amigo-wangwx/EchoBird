@@ -88,6 +88,7 @@ export type TKey =
   // Buttons
   | 'btn.addModel'
   | 'btn.refresh'
+  | 'btn.editPaths'
   | 'btn.clear'
   | 'btn.cancel'
   | 'btn.delete'
@@ -103,7 +104,6 @@ export type TKey =
   // Status
   | 'status.running'
   | 'status.offline'
-  | 'status.scanning'
   | 'status.complete'
   | 'status.failed'
   | 'status.notInstalled'

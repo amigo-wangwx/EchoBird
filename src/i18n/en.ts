@@ -91,6 +91,7 @@ const en: Translations = {
   'btn.save': 'Save',
   'btn.close': 'Close',
   'btn.refresh': 'REFRESH',
+  'btn.editPaths': 'Custom scan paths',
   'btn.clear': 'CLEAR',
   'btn.cancel': 'CANCEL',
   'btn.delete': 'DELETE',
@@ -101,8 +102,6 @@ const en: Translations = {
   'btn.stop': 'STOP',
   'btn.remove': 'REMOVE',
   'btn.pingAll': 'Test Latency',
-  // Status
-  'status.scanning': 'Scanning...',
   // Model dialog
   'model.name': 'Name',
   'model.apiKey': 'API Key',

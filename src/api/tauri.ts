@@ -80,6 +80,14 @@ export async function openFolder(path: string): Promise<void> {
   await invoke('open_folder', { path });
 }
 
+/// Open (creating from a template on first use) the user's tool-path overrides
+/// file `~/.echobird/tool-paths.json`, where users add install paths for tools
+/// detected at non-default locations. Survives app updates; the scanner merges
+/// it on top of bundled defaults. Returns the file's absolute path.
+export async function openToolPathsConfig(): Promise<string> {
+  return invoke('open_tool_paths_config');
+}
+
 // ─── App Settings APIs ───
 
 export async function getSettings(): Promise<AppSettings> {

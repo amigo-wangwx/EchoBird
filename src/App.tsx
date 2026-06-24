@@ -35,6 +35,7 @@ import {
 import {
   AppManagerProvider,
   AppManagerMain,
+  AppManagerTitleActions,
   AppManagerPanel,
   AppManagerBottom,
   AppManagerErrorModal,
@@ -282,6 +283,9 @@ function App() {
                                     </span>
                                     <span className={page(is('aiCareer'))}>
                                       <AiCareerTitleActions />
+                                    </span>
+                                    <span className={page(is('apps'))}>
+                                      <AppManagerTitleActions />
                                     </span>
 
                                     {is('mother') && (
