@@ -5,14 +5,13 @@ import type { TKey } from '../i18n/types';
  *
  * Returns:
  *   - A TKey when the message matches a known category (timeout, ssh,
- *     cancelled, no-server, no-model, agent-failed). The caller
- *     renders the localized string.
+ *     cancelled, no-server, no-model, agent-failed, or provider setup
+ *     errors). The caller renders the localized string.
  *   - `null` when the message is informative but uncategorized. The
  *     caller renders the message text verbatim, because v4.7.0 made
- *     the backend emit the upstream provider's real error message
- *     ("Invalid API Key" / "Rate limit exceeded" / "You exceeded
- *     your quota") — discarding that into a generic "请求失败" key
- *     would hide the actionable info from the user.
+ *     the backend emit the upstream provider's real error message.
+ *     Discarding unknown provider errors into a generic key would hide
+ *     actionable info from the user.
  *
  * The caller falls back to `error.requestFailed` only when the
  * message is empty (no info to show).
@@ -45,6 +44,61 @@ export function errorToKey(msg: string): TKey | null {
     lower.includes('stream stalled')
   )
     return 'error.connectionTimeout';
+
+  // The streaming client expects text/event-stream. Some OpenAI-compatible
+  // relays return an HTML error/login page instead, which bubbles up as a
+  // low-level SSE header error.
+  if (
+    lower.includes('sse setup error') &&
+    lower.includes('invalid header value') &&
+    lower.includes('text/html')
+  )
+    return 'error.providerReturnedHtml';
+
+  // Common provider auth / account failures. HTTP status codes are matched
+  // on word boundaries (not bare substrings) so an id or token count that
+  // merely contains "401"/"403" inside a longer number does not trip this.
+  if (
+    /\b40[13]\b/.test(lower) ||
+    lower.includes('unauthorized') ||
+    lower.includes('forbidden') ||
+    lower.includes('authentication') ||
+    lower.includes('auth failed') ||
+    lower.includes('invalid api key') ||
+    lower.includes('invalid_api_key') ||
+    lower.includes('incorrect api key') ||
+    lower.includes('api key is invalid')
+  )
+    return 'error.providerAuthFailed';
+
+  // Rate limit / quota / billing.
+  if (
+    /\b429\b/.test(lower) ||
+    lower.includes('rate limit') ||
+    lower.includes('rate_limit') ||
+    lower.includes('too many requests') ||
+    lower.includes('quota') ||
+    lower.includes('insufficient_quota') ||
+    lower.includes('billing')
+  )
+    return 'error.providerRateLimited';
+
+  // Endpoint not found / DNS / malformed Base URL. "model not found" is a
+  // model-selection problem (handled below), not an endpoint problem.
+  if (
+    /\b404\b/.test(lower) ||
+    lower.includes('invalid url') ||
+    lower.includes('invalid_url') ||
+    lower.includes('unsupported protocol') ||
+    lower.includes('relative url without a base') ||
+    lower.includes('enotfound') ||
+    lower.includes('could not resolve') ||
+    lower.includes('name resolution') ||
+    lower.includes('no such host') ||
+    lower.includes('failed to lookup address') ||
+    (lower.includes('not found') && !lower.includes('model not found'))
+  )
+    return 'error.providerEndpointInvalid';
 
   // SSH / host unreachable / network errors
   if (
