@@ -1,5 +1,5 @@
 {
   "version": "5.3.6",
   "releaseDate": "2026-06-24",
-  "releaseNotes": "## 中文\n\n- 「应用管理」新增自定义扫描路径:点标题栏齿轮即可编辑各工具的安装路径,装在非默认目录也能被识别。\n- 刷新按钮移至标题栏并改为旋转图标,与其他页面保持一致。\n\n## English\n\n- App Manager: custom scan paths — click the gear in the title bar to edit where EchoBird looks for each tool, so installs in non-default locations are detected.\n- Moved the refresh button into the title bar with a spinning icon, consistent with the other pages.\n\n## 日本語\n\n- アプリ管理:カスタムスキャンパスを追加 — タイトルバーの歯車から各ツールの検索パスを編集でき、既定以外の場所にインストールされていても検出されます。\n- 更新ボタンをタイトルバーに移動し、回転アイコンに変更しました(他のページと統一)。"
+  "releaseNotes": "## 中文\n\n- 修复 macOS 上启动 Codex、ZCode 等桌面端时被误用文本编辑器打开、无法启动应用的问题。\n- 「安装与修复」输入框现在会自动聚焦;接入配置出错时的提示更清晰。\n\n## English\n\n- Fixed launching desktop apps (Codex, ZCode, etc.) on macOS opening in a text editor instead of starting the app.\n- The install-and-repair input now auto-focuses; clearer messages when provider setup fails.\n\n## 日本語\n\n- macOS で Codex・ZCode などのデスクトップ版を起動するとアプリが立ち上がらずテキストエディタで開かれる問題を修正しました。\n- 「インストールと修復」の入力欄が自動でフォーカスされるようになり、接続設定のエラー表示も分かりやすくなりました。"
 }
