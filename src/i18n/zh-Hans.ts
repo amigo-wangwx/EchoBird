@@ -166,7 +166,6 @@ const zhHans: Partial<Translations> = {
   'agent.codexWebSearchLabel': 'Web Search',
   'agent.codexWebSearchHint':
     '部分第三方模型 web_search 需要二次开通或另外计费（仔细阅读你购买模型的官方文档，确认是否支持及如何开通 web_search 能力）',
-  'agent.claude1mHint': '启用 1M 上下文，Claude Code 自动生效；Claude 桌面端需手动输入：',
   'agent.installViaMother': 'AI 自动安装',
   'tool.models': '模型',
   'tool.app': '应用',

@@ -155,13 +155,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
   const [codexWebSearch, setCodexWebSearchRaw] = useState<boolean>(() =>
     readBool('echobird_codex_web_search', true)
   );
-  // Claude 1M-context toggle (Claude Desktop; Claude Code in a later step).
-  // When on, the applied profile advertises the `[1m]` model variant so Claude
-  // budgets the 1M window. Persisted per-machine; default off.
-  const [claude1mMode, setClaude1mModeRaw] = useState<boolean>(() =>
-    readBool('echobird_claude_1m_mode', false)
-  );
-
   // Tool model config (single selection - one model per tool)
   const [toolModelConfig, setToolModelConfig] = useState<Record<string, string | null>>({
     claudecode: null,
@@ -191,7 +184,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
     internalId: string,
     relayOverride?: boolean,
     passthroughOverride?: boolean,
-    oneMOverride?: boolean,
     webSearchOverride?: boolean
   ): Promise<true | string | false> => {
     const model = userModels.find((m) => m.internalId === internalId);
@@ -232,8 +224,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
     const effectiveRelay = isClaudeApp ? (relayOverride ?? currentRelayMode) : false;
     const effectivePassthrough = isCodexApp && (passthroughOverride ?? codexResponsesPassthrough);
     const effectiveWebSearch = isCodexApp ? (webSearchOverride ?? codexWebSearch) : false;
-    // 1M context — Claude Desktop + Claude Code (both honor the [1m] variant).
-    const effective1m = isClaudeApp && (oneMOverride ?? claude1mMode);
 
     try {
       const result = await api.applyModelToTool(toolId, {
@@ -247,7 +237,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         ...(isCodexApp
           ? { responsesPassthrough: effectivePassthrough, webSearch: effectiveWebSearch }
           : {}),
-        ...(isClaudeApp ? { oneMContext: effective1m } : {}),
       });
 
       if (result?.success) {
@@ -298,18 +287,13 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
       if (!codexToolId) return;
       const pendingInternalId = toolModelConfig[codexToolId];
       if (!pendingInternalId || isOfficialModelSentinel(pendingInternalId)) return;
-      void applyModelConfig(
-        codexToolId,
-        pendingInternalId,
-        undefined,
-        undefined,
-        undefined,
-        v
-      ).then((result) => {
-        if (result !== true) {
-          setApplyError(typeof result === 'string' ? result : t('key.destroyed'));
+      void applyModelConfig(codexToolId, pendingInternalId, undefined, undefined, v).then(
+        (result) => {
+          if (result !== true) {
+            setApplyError(typeof result === 'string' ? result : t('key.destroyed'));
+          }
         }
-      });
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [toolModelConfig, t, userModels]
@@ -332,12 +316,9 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         }
       });
     },
-    // claude1mMode is a real dep: re-applying claudedesktop reads it through the
-    // captured applyModelConfig (oneMOverride defaults to it). Without it here,
-    // flipping API Router after the 1M toggle re-writes the profile with a STALE
-    // 1M flag. (applyModelConfig stays excluded — it's recreated every render.)
+    // (applyModelConfig stays excluded — it's recreated every render.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toolModelConfig, t, userModels, claude1mMode]
+    [toolModelConfig, t, userModels]
   );
 
   // Claude Code relay-mode setter — mirrors setClaudeDesktopRelayMode but
@@ -355,40 +336,8 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         }
       });
     },
-    // claude1mMode is a real dep for the same reason as setClaudeDesktopRelayMode:
-    // the re-apply reads it through the captured applyModelConfig, so omitting it
-    // would re-write settings.json with a stale 1M flag.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toolModelConfig, t, userModels, claude1mMode]
-  );
-
-  // Claude 1M-context toggle (Claude Desktop + Claude Code).
-  // Re-applies on flip so the [1m] variant lands immediately.
-  const setClaude1mMode = useCallback(
-    (v: boolean) => {
-      setClaude1mModeRaw(v);
-      writeBool('echobird_claude_1m_mode', v);
-      // Shared across Claude Desktop + Claude Code — re-apply whichever has a
-      // configured model so the [1m] variant lands immediately on both.
-      for (const claudeToolId of ['claudedesktop', 'claudecode'] as const) {
-        const pendingInternalId = toolModelConfig[claudeToolId];
-        if (!pendingInternalId || isOfficialModelSentinel(pendingInternalId)) continue;
-        void applyModelConfig(claudeToolId, pendingInternalId, undefined, undefined, v).then(
-          (result) => {
-            if (result !== true) {
-              setApplyError(typeof result === 'string' ? result : t('key.destroyed'));
-            }
-          }
-        );
-      }
-    },
-    // Both relay flags are real deps: setClaude1mMode re-applies claudedesktop
-    // AND claudecode, and each re-apply reads its relay flag through the
-    // captured applyModelConfig (relayOverride=undefined here). Omitting either
-    // would re-write that tool's config with a STALE relay flag, silently
-    // reverting the user's API Router setting.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toolModelConfig, t, userModels, claudeDesktopRelayMode, claudeCodeRelayMode]
+    [toolModelConfig, t, userModels]
   );
 
   // Restore = delete the tool's config file. The tool itself regenerates
@@ -528,8 +477,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         setClaudeDesktopRelayMode,
         claudeCodeRelayMode,
         setClaudeCodeRelayMode,
-        claude1mMode,
-        setClaude1mMode,
         handleLaunch,
         onGoToMother: handleGoToMother,
         aiInstallableIds,

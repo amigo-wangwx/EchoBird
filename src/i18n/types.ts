@@ -148,7 +148,6 @@ export type TKey =
   | 'agent.codexResponsesHint'
   | 'agent.codexWebSearchLabel'
   | 'agent.codexWebSearchHint'
-  | 'agent.claude1mHint'
   // Tool categories
   | 'toolCat.all'
   | 'toolCat.ide'

@@ -188,8 +188,6 @@ const en: Translations = {
   'agent.codexWebSearchLabel': 'Web Search',
   'agent.codexWebSearchHint':
     'Some third-party models require web_search to be separately enabled or billed. (Carefully read the official documentation of the model you purchased to confirm whether web_search is supported and how to enable it.)',
-  'agent.claude1mHint':
-    'Enable 1M context. Claude Code applies it automatically; in Claude Desktop, enter this manually:',
   'agent.installViaMother': 'AI Auto-Install',
   // ToolCard labels
   'tool.models': 'Models',

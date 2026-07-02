@@ -1,12 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Server as ServerIcon,
-  Box as BoxIcon,
-  Copy,
-  Check,
-  RefreshCw,
-  Settings,
-} from 'lucide-react';
+import { Server as ServerIcon, Box as BoxIcon, RefreshCw, Settings } from 'lucide-react';
 import { ToolCard, getModelIcon } from '../../components';
 import { useI18n } from '../../hooks/useI18n';
 import * as api from '../../api/tauri';
@@ -431,22 +424,17 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
 
 // A single routing toggle: label + switch + themed help glyph with an
 // interactive tooltip. Used for the Codex / Claude-Desktop "API Router"
-// toggle, the Codex-only "Responses" toggle, and the Claude 1M toggle. The
-// tooltip stays open while the pointer is over the glyph OR the tooltip
-// itself, so an optional one-click-copy command chip inside it is reachable.
+// toggle and the Codex-only "Responses" toggle. The tooltip stays open while
+// the pointer is over the glyph OR the tooltip itself.
 interface RoutingToggleProps {
   label: string;
   hint: string;
   checked: boolean;
   onChange: (v: boolean) => void;
-  // Optional command rendered inside the tooltip as a copyable chip (e.g. the
-  // Claude Desktop `/model …[1m]` switch the user must paste in chat).
-  copyCommand?: string;
 }
 
-function RoutingToggle({ label, hint, checked, onChange, copyCommand }: RoutingToggleProps) {
+function RoutingToggle({ label, hint, checked, onChange }: RoutingToggleProps) {
   const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Clear any pending close timer on unmount so it can't fire after teardown.
@@ -466,17 +454,6 @@ function RoutingToggle({ label, hint, checked, onChange, copyCommand }: RoutingT
   const scheduleHide = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(false), 160);
-  };
-
-  const handleCopy = async () => {
-    if (!copyCommand) return;
-    try {
-      await navigator.clipboard.writeText(copyCommand);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // Clipboard may be unavailable (permissions / webview) — fail silently.
-    }
   };
 
   return (
@@ -524,21 +501,6 @@ function RoutingToggle({ label, hint, checked, onChange, copyCommand }: RoutingT
             className="absolute -top-1 right-2 h-2 w-2 rotate-45 border-l border-t border-cyber-accent/40 bg-cyber-elevated"
           />
           {hint}
-          {copyCommand && (
-            <span className="mt-2 flex items-center gap-1.5 rounded border border-cyber-border bg-cyber-bg/60 px-1.5 py-1">
-              <code className="flex-1 break-all font-mono text-[10.5px] text-cyber-accent">
-                {copyCommand}
-              </code>
-              <button
-                type="button"
-                onClick={handleCopy}
-                aria-label={copied ? 'Copied' : 'Copy command'}
-                className="shrink-0 inline-flex h-5 w-5 items-center justify-center rounded text-cyber-text-secondary hover:bg-cyber-accent/15 hover:text-cyber-accent transition-colors"
-              >
-                {copied ? <Check size={13} className="text-cyber-accent" /> : <Copy size={13} />}
-              </button>
-            </span>
-          )}
         </span>
       </span>
     </div>
@@ -565,8 +527,6 @@ export const AppManagerPanel: React.FC = () => {
     setClaudeDesktopRelayMode,
     claudeCodeRelayMode,
     setClaudeCodeRelayMode,
-    claude1mMode,
-    setClaude1mMode,
   } = useAppManager();
 
   // API Router ("relay-mode") toggle: shown for Claude Desktop AND Claude Code
@@ -583,8 +543,6 @@ export const AppManagerPanel: React.FC = () => {
   const showResponsesToggle = isCodexApp;
   const relayModeValue = isClaudeDesktopApp ? claudeDesktopRelayMode : claudeCodeRelayMode;
   const setRelayModeValue = isClaudeDesktopApp ? setClaudeDesktopRelayMode : setClaudeCodeRelayMode;
-  // 1M-context toggle: Claude Desktop + Claude Code.
-  const show1mToggle = isClaudeDesktopApp || isClaudeCodeApp;
 
   return (
     <>
@@ -602,13 +560,13 @@ export const AppManagerPanel: React.FC = () => {
 
       {/* Toggle row: mounted when ANY toggle applies — Codex shows the
           Responses + Web Search toggles; Claude Desktop and Claude Code show the
-          API Router toggle and the 1M toggle. Each toggle inside is INDIVIDUALLY
-          gated and binds to the flag for the selected app (relayModeValue /
-          setRelayModeValue resolve per-app), so no cross-wiring between Codex /
-          Claude Desktop / Claude Code. For apps with no toggles nothing renders
-          and the model list below claims the space — the user preferred no
-          reserved gap when toggles are absent. */}
-      {(showResponsesToggle || showWebSearchToggle || showRelayToggle || show1mToggle) && (
+          API Router toggle. Each toggle inside is INDIVIDUALLY gated and binds
+          to the flag for the selected app (relayModeValue / setRelayModeValue
+          resolve per-app), so no cross-wiring between Codex / Claude Desktop /
+          Claude Code. For apps with no toggles nothing renders and the model
+          list below claims the space — the user preferred no reserved gap when
+          toggles are absent. */}
+      {(showResponsesToggle || showWebSearchToggle || showRelayToggle) && (
         <div className="px-3 h-9 flex items-center gap-2">
           {showResponsesToggle && (
             <RoutingToggle
@@ -626,16 +584,6 @@ export const AppManagerPanel: React.FC = () => {
               hint={t('agent.codexWebSearchHint')}
               checked={codexWebSearch}
               onChange={setCodexWebSearch}
-            />
-          )}
-          {show1mToggle && (
-            <RoutingToggle
-              key="1m"
-              label="1M"
-              hint={t('agent.claude1mHint')}
-              copyCommand="/model claude-opus-4-8[1m]"
-              checked={claude1mMode}
-              onChange={setClaude1mMode}
             />
           )}
           {showRelayToggle && (
