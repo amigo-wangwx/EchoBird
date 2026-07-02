@@ -450,7 +450,7 @@ function RoutingToggle({ label, hint, checked, onChange }: RoutingToggleProps) {
     setOpen(true);
   };
   // Small grace delay so moving the pointer from "?" across the gap into the
-  // tooltip (to reach the copy button) doesn't dismiss it.
+  // tooltip doesn't dismiss it.
   const scheduleHide = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(false), 160);
