@@ -18,10 +18,21 @@ interface Manifest {
   // Legacy single-blob notes ("## 中文 / ## English / ## 日本語"), kept for
   // manifests written before the per-language split.
   releaseNotes?: string;
-  // Preferred: notes stored per language, keyed by locale (en / zh-Hans /
-  // zh-Hant / ja). Read directly by locale — no header parsing.
+  // Preferred: notes stored per language, keyed by a short language code
+  // ("en" / "zh-cn" / "zh-tw" / "ja") — the marker the manifest author writes.
+  // The app maps its locale to the matching code (see LOCALE_TO_NOTES_CODE).
   releaseNotesI18n?: Record<string, string>;
 }
+
+// Map an app locale to the manifest's language marker. The manifest uses
+// friendly codes (zh-cn / zh-tw) rather than the app's internal locale ids
+// (zh-Hans / zh-Hant), so hand-writing the notes JSON reads naturally.
+const LOCALE_TO_NOTES_CODE: Record<string, string> = {
+  en: 'en',
+  'zh-Hans': 'zh-cn',
+  'zh-Hant': 'zh-tw',
+  ja: 'ja',
+};
 
 // releaseNotes is markdown with per-language sections ("## 中文 / ## English /
 // ## 日本語"). Return just the section for the active locale, header stripped,
@@ -49,7 +60,8 @@ function sectionForLocale(releaseNotes: string, locale: string): string {
 function notesForLocale(m: Manifest, locale: string): string {
   const i18n = m.releaseNotesI18n;
   if (i18n && typeof i18n === 'object') {
-    const picked = i18n[locale] || i18n.en || i18n['zh-Hans'] || Object.values(i18n)[0];
+    const code = LOCALE_TO_NOTES_CODE[locale] ?? locale;
+    const picked = i18n[code] || i18n.en || i18n['zh-cn'] || Object.values(i18n)[0];
     if (picked) return picked.trim();
   }
   if (m.releaseNotes) return sectionForLocale(m.releaseNotes, locale);
