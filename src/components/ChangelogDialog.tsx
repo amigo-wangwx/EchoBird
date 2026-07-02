@@ -15,7 +15,12 @@ const VERSION_MANIFEST_URL = 'https://echobird.ai/api/version/index.json';
 interface Manifest {
   version?: string;
   releaseDate?: string;
+  // Legacy single-blob notes ("## 中文 / ## English / ## 日本語"), kept for
+  // manifests written before the per-language split.
   releaseNotes?: string;
+  // Preferred: notes stored per language, keyed by locale (en / zh-Hans /
+  // zh-Hant / ja). Read directly by locale — no header parsing.
+  releaseNotesI18n?: Record<string, string>;
 }
 
 // releaseNotes is markdown with per-language sections ("## 中文 / ## English /
@@ -36,6 +41,19 @@ function sectionForLocale(releaseNotes: string, locale: string): string {
     }
   }
   return releaseNotes.trim();
+}
+
+// Pick the notes for the active locale: prefer the structured per-language
+// field, falling back to English, then to any language present, then to
+// parsing the legacy single-blob releaseNotes.
+function notesForLocale(m: Manifest, locale: string): string {
+  const i18n = m.releaseNotesI18n;
+  if (i18n && typeof i18n === 'object') {
+    const picked = i18n[locale] || i18n.en || i18n['zh-Hans'] || Object.values(i18n)[0];
+    if (picked) return picked.trim();
+  }
+  if (m.releaseNotes) return sectionForLocale(m.releaseNotes, locale);
+  return '';
 }
 
 interface ChangelogDialogProps {
@@ -93,7 +111,7 @@ export const ChangelogDialog: React.FC<ChangelogDialogProps> = ({ isOpen, onClos
 
   if (!isOpen) return null;
 
-  const notes = manifest?.releaseNotes ? sectionForLocale(manifest.releaseNotes, locale) : '';
+  const notes = manifest ? notesForLocale(manifest, locale) : '';
 
   return (
     <div

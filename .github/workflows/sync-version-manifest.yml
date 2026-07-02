@@ -22,7 +22,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to sync (e.g. v5.2.8)"
+        description: 'Release tag to sync (e.g. v5.2.8)'
         required: true
 
 jobs:
@@ -56,22 +56,35 @@ jobs:
           VERSION="${TAG_NAME#v}"
           DATE="$(date -u +%Y-%m-%d)"
           MANIFEST="docs/api/version/index.json"
-          # Policy: tag annotations are English (engineering audience),
-          # `releaseNotes` is Chinese (user-facing). The release commit
-          # writes the Chinese copy into the manifest; this job only
-          # refreshes version + date and preserves whatever releaseNotes
-          # is already there. Falls back to a generic note when the
-          # manifest is malformed or missing the field.
+          # Policy: tag annotations are English (engineering audience), the
+          # release notes are user-facing. The release commit writes the notes
+          # into the manifest; this job only refreshes version + date and
+          # preserves whatever notes are already there. Two note fields are
+          # preserved: `releaseNotes` (legacy single blob) and
+          # `releaseNotesI18n` (per-language object the in-app changelog reads).
+          # Falls back to a generic `releaseNotes` when the manifest is
+          # malformed or missing the field.
           EXISTING_NOTES="$(jq -r '.releaseNotes // empty' "$MANIFEST" 2>/dev/null || true)"
           if [ -z "$EXISTING_NOTES" ]; then
             EXISTING_NOTES="Release $TAG_NAME"
           fi
-          jq -n \
-            --arg v "$VERSION" \
-            --arg d "$DATE" \
-            --arg n "$EXISTING_NOTES" \
-            '{version: $v, releaseDate: $d, releaseNotes: $n}' \
-            > "$MANIFEST"
+          EXISTING_I18N="$(jq -c '.releaseNotesI18n // empty' "$MANIFEST" 2>/dev/null || true)"
+          if [ -n "$EXISTING_I18N" ]; then
+            jq -n \
+              --arg v "$VERSION" \
+              --arg d "$DATE" \
+              --arg n "$EXISTING_NOTES" \
+              --argjson i "$EXISTING_I18N" \
+              '{version: $v, releaseDate: $d, releaseNotes: $n, releaseNotesI18n: $i}' \
+              > "$MANIFEST"
+          else
+            jq -n \
+              --arg v "$VERSION" \
+              --arg d "$DATE" \
+              --arg n "$EXISTING_NOTES" \
+              '{version: $v, releaseDate: $d, releaseNotes: $n}' \
+              > "$MANIFEST"
+          fi
 
       - name: Commit and push
         env:
