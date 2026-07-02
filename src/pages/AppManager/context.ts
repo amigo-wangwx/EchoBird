@@ -47,6 +47,10 @@ export interface AppManagerContextType {
    *  own proxy route + relay file on the backend). */
   claudeCodeRelayMode: boolean;
   setClaudeCodeRelayMode: (v: boolean) => void;
+  /** One-shot pulse trigger. Set to the just-applied model's internalId (or the
+   *  official sentinel) with a bumped nonce the instant a config takes effect,
+   *  so that model's card plays the apply-confirmation pulse once. Null at rest. */
+  appliedPulse: { id: string; nonce: number } | null;
   // Launch handler
   handleLaunch: () => Promise<void>;
   // Navigation — internal handler: (toolId, toolName) => fetch install info → call prop

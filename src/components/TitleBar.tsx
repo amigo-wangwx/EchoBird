@@ -143,8 +143,8 @@ export const TitleBar: React.FC<TitleBarProps> = ({
           </button>
           <button
             onClick={onSettingsClick}
+            aria-label={t('settings.title')}
             className="h-full px-4 flex items-center justify-center text-cyber-text-secondary hover:bg-cyber-text/20 hover:text-cyber-text transition-colors"
-            title="Settings"
           >
             <Settings size={13} />
           </button>

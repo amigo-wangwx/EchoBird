@@ -1,6 +1,6 @@
 // SettingsDialog — Global settings modal (gear button in title bar)
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { X, Globe, Download, ExternalLink, Sun, Moon, Monitor } from 'lucide-react';
+import { X, Globe, Download, ExternalLink, Sun, Moon, Monitor, Sparkles } from 'lucide-react';
 import { getVersion } from '@tauri-apps/api/app';
 import { MiniSelect } from './MiniSelect';
 import { useI18n } from '../hooks/useI18n';
@@ -15,6 +15,10 @@ const LOCALE_OPTIONS = [
   { id: 'zh-Hant', label: '繁體中文' },
   { id: 'ja', label: '日本語' },
 ];
+
+// localStorage flag gating the opt-in apply effect + sound. MUST match the key
+// AppManagerProvider reads. Default off, so it never bothers work-focused users.
+const EASTER_EGG_KEY = 'echobird_easter_egg';
 
 interface SettingsDialogProps {
   isOpen: boolean;
@@ -41,6 +45,7 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({
   >(null);
   const [installPct, setInstallPct] = useState(0);
   const [closeToTray, setCloseToTray] = useState<boolean | null>(false);
+  const [easterEgg, setEasterEgg] = useState(false);
   const themeMode = useThemeStore((s) => s.mode);
   const setThemeMode = useThemeStore((s) => s.setMode);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -55,11 +60,21 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({
   // Load settings on mount
   useEffect(() => {
     if (isOpen) {
+      setEasterEgg(localStorage.getItem(EASTER_EGG_KEY) === 'true');
       api.getSettings().then((settings) => {
         setCloseToTray(settings.closeToTray ?? false);
       });
     }
   }, [isOpen]);
+
+  const handleEasterEggChange = useCallback((value: boolean) => {
+    setEasterEgg(value);
+    try {
+      localStorage.setItem(EASTER_EGG_KEY, String(value));
+    } catch {
+      /* private mode */
+    }
+  }, []);
 
   // Save closeToTray setting when it changes
   const handleCloseToTrayChange = useCallback(async (value: boolean | null) => {
@@ -283,6 +298,21 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({
           {/* Divider */}
           <div className="h-px bg-cyber-border/50" />
 
+          {/* Easter Egg — opt-in playful apply effect + sound (default off). No
+              hint on purpose: an easter egg explained is no fun. */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles size={14} className="text-cyber-text-secondary" />
+              <span className="text-[14px] font-medium text-cyber-text-secondary">
+                {t('settings.easterEgg')}
+              </span>
+            </div>
+            <ToggleSwitch checked={easterEgg} onChange={handleEasterEggChange} />
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-cyber-border/50" />
+
           {/* Update check */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2">
@@ -344,6 +374,28 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({
     </div>
   );
 };
+
+// Compact on/off switch.
+const ToggleSwitch: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = ({
+  checked,
+  onChange,
+}) => (
+  <button
+    type="button"
+    role="switch"
+    aria-checked={checked}
+    onClick={() => onChange(!checked)}
+    className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full outline-none transition-colors ${
+      checked ? 'bg-cyber-accent' : 'bg-cyber-border'
+    }`}
+  >
+    <span
+      className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform duration-200 ${
+        checked ? 'translate-x-[18px]' : 'translate-x-1'
+      }`}
+    />
+  </button>
+);
 
 // 3-button segmented control for the theme: Light / Dark / System.
 const ThemeSegmented: React.FC<{

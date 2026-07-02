@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Server as ServerIcon, Box as BoxIcon, RefreshCw, Settings } from 'lucide-react';
-import { ToolCard, getModelIcon } from '../../components';
+import { ToolCard, getModelIcon, EffortPulse } from '../../components';
 import { useI18n } from '../../hooks/useI18n';
 import * as api from '../../api/tauri';
 import type { ModelConfig, LocalTool } from '../../api/types';
@@ -186,8 +186,40 @@ interface ModelListSectionProps {
   setModelProtocolSelection: React.Dispatch<
     React.SetStateAction<Record<string, 'openai' | 'anthropic'>>
   >;
+  /** When set, the card whose model id matches plays a one-shot apply pulse
+   *  (keyed by nonce so re-applying replays it). Omitted where unused. */
+  appliedPulse?: { id: string; nonce: number } | null;
   t: (key: any) => string;
 }
+
+// The coral "effort pulse" played once on a model card the instant its config
+// is applied (生效). It OVERLAYS the card (z-20, above the model info) and fills
+// it, so for its ~11s it obscures the icon / name / URL, plays, then dissolves to
+// reveal them again. It paints its own envelope-faded page-colour backdrop,
+// carries its own timing, and unmounts when the trigger clears.
+// pointer-events-none lets clicks fall through to the card.
+// Apply sound, played in sync with the pulse for its whole ~11s. Different
+// models will get different tracks later; for now every apply plays the
+// "xiaomi" test track. The keyed remount (see the callers) restarts it on
+// re-apply; unmounting (pulse cancelled, e.g. tool switch) stops it.
+const APPLY_SOUND = '/sounds/xiaomi.mp3';
+const ModelCardPulse: React.FC = () => {
+  useEffect(() => {
+    const audio = new Audio(APPLY_SOUND);
+    audio.play().catch(() => {
+      /* autoplay blocked or file missing — the visual still plays */
+    });
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+      <EffortPulse fill oneShot />
+    </div>
+  );
+};
 
 export const ModelListSection: React.FC<ModelListSectionProps> = ({
   selectedToolData,
@@ -197,6 +229,7 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
   handleSelectModel,
   modelProtocolSelection,
   setModelProtocolSelection,
+  appliedPulse,
   t,
 }) => {
   const toolProtocols = selectedToolData.apiProtocol || ['openai', 'anthropic'];
@@ -250,13 +283,16 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
     return (
       <div
         key={model.internalId}
-        className={`p-3 rounded cursor-pointer transition-colors mb-2 flex items-center gap-3 border bg-cyber-surface ${
+        className={`relative overflow-hidden p-3 rounded cursor-pointer transition-colors mb-2 flex items-center gap-3 border bg-cyber-surface ${
           isSelected ? 'border-cyber-accent' : 'border-transparent hover:bg-cyber-elevated'
         }`}
         onClick={() => selectedTool && handleSelectModel(selectedTool, model.internalId)}
       >
+        {appliedPulse && appliedPulse.id === model.internalId && (
+          <ModelCardPulse key={appliedPulse.nonce} />
+        )}
         {/* Left: Radio + Icon */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="relative z-10 flex items-center gap-3 flex-shrink-0">
           <div
             className={`w-4 h-4 rounded-full border-2 relative ${
               isSelected ? 'border-cyber-accent' : 'border-cyber-border'
@@ -287,7 +323,7 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
         </div>
 
         {/* Right: Two-row layout */}
-        <div className="flex-1 min-w-0 flex flex-col justify-center min-h-[2.5rem] py-0.5">
+        <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-center min-h-[2.5rem] py-0.5">
           <div className="flex items-center gap-2">
             <div className="text-sm font-bold truncate leading-none flex-1 min-w-0">
               {model.name || 'Untitled Model'}
@@ -340,12 +376,15 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
 
     return (
       <div
-        className={`p-3 rounded cursor-pointer transition-colors mb-2 flex items-center gap-3 border bg-cyber-surface ${
+        className={`relative overflow-hidden p-3 rounded cursor-pointer transition-colors mb-2 flex items-center gap-3 border bg-cyber-surface ${
           isOfficialPending ? 'border-cyber-accent' : 'border-transparent hover:bg-cyber-elevated'
         }`}
         onClick={() => selectedTool && handleSelectModel(selectedTool, officialSentinel)}
       >
-        <div className="flex items-center gap-3 flex-shrink-0">
+        {appliedPulse && appliedPulse.id === officialSentinel && (
+          <ModelCardPulse key={appliedPulse.nonce} />
+        )}
+        <div className="relative z-10 flex items-center gap-3 flex-shrink-0">
           <div
             className={`w-4 h-4 rounded-full border-2 relative ${
               isOfficialPending ? 'border-cyber-accent' : 'border-cyber-border'
@@ -370,7 +409,7 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
             </div>
           )}
         </div>
-        <div className="flex-1 min-w-0 flex flex-col justify-center min-h-[2.5rem] py-0.5">
+        <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-center min-h-[2.5rem] py-0.5">
           <div className="flex items-center gap-2">
             <div className="text-sm font-bold truncate leading-none flex-1 min-w-0">{ep.name}</div>
             <span className="text-xs font-mono text-cyber-text-secondary/60 flex-shrink-0 pointer-events-none select-none">
@@ -519,6 +558,7 @@ export const AppManagerPanel: React.FC = () => {
     handleSelectModel,
     modelProtocolSelection,
     setModelProtocolSelection,
+    appliedPulse,
     codexResponsesPassthrough,
     setCodexResponsesPassthrough,
     codexWebSearch,
@@ -617,6 +657,7 @@ export const AppManagerPanel: React.FC = () => {
                 handleSelectModel={handleSelectModel}
                 modelProtocolSelection={modelProtocolSelection}
                 setModelProtocolSelection={setModelProtocolSelection}
+                appliedPulse={appliedPulse}
                 t={t}
               />
             </div>

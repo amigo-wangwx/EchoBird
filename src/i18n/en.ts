@@ -85,6 +85,7 @@ const en: Translations = {
   'settings.closeWindowBehavior': 'CLOSE WINDOW BEHAVIOR',
   'settings.closeDirectly': 'Quit directly',
   'settings.closeToTray': 'Minimize to tray',
+  'settings.easterEgg': 'Easter Egg',
   'settings.alwaysAsk': 'Always ask',
   // Close Dialog
   'closeDialog.title': 'CLOSE BEHAVIOR',

@@ -86,6 +86,7 @@ export type TKey =
   | 'settings.closeDirectly'
   | 'settings.closeToTray'
   | 'settings.alwaysAsk'
+  | 'settings.easterEgg'
   // Close Dialog
   | 'closeDialog.title'
   | 'closeDialog.hint'

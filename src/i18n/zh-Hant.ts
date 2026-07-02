@@ -98,6 +98,7 @@ const zhHant: Partial<Translations> = {
   'settings.closeDirectly': '直接結束',
   'settings.closeToTray': '最小化到工作列',
   'settings.alwaysAsk': '每次詢問',
+  'settings.easterEgg': '彩蛋',
   'closeDialog.title': '視窗關閉方式',
   'closeDialog.hint':
     '注意：如果你的 Codex 桌面端 / Codex CLI / Claude 桌面端 / Claude Code 已切換模型，結束會導致無法使用。',

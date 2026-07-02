@@ -101,6 +101,7 @@ const ja: Partial<Translations> = {
   'settings.closeDirectly': '直接終了',
   'settings.closeToTray': 'トレイに最小化',
   'settings.alwaysAsk': '毎回確認',
+  'settings.easterEgg': 'イースターエッグ',
   'closeDialog.title': 'ウィンドウの閉じ方',
   'closeDialog.hint':
     '注意：Codex デスクトップ版 / Codex CLI / Claude デスクトップ版 / Claude Code のモデルを切り替えている場合、終了すると使用できなくなります。',

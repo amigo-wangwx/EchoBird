@@ -5,6 +5,8 @@ export type { ModelCardProps, ToolCardProps } from './cards';
 export { NavItem } from './NavItem';
 export type { NavItemProps } from './NavItem';
 
+export { EffortPulse, EFFORT_PULSE_ONESHOT_MS } from './EffortPulse';
+
 export * from './MiniSelect';
 export * from './ModelIdCombobox';
 export * from './Toast';
