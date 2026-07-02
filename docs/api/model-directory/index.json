@@ -92,17 +92,17 @@
       "modelId": "",
       "modelIds": [
         "ark-code-latest",
-        "doubao-seed-code",
         "doubao-seed-2.0-code",
         "doubao-seed-2.0-pro",
         "doubao-seed-2.0-lite",
-        "minimax-m2.7",
-        "kimi-k2.6",
+        "doubao-seed-2.0-mini",
+        "glm-5.2",
+        "kimi-k2.7-code",
         "deepseek-v4-pro",
         "deepseek-v4-flash",
         "minimax-m3",
-        "glm-5.2",
-        "kimi-k2.7-code"
+        "minimax-m2.7",
+        "kimi-k2.6"
       ],
       "region": "cn"
     },
