@@ -1,9 +1,10 @@
 import React from 'react';
+import type { Components } from 'react-markdown';
 import * as api from '../../api/tauri';
 
 // Markdown components config (Mother Agent blue theme)
-export const mdComponents = {
-  code: ({ className, children, ...props }: any) => {
+export const mdComponents: Components = {
+  code: ({ node: _node, className, children, ...props }) => {
     const isInline = !className;
     return isInline ? (
       <code
@@ -21,9 +22,12 @@ export const mdComponents = {
       </code>
     );
   },
-  pre: ({ children }: any) => {
-    const codeText = String(children?.props?.children || '').replace(/\n$/, '');
-    const isBlock = children?.props?.className;
+  pre: ({ children }) => {
+    const child = children as
+      | React.ReactElement<{ className?: string; children?: React.ReactNode }>
+      | undefined;
+    const codeText = String(child?.props?.children ?? '').replace(/\n$/, '');
+    const isBlock = child?.props?.className;
     if (!isBlock) return <>{children}</>;
     return (
       <div className="relative group">
@@ -60,48 +64,40 @@ export const mdComponents = {
       </div>
     );
   },
-  a: ({ href, children }: any) => (
+  a: ({ href, children }) => (
     <a
       href={href}
       className="text-cyber-text hover:underline"
       onClick={(e: React.MouseEvent) => {
         e.preventDefault();
-        api.openExternal(href);
+        if (href) api.openExternal(href);
       }}
     >
       {children}
     </a>
   ),
-  strong: ({ children }: any) => <strong className="text-cyber-text font-bold">{children}</strong>,
-  em: ({ children }: any) => <em className="text-cyber-text/80">{children}</em>,
-  ul: ({ children }: any) => <ul className="list-disc list-inside my-1 space-y-0.5">{children}</ul>,
-  ol: ({ children }: any) => (
-    <ol className="list-decimal list-inside my-1 space-y-0.5">{children}</ol>
-  ),
-  h1: ({ children }: any) => (
-    <h1 className="text-lg font-bold text-cyber-text mt-3 mb-1">{children}</h1>
-  ),
-  h2: ({ children }: any) => (
+  strong: ({ children }) => <strong className="text-cyber-text font-bold">{children}</strong>,
+  em: ({ children }) => <em className="text-cyber-text/80">{children}</em>,
+  ul: ({ children }) => <ul className="list-disc list-inside my-1 space-y-0.5">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal list-inside my-1 space-y-0.5">{children}</ol>,
+  h1: ({ children }) => <h1 className="text-lg font-bold text-cyber-text mt-3 mb-1">{children}</h1>,
+  h2: ({ children }) => (
     <h2 className="text-base font-bold text-cyber-text mt-2 mb-1">{children}</h2>
   ),
-  h3: ({ children }: any) => (
-    <h3 className="text-sm font-bold text-cyber-text mt-2 mb-1">{children}</h3>
-  ),
-  blockquote: ({ children }: any) => (
+  h3: ({ children }) => <h3 className="text-sm font-bold text-cyber-text mt-2 mb-1">{children}</h3>,
+  blockquote: ({ children }) => (
     <blockquote className="border-l-2 border-cyber-border/40 pl-3 my-1 text-cyber-text-muted/60 italic">
       {children}
     </blockquote>
   ),
   hr: () => <hr className="border-cyber-border/30 my-2" />,
-  table: ({ children }: any) => (
+  table: ({ children }) => (
     <table className="border-collapse my-2 text-sm w-full">{children}</table>
   ),
-  th: ({ children }: any) => (
+  th: ({ children }) => (
     <th className="border border-cyber-border/30 px-2 py-1 bg-cyber-text/5 text-left font-bold">
       {children}
     </th>
   ),
-  td: ({ children }: any) => (
-    <td className="border border-cyber-border/30 px-2 py-1">{children}</td>
-  ),
+  td: ({ children }) => <td className="border border-cyber-border/30 px-2 py-1">{children}</td>,
 };

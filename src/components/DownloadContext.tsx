@@ -107,12 +107,13 @@ export const DownloadProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         else unlisten = fn;
       });
 
+    const timers = cleanupTimers.current;
     return () => {
       cancelled = true;
       unlisten?.();
       // Cleanup all timers
-      cleanupTimers.current.forEach((t) => clearTimeout(t));
-      cleanupTimers.current.clear();
+      timers.forEach((t) => clearTimeout(t));
+      timers.clear();
     };
   }, []);
 

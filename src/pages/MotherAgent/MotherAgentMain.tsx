@@ -167,7 +167,7 @@ export function MotherAgentMain() {
     setDisplayCount(PAGE_SIZE);
     stickToBottomRef.current = true;
     requestAnimationFrame(snapToBottom);
-  }, [selectedServerId, snapToBottom]);
+  }, [selectedServerId, snapToBottom, PAGE_SIZE]);
 
   // Re-arm sticky + snap whenever the page becomes active
   useEffect(() => {

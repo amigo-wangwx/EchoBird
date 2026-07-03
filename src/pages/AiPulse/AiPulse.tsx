@@ -196,7 +196,7 @@ async function fetchOneFeed(lang: 'zh' | 'en'): Promise<RawFeed> {
   const file = lang === 'en' ? FEED_FILE_EN : FEED_FILE_ZH;
   const start = preferredMirror[lang];
   const order = [...mirrors.slice(start), ...mirrors.slice(0, start)];
-  let lastErr: any = null;
+  let lastErr: unknown = null;
   for (let i = 0; i < order.length; i++) {
     const mirror = order[i];
     // Bound each mirror: a throttled (stalled, not refused) connection would
@@ -459,9 +459,9 @@ export function AiPulseProvider({ children }: { children: React.ReactNode }) {
       saveMeta(targetLang, { lastFetched: now });
       setItems(merged);
       setLastFetched(now);
-    } catch (e: any) {
+    } catch (e) {
       if (my !== seq.current) return;
-      setError(e?.message || 'Network error');
+      setError(e instanceof Error ? e.message : 'Network error');
     } finally {
       if (my === seq.current) {
         setInitialLoading(false);

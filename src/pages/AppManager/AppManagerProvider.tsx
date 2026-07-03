@@ -282,7 +282,6 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
       });
 
       if (result?.success) {
-        console.debug(`[AppManager] Model ${model.name} applied to ${toolId}`);
         setDetectedTools((prev) =>
           prev.map((t) =>
             t.id === toolId ? { ...t, activeModel: model.modelId || model.internalId } : t

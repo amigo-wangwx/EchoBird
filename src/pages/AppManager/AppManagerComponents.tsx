@@ -4,6 +4,7 @@ import { ToolCard, getModelIcon, EffortPulse } from '../../components';
 import { useI18n } from '../../hooks/useI18n';
 import * as api from '../../api/tauri';
 import type { ModelConfig, LocalTool } from '../../api/types';
+import type { TKey } from '../../i18n';
 import { useAppManager, toolCategories } from './context';
 import { useNavigationStore } from '../../stores/navigationStore';
 import {
@@ -93,7 +94,7 @@ export const AppManagerMain: React.FC = () => {
                   Desktop: 'toolCat.desktop',
                   Utility: 'toolCat.utility',
                 };
-                return t((catMap[cat] || cat) as any);
+                return t((catMap[cat] || cat) as TKey);
               })()}
             </button>
           ))}
@@ -189,7 +190,7 @@ interface ModelListSectionProps {
   /** When set, the card whose model id matches plays a one-shot apply pulse
    *  (keyed by nonce so re-applying replays it). Omitted where unused. */
   appliedPulse?: { id: string; nonce: number } | null;
-  t: (key: any) => string;
+  t: (key: TKey) => string;
 }
 
 // The coral "effort pulse" played once on a model card the instant its config
@@ -232,7 +233,10 @@ export const ModelListSection: React.FC<ModelListSectionProps> = ({
   appliedPulse,
   t,
 }) => {
-  const toolProtocols = selectedToolData.apiProtocol || ['openai', 'anthropic'];
+  const toolProtocols = useMemo(
+    () => selectedToolData.apiProtocol || ['openai', 'anthropic'],
+    [selectedToolData.apiProtocol]
+  );
 
   const { localModels, cloudModels } = useMemo(() => {
     const compatible = userModels.filter((model) => {

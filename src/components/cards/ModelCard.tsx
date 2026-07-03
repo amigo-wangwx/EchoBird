@@ -141,6 +141,9 @@ export const MatrixDecode = ({ duration = 2000 }: { duration?: number }) => {
       clearInterval(interval);
       lockTimers.forEach((t) => clearTimeout(t));
     };
+    // Animation is keyed on `duration`; it reads `locked` for the current
+    // frame but must not restart when `locked` changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
   return (
@@ -343,10 +346,12 @@ export const ModelCard = React.memo(
       'isPinging',
       'selected',
     ];
+    const p = prev as unknown as Record<string, unknown>;
+    const n = next as unknown as Record<string, unknown>;
     for (const k of keys) {
-      if ((prev as any)[k] !== (next as any)[k]) return false;
+      if (p[k] !== n[k]) return false;
     }
-    if ((prev as any).isActive !== (next as any).isActive) return false;
+    if (p.isActive !== n.isActive) return false;
     // Compare protocols array by value
     const pp = prev.protocols || [],
       np = next.protocols || [];

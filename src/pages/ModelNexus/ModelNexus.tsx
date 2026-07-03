@@ -86,7 +86,7 @@ export function ModelNexusProvider({ children }: { children: React.ReactNode }) 
 
     if (hasLocalUrl) {
       setNewModelForm((prev) => {
-        const updates: any = {};
+        const updates: { modelId?: string; apiKey?: string } = {};
         if (!prev.modelId) updates.modelId = 'local-model';
         if (!prev.apiKey) updates.apiKey = 'not-needed';
         return Object.keys(updates).length > 0 ? { ...prev, ...updates } : prev;
@@ -114,6 +114,9 @@ export function ModelNexusProvider({ children }: { children: React.ReactNode }) 
       setTestOutput([]);
     }
     testInputRef.current?.focus();
+    // Restore terminal history only when the selected model changes; reading the
+    // latest modelTerminals here is intentional (no re-run on map updates).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedModel]);
 
   // Listen for protocol change - focus input

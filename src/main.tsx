@@ -51,8 +51,8 @@ async function bootI18n(): Promise<string> {
 // and we paint with system fallbacks → Inter (font-display: block) ghost-
 // renders empty cards, Noto Sans/Lora swap mid-paint and shift baselines.
 async function bootFonts(): Promise<void> {
-  if (typeof document === 'undefined' || !(document as any).fonts) return;
-  const fs = (document as any).fonts;
+  if (typeof document === 'undefined' || !document.fonts) return;
+  const fs = document.fonts;
   const specs = [
     '400 15px "Inter"', // body text
     '500 15px "Inter"', // medium UI

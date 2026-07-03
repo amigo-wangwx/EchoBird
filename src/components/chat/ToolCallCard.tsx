@@ -15,6 +15,7 @@ import {
   Download,
   KeyRound,
   Wrench,
+  type LucideIcon,
 } from 'lucide-react';
 
 export interface ToolCallCardProps {
@@ -25,7 +26,7 @@ export interface ToolCallCardProps {
 }
 
 // Map tool name → icon + a friendly label preview key
-const TOOL_META: Record<string, { icon: any; label: string; previewKey?: string }> = {
+const TOOL_META: Record<string, { icon: LucideIcon; label: string; previewKey?: string }> = {
   shell_exec: { icon: Terminal, label: 'shell', previewKey: 'command' },
   ssh_shell: { icon: Terminal, label: 'ssh', previewKey: 'command' },
   file_read: { icon: FileText, label: 'read', previewKey: 'path' },

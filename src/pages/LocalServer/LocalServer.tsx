@@ -175,7 +175,7 @@ export const LocalServerMain: React.FC = () => {
   // Hand off to Mother Agent ("安装与修复" page) with a pre-filled trigger phrase.
   // Used by the CUDA detect/install helper pills below.
   const goToMother = useNavigationStore((s) => s.goToMother);
-  const hasAmdGpu = systemInfo ? ((systemInfo as any).hasAmdGpu ?? false) : false;
+  const hasAmdGpu = systemInfo ? (systemInfo.hasAmdGpu ?? false) : false;
   // Apple Silicon has no separate VRAM number (unified memory) so it isn't
   // flagged nvidia/amd — but macOS llama.cpp uses Metal, so it IS GPU-capable.
   // Treat macOS as a usable GPU so we don't snap to -ngl 0 (CPU-only) on Metal.
@@ -344,6 +344,9 @@ export const LocalServerMain: React.FC = () => {
     } else if (engineDl.status === 'error') {
       setEngineStatus('error');
     }
+    // Re-sync only when the download status changes; engineDl's identity can
+    // change without its status changing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [engineDl?.status]);
 
   // Install engine handler — routes by platform.
@@ -361,9 +364,12 @@ export const LocalServerMain: React.FC = () => {
     try {
       await api.installLocalEngine(runtime);
       setEngineStatus('ready');
-    } catch (err: any) {
+    } catch (err) {
       setEngineStatus('error');
-      setLogs((prev) => [...prev, `[Error] Engine install failed: ${err?.message || err}`]);
+      setLogs((prev) => [
+        ...prev,
+        `[Error] Engine install failed: ${err instanceof Error ? err.message : String(err)}`,
+      ]);
     }
   };
 
@@ -376,9 +382,12 @@ export const LocalServerMain: React.FC = () => {
         cudaVersion: opt.cudaVersion,
       });
       setEngineStatus('ready');
-    } catch (err: any) {
+    } catch (err) {
       setEngineStatus('error');
-      setLogs((prev) => [...prev, `[Error] Engine install failed: ${err?.message || err}`]);
+      setLogs((prev) => [
+        ...prev,
+        `[Error] Engine install failed: ${err instanceof Error ? err.message : String(err)}`,
+      ]);
     }
   };
 
@@ -411,6 +420,8 @@ export const LocalServerMain: React.FC = () => {
     poll();
     const interval = setInterval(poll, 1000);
     return () => clearInterval(interval);
+    // Poll for the component's lifetime; the state setters used inside are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Scroll handling

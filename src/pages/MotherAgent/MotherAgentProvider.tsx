@@ -165,8 +165,10 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
         content: JSON.stringify({ id: m.id, name: m.name, args: m.args, status, output: m.output }),
       };
     }
-    if (m.type === 'error') return { role: 'system', content: (m as any).i18nKey || m.text };
-    if (m.type === 'cancelled') return { role: 'system', content: (m as any).i18nKey || m.text };
+    if (m.type === 'error')
+      return { role: 'system', content: (m as { i18nKey?: string }).i18nKey || m.text };
+    if (m.type === 'cancelled')
+      return { role: 'system', content: (m as { i18nKey?: string }).i18nKey || m.text };
     return null;
   }, []);
 
@@ -227,6 +229,9 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
   // Load chat history from disk on mount
   useEffect(() => {
     persistence.loadInitial();
+    // Load history once on mount; `persistence` is re-created each render but
+    // loadInitial must run exactly once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const selectServer = useCallback(
@@ -274,7 +279,7 @@ export function MotherAgentProvider({ children }: { children: React.ReactNode })
         }
       })
       .catch((e) => console.error('Load models failed:', e));
-  }, [agentModel]);
+  }, [agentModel, setAgentModel]);
 
   useEffect(() => {
     loadModels();

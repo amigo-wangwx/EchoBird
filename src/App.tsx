@@ -154,6 +154,9 @@ function App() {
       }
     };
     preload();
+    // scanTools + setUpdateAvailable are stable app-level actions; this is
+    // intentionally a run-once-after-first-paint effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Track maximized state so the rounded-corner shell goes square when the
