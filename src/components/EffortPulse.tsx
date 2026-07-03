@@ -19,6 +19,12 @@ type RGB = [number, number, number];
 
 const ACCENT_FALLBACK: RGB = [217, 119, 87]; // Claude coral
 const BG_FALLBACK: RGB = [42, 39, 35]; // #2A2723 card surface colour
+// Day backdrop — a warm mid-dark gray. Night is near-black, which against a
+// light card reads as a harsh slab; day lifts to a warm gray that softens the
+// panel while still letting the additive fire pop. There's no perfect day
+// backdrop — bright-on-dark fire wants a dark base — so this is the settled
+// compromise. Night keeps its own (darker) surface.
+const DAY_BG: RGB = [84, 77, 69];
 
 // ---- one-shot timeline (seconds): quick reveal → burn → slow dissolve ----
 const OS_FADE_IN = 0.3;
@@ -193,10 +199,9 @@ void main(){
   // Warm per-channel exposure (blue suppressed) so the hottest cells read as
   // orange-tinted white, never pure white.
   vec3 fire=1.0-exp(-(s+g*1.2+s*g*0.35)*vec3(1.3,0.95,0.55));
-  // Additive fire over the backdrop. The backdrop is the dark card surface at
-  // night and the accent (orange) by day (chosen JS-side), so the same bright
-  // white-orange cells + orange bloom read on both, instead of the fire blowing
-  // out to white on a light card.
+  // Additive fire over a dark backdrop (set JS-side; the same dark base is used
+  // by day and night) so the bright white-orange cells and orange bloom read
+  // exactly as designed instead of washing out on a light card.
   vec3 outc=min(u_bg+fire, vec3(1.0));
   fc=vec4(outc*u_env, u_env);
 }`;
@@ -238,14 +243,13 @@ export function EffortPulse({
       ember = scale(a, 0.42);
       mid = a;
       const surface = norm(readRgb('--bg-surface-rgb', BG_FALLBACK));
-      // Night: back the additive fire with the dark card surface so the cover is
-      // seamless and the glow reads on it. Day: a light surface would blow the
-      // additive fire out to white, so back it with the accent (orange) instead
-      // — same fire, an orange base rather than a dark one, keeping the
-      // white-orange cells and orange bloom. Luminance picks day vs night
-      // without relying on the theme's name.
+      // The fire is built around a dark card — bright cells on near-black with an
+      // orange bloom — so always render it on a dark backdrop. Night themes are
+      // already dark (use the surface, seamless cover); day themes would wash the
+      // fire out on their light surface, so fall back to a warm mid-dark gray —
+      // dark enough that the fire still pops, light enough to not read as a slab.
       const lum = 0.299 * surface[0] + 0.587 * surface[1] + 0.114 * surface[2];
-      bg = lum > 0.5 ? a : surface;
+      bg = lum > 0.5 ? norm(DAY_BG) : surface;
     };
     refreshColors();
 
