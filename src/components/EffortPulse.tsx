@@ -193,6 +193,10 @@ void main(){
   // Warm per-channel exposure (blue suppressed) so the hottest cells read as
   // orange-tinted white, never pure white.
   vec3 fire=1.0-exp(-(s+g*1.2+s*g*0.35)*vec3(1.3,0.95,0.55));
+  // Additive fire over the backdrop. The backdrop is the dark card surface at
+  // night and the accent (orange) by day (chosen JS-side), so the same bright
+  // white-orange cells + orange bloom read on both, instead of the fire blowing
+  // out to white on a light card.
   vec3 outc=min(u_bg+fire, vec3(1.0));
   fc=vec4(outc*u_env, u_env);
 }`;
@@ -233,8 +237,15 @@ export function EffortPulse({
       const a = norm(readRgb('--accent-rgb', ACCENT_FALLBACK));
       ember = scale(a, 0.42);
       mid = a;
-      // Backdrop matches the model card's own surface so the cover is seamless.
-      bg = norm(readRgb('--bg-surface-rgb', BG_FALLBACK));
+      const surface = norm(readRgb('--bg-surface-rgb', BG_FALLBACK));
+      // Night: back the additive fire with the dark card surface so the cover is
+      // seamless and the glow reads on it. Day: a light surface would blow the
+      // additive fire out to white, so back it with the accent (orange) instead
+      // — same fire, an orange base rather than a dark one, keeping the
+      // white-orange cells and orange bloom. Luminance picks day vs night
+      // without relying on the theme's name.
+      const lum = 0.299 * surface[0] + 0.587 * surface[1] + 0.114 * surface[2];
+      bg = lum > 0.5 ? a : surface;
     };
     refreshColors();
 
