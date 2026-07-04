@@ -149,6 +149,7 @@ export type TKey =
   | 'agent.restore'
   | 'agent.codexRelayLabel'
   | 'agent.codexRelayHint'
+  | 'agent.claude1mHint'
   | 'agent.codexResponsesLabel'
   | 'agent.codexResponsesHint'
   | 'agent.codexWebSearchLabel'

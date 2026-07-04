@@ -571,6 +571,8 @@ export const AppManagerPanel: React.FC = () => {
     setClaudeDesktopRelayMode,
     claudeCodeRelayMode,
     setClaudeCodeRelayMode,
+    claude1mMode,
+    setClaude1mMode,
   } = useAppManager();
 
   // API Router ("relay-mode") toggle: shown for Claude Desktop AND Claude Code
@@ -587,6 +589,11 @@ export const AppManagerPanel: React.FC = () => {
   const showResponsesToggle = isCodexApp;
   const relayModeValue = isClaudeDesktopApp ? claudeDesktopRelayMode : claudeCodeRelayMode;
   const setRelayModeValue = isClaudeDesktopApp ? setClaudeDesktopRelayMode : setClaudeCodeRelayMode;
+  // 1M-context toggle: Claude Code ONLY, and only once API Router is on. Hidden
+  // in bridge mode (bridge writes no model id — CC's built-in claude-* ids
+  // already budget the full window, so [1m] would be moot) and for Claude
+  // Desktop (its 1M support comes from the backend profile in bridge mode).
+  const show1mToggle = isClaudeCodeApp && claudeCodeRelayMode;
 
   return (
     <>
@@ -604,13 +611,14 @@ export const AppManagerPanel: React.FC = () => {
 
       {/* Toggle row: mounted when ANY toggle applies — Codex shows the
           Responses + Web Search toggles; Claude Desktop and Claude Code show the
-          API Router toggle. Each toggle inside is INDIVIDUALLY gated and binds
+          API Router toggle, and Claude Code additionally shows a 1M toggle when
+          API Router is on. Each toggle inside is INDIVIDUALLY gated and binds
           to the flag for the selected app (relayModeValue / setRelayModeValue
           resolve per-app), so no cross-wiring between Codex / Claude Desktop /
           Claude Code. For apps with no toggles nothing renders and the model
           list below claims the space — the user preferred no reserved gap when
           toggles are absent. */}
-      {(showResponsesToggle || showWebSearchToggle || showRelayToggle) && (
+      {(showResponsesToggle || showWebSearchToggle || showRelayToggle || show1mToggle) && (
         <div className="px-3 h-9 flex items-center gap-2">
           {showResponsesToggle && (
             <RoutingToggle
@@ -637,6 +645,15 @@ export const AppManagerPanel: React.FC = () => {
               hint={t('agent.codexRelayHint')}
               checked={relayModeValue}
               onChange={setRelayModeValue}
+            />
+          )}
+          {show1mToggle && (
+            <RoutingToggle
+              key="1m"
+              label="1M"
+              hint={t('agent.claude1mHint')}
+              checked={claude1mMode}
+              onChange={setClaude1mMode}
             />
           )}
         </div>

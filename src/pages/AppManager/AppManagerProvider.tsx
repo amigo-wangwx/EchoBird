@@ -197,6 +197,19 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
   const [codexWebSearch, setCodexWebSearchRaw] = useState<boolean>(() =>
     readBool('echobird_codex_web_search', true)
   );
+  // Claude Code relay-only 1M-context toggle. When on AND API Router is on,
+  // apply_claudecode appends `[1m]` to the model id (MODEL / OPUS / SONNET env
+  // vars only — HAIKU + SUBAGENT stay bare) so Claude Code budgets the 1M
+  // window. CC strips the suffix before sending upstream, so the provider
+  // still sees the bare id. No effect in bridge mode — bridge writes no model
+  // id (CC uses built-in claude-* ids, already full-window). Default off: only
+  // opt in when the relay's upstream is a real Claude Sonnet 5 / Opus 4.8-class
+  // model that supports 1M. Persisted under a NEW localStorage key
+  // (echobird_claudecode_1m_mode) — deliberately not reusing the v5.3.8
+  // echobird_claude_1m_mode key, which shared semantics with Claude Desktop.
+  const [claude1mMode, setClaude1mModeRaw] = useState<boolean>(() =>
+    readBool('echobird_claudecode_1m_mode', false)
+  );
   // Tool model config (single selection - one model per tool)
   const [toolModelConfig, setToolModelConfig] = useState<Record<string, string | null>>({
     claudecode: null,
@@ -226,7 +239,8 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
     internalId: string,
     relayOverride?: boolean,
     passthroughOverride?: boolean,
-    webSearchOverride?: boolean
+    webSearchOverride?: boolean,
+    oneMOverride?: boolean
   ): Promise<true | string | false> => {
     const model = userModels.find((m) => m.internalId === internalId);
     if (!model) {
@@ -266,6 +280,10 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
     const effectiveRelay = isClaudeApp ? (relayOverride ?? currentRelayMode) : false;
     const effectivePassthrough = isCodexApp && (passthroughOverride ?? codexResponsesPassthrough);
     const effectiveWebSearch = isCodexApp ? (webSearchOverride ?? codexWebSearch) : false;
+    // 1M context — Claude Code relay-only. Guard on effectiveRelay so the
+    // flag is never sent for bridge applies (bridge writes no model id, so
+    // [1m] would be moot anyway — keeps the field semantically relay-only).
+    const effective1m = isClaudeCodeApp && effectiveRelay && (oneMOverride ?? claude1mMode);
 
     try {
       const result = await api.applyModelToTool(toolId, {
@@ -279,6 +297,7 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         ...(isCodexApp
           ? { responsesPassthrough: effectivePassthrough, webSearch: effectiveWebSearch }
           : {}),
+        ...(isClaudeCodeApp ? { oneMContext: effective1m } : {}),
       });
 
       if (result?.success) {
@@ -377,8 +396,46 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         }
       });
     },
+    // claude1mMode is a real dep: re-applying claudecode after a relay flip
+    // reads it through applyModelConfig (oneMOverride defaults to it). Without
+    // it here, flipping API Router after the 1M toggle re-writes settings.json
+    // with a STALE 1M flag. (applyModelConfig stays excluded — recreated every
+    // render.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toolModelConfig, t, userModels]
+    [toolModelConfig, t, userModels, claude1mMode]
+  );
+
+  // Claude Code 1M-context toggle (relay-only). Re-applies on flip so the
+  // [1m] suffix lands/strips immediately. Only Claude Code is touched — the
+  // toggle is hidden unless claudeCodeRelayMode is on, and bridge mode writes
+  // no model id so the re-apply is a harmless no-op for [1m] there.
+  const setClaude1mMode = useCallback(
+    (v: boolean) => {
+      setClaude1mModeRaw(v);
+      writeBool('echobird_claudecode_1m_mode', v);
+      const pendingInternalId = toolModelConfig['claudecode'];
+      if (!pendingInternalId || isOfficialModelSentinel(pendingInternalId)) return;
+      // oneMOverride is the 6th positional arg; relay/passthrough/webSearch
+      // pass undefined so each resolves to its current state.
+      void applyModelConfig(
+        'claudecode',
+        pendingInternalId,
+        undefined,
+        undefined,
+        undefined,
+        v
+      ).then((result) => {
+        if (result !== true) {
+          setApplyError(typeof result === 'string' ? result : t('key.destroyed'));
+        }
+      });
+    },
+    // claudeCodeRelayMode is a real dep: the re-apply reads it through
+    // applyModelConfig (relayOverride=undefined here). Omitting it would
+    // re-write settings.json with a STALE relay flag, silently reverting
+    // the user's API Router setting.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toolModelConfig, t, userModels, claudeCodeRelayMode]
   );
 
   // Restore = delete the tool's config file. The tool itself regenerates
@@ -524,6 +581,8 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         setClaudeDesktopRelayMode,
         claudeCodeRelayMode,
         setClaudeCodeRelayMode,
+        claude1mMode,
+        setClaude1mMode,
         appliedPulse,
         handleLaunch,
         onGoToMother: handleGoToMother,

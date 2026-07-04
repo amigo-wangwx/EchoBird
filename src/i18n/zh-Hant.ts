@@ -185,6 +185,8 @@ const zhHant: Partial<Translations> = {
   'agent.codexRelayLabel': 'API Router',
   'agent.codexRelayHint':
     '由 API 中轉站或 API Router 提供的資料轉發方案，第三方模型開啟則全量接入，但可能會被工具判定為“外鄉人”。',
+  'agent.claude1mHint':
+    '開啟後向模型 id 附加 [1m] 以使用 1M 上下文。請仔細閱讀你購買模型的官方文件，確認是否支援「模型id+[1m]」。',
   'agent.codexResponsesLabel': 'Responses',
   'agent.codexResponsesHint':
     '第三方模型支援 Responses 可開啟此項，原生接入（仔細閱讀你購買模型的官方文件，是否支援 Responses 協定）',

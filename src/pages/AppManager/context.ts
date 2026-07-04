@@ -47,6 +47,14 @@ export interface AppManagerContextType {
    *  own proxy route + relay file on the backend). */
   claudeCodeRelayMode: boolean;
   setClaudeCodeRelayMode: (v: boolean) => void;
+  /** Claude Code relay-only 1M-context toggle. When on AND API Router is on,
+   *  apply_claudecode appends `[1m]` to the model id (MODEL / OPUS / SONNET
+   *  env vars only — HAIKU + SUBAGENT stay bare) so Claude Code budgets the
+   *  1M window. CC strips the suffix before sending upstream, so the provider
+   *  still sees the bare id. Hidden when API Router is off; no effect in bridge
+   *  mode. */
+  claude1mMode: boolean;
+  setClaude1mMode: (v: boolean) => void;
   /** One-shot pulse trigger. Set to the just-applied model's internalId (or the
    *  official sentinel) with a bumped nonce the instant a config takes effect,
    *  so that model's card plays the apply-confirmation pulse once. Null at rest. */

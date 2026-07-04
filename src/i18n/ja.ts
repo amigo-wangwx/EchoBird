@@ -190,6 +190,8 @@ const ja: Partial<Translations> = {
   'agent.codexRelayLabel': 'API Router',
   'agent.codexRelayHint':
     'API 中継または API Router が提供するデータ転送方式。サードパーティモデルで有効にするとフル接続になりますが、ツールに「よそ者」と判定される場合があります。',
+  'agent.claude1mHint':
+    'オンにするとモデル id に [1m] を付加し、1M コンテキストを有効化します。購入したモデルの公式ドキュメントで「モデルid+[1m]」の対応を必ず確認してください。',
   'agent.codexResponsesLabel': 'Responses',
   'agent.codexResponsesHint':
     'サードパーティモデルが Responses に対応していれば、有効化してネイティブに接続できます。（購入したモデルの公式ドキュメントをよく読み、Responses プロトコルに対応しているか確認してください。）',
