@@ -41,8 +41,16 @@ export async function restoreToolToOfficial(
 
 // ─── Process APIs ───
 
-export async function startTool(toolId: string, startCommand?: string): Promise<void> {
-  return invoke('start_tool', { toolId, startCommand: startCommand || null });
+export async function startTool(
+  toolId: string,
+  startCommand?: string,
+  cwd?: string
+): Promise<void> {
+  return invoke('start_tool', {
+    toolId,
+    startCommand: startCommand || null,
+    cwd: cwd ?? null,
+  });
 }
 
 // ─── In-app self-update (Windows): download installer, launch it, exit ───

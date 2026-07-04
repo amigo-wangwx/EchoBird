@@ -8,6 +8,7 @@ import { AppManagerContext } from './context';
 import { useToolsStore } from '../../stores/toolsStore';
 import { useNavigationStore } from '../../stores/navigationStore';
 import { getOfficialEndpoint, isOfficialModelSentinel } from '../../data/officialEndpoints';
+import { open as openDialog } from '@tauri-apps/plugin-dialog';
 
 // ===== Provider =====
 
@@ -538,8 +539,31 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
             firePulse(selectedModel.internalId);
         }
       } else {
+        // CLI tools (not launchable, not noModelConfig) get a working-folder
+        // picker before launch — Coffee-CLI-style launchpad, minus the
+        // persistence (we re-prompt every launch). Desktop apps (noModelConfig)
+        // skip the picker; their cwd is irrelevant. If the user cancels the
+        // picker, abort the launch entirely — don't fall back to home, which is
+        // the bug this fixes (CLI tools used to spawn in ~/ and were useless
+        // for development).
+        let cwd: string | undefined;
+        if (!noModelConfig) {
+          try {
+            const picked = await openDialog({ directory: true, multiple: false });
+            if (typeof picked !== 'string' || !picked) {
+              setIsLaunching(false);
+              return;
+            }
+            cwd = picked;
+          } catch (e) {
+            console.error('[AppManager] folder picker failed:', e);
+            setApplyError(e instanceof Error ? e.message : String(e));
+            setIsLaunching(false);
+            return;
+          }
+        }
         try {
-          await api.startTool(selectedTool, toolData?.startCommand);
+          await api.startTool(selectedTool, toolData?.startCommand, cwd);
         } catch (err) {
           console.error('Failed to launch tool:', err);
           setApplyError(err instanceof Error ? err.message : String(err));
