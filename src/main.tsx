@@ -11,6 +11,23 @@ import { IS_MACOS } from './utils/platform';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ERROR_MESSAGES, pickErrorLang } from './components/errorMessages';
 
+// ── Object.hasOwn polyfill ───────────────────────────────────────────────────
+// ES2022 runtime API; native in Safari 15.4+ (macOS 12.3+), absent in Safari
+// ≤15.3 (macOS ≤12.2). react-markdown@10 calls it unconditionally on every
+// render (deprecated-option check at lib/index.js:323), so without this Intel
+// Macs pinned to Monterey ≤12.2 hard-crash ("Object.hasOwn is not a function")
+// on any screen that renders markdown. Runs at module-eval time, before the
+// boot pipeline and React mount; no-op where the native impl exists. tsconfig
+// lib is ES2020 (Object.hasOwn lands in ES2022), hence the cast rather than a
+// `declare global` augmentation.
+type ObjectWithHasOwn = typeof Object & {
+  hasOwn?: (o: object, v: PropertyKey) => boolean;
+};
+const Obj = Object as unknown as ObjectWithHasOwn;
+if (typeof Obj.hasOwn !== 'function') {
+  Obj.hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
 // ── Boot pipeline ────────────────────────────────────────────────────────────
 // One linear sequence runs before the Tauri window becomes visible:
 //
