@@ -16,7 +16,7 @@
     "launchUri": "shell:AppsFolder\\OpenAI.Codex_2p2nqsd0c76g0!App",
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/Codex/Codex.exe"
+            "%LOCALAPPDATA%\\Programs\\Codex\\Codex.exe"
         ],
         "darwin": [
             "/Applications/Codex.app/Contents/MacOS/Codex"

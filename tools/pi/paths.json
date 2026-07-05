@@ -15,12 +15,12 @@
     "detectByConfigDir": false,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/pi.cmd",
-            "%USERPROFILE%/.local/bin/pi.exe",
-            "%USERPROFILE%/.bun/bin/pi.exe",
-            "%USERPROFILE%/.hermes/node/bin/pi.exe",
-            "%USERPROFILE%/.hermes/node/bin/pi.cmd",
-            "%LOCALAPPDATA%/pnpm/pi.exe"
+            "%APPDATA%\\npm\\pi.cmd",
+            "%USERPROFILE%\\.local\\bin\\pi.exe",
+            "%USERPROFILE%\\.bun\\bin\\pi.exe",
+            "%USERPROFILE%\\.hermes\\node\\bin\\pi.exe",
+            "%USERPROFILE%\\.hermes\\node\\bin\\pi.cmd",
+            "%LOCALAPPDATA%\\pnpm\\pi.exe"
         ],
         "darwin": [
             "/usr/local/bin/pi",

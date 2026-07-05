@@ -13,8 +13,8 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/Trae CN/Trae CN.exe",
-            "%LOCALAPPDATA%/Programs/Trae-CN/Trae CN.exe"
+            "%LOCALAPPDATA%\\Programs\\Trae CN\\Trae CN.exe",
+            "%LOCALAPPDATA%\\Programs\\Trae-CN\\Trae CN.exe"
         ],
         "darwin": [
             "/Applications/Trae CN.app/Contents/MacOS/Trae CN"

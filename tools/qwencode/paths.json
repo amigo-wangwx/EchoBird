@@ -15,11 +15,11 @@
     "detectByConfigDir": false,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/qwen.cmd",
-            "%USERPROFILE%/.local/bin/qwen.exe",
-            "%USERPROFILE%/.bun/bin/qwen.exe",
-            "%USERPROFILE%/scoop/shims/qwen.exe",
-            "%LOCALAPPDATA%/pnpm/qwen.exe"
+            "%APPDATA%\\npm\\qwen.cmd",
+            "%USERPROFILE%\\.local\\bin\\qwen.exe",
+            "%USERPROFILE%\\.bun\\bin\\qwen.exe",
+            "%USERPROFILE%\\scoop\\shims\\qwen.exe",
+            "%LOCALAPPDATA%\\pnpm\\qwen.exe"
         ],
         "darwin": [
             "/usr/local/bin/qwen",

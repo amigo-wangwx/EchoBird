@@ -13,7 +13,7 @@
     "detectByConfigDir": true,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/WorkBuddy/WorkBuddy.exe"
+            "%LOCALAPPDATA%\\Programs\\WorkBuddy\\WorkBuddy.exe"
         ],
         "darwin": [
             "/Applications/WorkBuddy.app/Contents/MacOS/WorkBuddy"

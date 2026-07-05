@@ -13,11 +13,11 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%USERPROFILE%/.local/bin/claude.exe",
-            "%APPDATA%/npm/claude.cmd",
-            "%USERPROFILE%/.bun/bin/claude.exe",
-            "%LOCALAPPDATA%/Microsoft/WinGet/Links/claude.exe",
-            "%LOCALAPPDATA%/pnpm/claude.exe"
+            "%USERPROFILE%\\.local\\bin\\claude.exe",
+            "%APPDATA%\\npm\\claude.cmd",
+            "%USERPROFILE%\\.bun\\bin\\claude.exe",
+            "%LOCALAPPDATA%\\Microsoft\\WinGet\\Links\\claude.exe",
+            "%LOCALAPPDATA%\\pnpm\\claude.exe"
         ],
         "darwin": [
             "/usr/local/bin/claude",

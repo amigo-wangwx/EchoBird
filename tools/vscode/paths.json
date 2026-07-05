@@ -13,8 +13,8 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/Microsoft VS Code/Code.exe",
-            "%ProgramFiles%/Microsoft VS Code/Code.exe"
+            "%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe",
+            "%ProgramFiles%\\Microsoft VS Code\\Code.exe"
         ],
         "darwin": [
             "/Applications/Visual Studio Code.app/Contents/MacOS/Electron"

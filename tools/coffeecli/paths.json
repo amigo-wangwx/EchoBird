@@ -13,7 +13,7 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Coffee CLI/coffee-cli.exe"
+            "%LOCALAPPDATA%\\Coffee CLI\\coffee-cli.exe"
         ],
         "darwin": [
             "/Applications/Coffee CLI.app/Contents/MacOS/Coffee CLI",

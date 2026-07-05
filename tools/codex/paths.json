@@ -13,11 +13,11 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/codex.cmd",
-            "%USERPROFILE%/scoop/shims/codex.exe",
-            "%USERPROFILE%/.bun/bin/codex.exe",
-            "%USERPROFILE%/.local/bin/codex.exe",
-            "%LOCALAPPDATA%/pnpm/codex.exe"
+            "%APPDATA%\\npm\\codex.cmd",
+            "%USERPROFILE%\\scoop\\shims\\codex.exe",
+            "%USERPROFILE%\\.bun\\bin\\codex.exe",
+            "%USERPROFILE%\\.local\\bin\\codex.exe",
+            "%LOCALAPPDATA%\\pnpm\\codex.exe"
         ],
         "darwin": [
             "/usr/local/bin/codex",

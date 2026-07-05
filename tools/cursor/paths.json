@@ -13,7 +13,7 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/cursor/Cursor.exe"
+            "%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe"
         ],
         "darwin": [
             "/Applications/Cursor.app/Contents/MacOS/Cursor"

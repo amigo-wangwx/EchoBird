@@ -16,8 +16,8 @@
     "launchUri": "shell:AppsFolder\\Claude_pzs8sxrjxfjjc!Claude",
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/AnthropicClaude/Claude.exe",
-            "%LOCALAPPDATA%/Programs/Claude/Claude.exe"
+            "%LOCALAPPDATA%\\AnthropicClaude\\Claude.exe",
+            "%LOCALAPPDATA%\\Programs\\Claude\\Claude.exe"
         ],
         "darwin": [
             "/Applications/Claude.app/Contents/MacOS/Claude"

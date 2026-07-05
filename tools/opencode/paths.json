@@ -13,13 +13,13 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/opencode.cmd",
-            "%LOCALAPPDATA%/Programs/opencode/opencode.exe",
-            "%USERPROFILE%/scoop/shims/opencode.exe",
-            "%PROGRAMFILES%/opencode/opencode.exe",
-            "%USERPROFILE%/.bun/bin/opencode.exe",
-            "%USERPROFILE%/.opencode/bin/opencode.exe",
-            "%LOCALAPPDATA%/pnpm/opencode.exe"
+            "%APPDATA%\\npm\\opencode.cmd",
+            "%LOCALAPPDATA%\\Programs\\opencode\\opencode.exe",
+            "%USERPROFILE%\\scoop\\shims\\opencode.exe",
+            "%PROGRAMFILES%\\opencode\\opencode.exe",
+            "%USERPROFILE%\\.bun\\bin\\opencode.exe",
+            "%USERPROFILE%\\.opencode\\bin\\opencode.exe",
+            "%LOCALAPPDATA%\\pnpm\\opencode.exe"
         ],
         "darwin": [
             "/usr/local/bin/opencode",

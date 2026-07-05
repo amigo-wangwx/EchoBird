@@ -13,7 +13,7 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%LOCALAPPDATA%/Programs/ZCode/ZCode.exe"
+            "%LOCALAPPDATA%\\Programs\\ZCode\\ZCode.exe"
         ],
         "darwin": [
             "/Applications/ZCode.app/Contents/MacOS/ZCode"

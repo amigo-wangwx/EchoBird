@@ -13,10 +13,10 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/mimo.cmd",
-            "%USERPROFILE%/.bun/bin/mimo.exe",
-            "%LOCALAPPDATA%/pnpm/mimo.exe",
-            "%USERPROFILE%/.mimocode/bin/mimo.exe"
+            "%APPDATA%\\npm\\mimo.cmd",
+            "%USERPROFILE%\\.bun\\bin\\mimo.exe",
+            "%LOCALAPPDATA%\\pnpm\\mimo.exe",
+            "%USERPROFILE%\\.mimocode\\bin\\mimo.exe"
         ],
         "darwin": [
             "~/.mimocode/bin/mimo",

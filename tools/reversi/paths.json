@@ -20,7 +20,7 @@
     "paths": {},
     "skillsPath": {
         "win32": [
-            "~/.echobird/reversi-skills"
+            "~\\.echobird\\reversi-skills"
         ],
         "darwin": [
             "~/.echobird/reversi-skills"

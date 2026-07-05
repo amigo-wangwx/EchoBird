@@ -16,11 +16,11 @@
     "detectByConfigDir": true,
     "paths": {
         "win32": [
-            "%APPDATA%/npm/openclaw.cmd",
-            "%LOCALAPPDATA%/OpenClaw/bin/openclaw.exe",
-            "%USERPROFILE%/scoop/shims/openclaw.exe",
-            "%LOCALAPPDATA%/pnpm/openclaw.exe",
-            "%USERPROFILE%/.local/bin/openclaw.exe"
+            "%APPDATA%\\npm\\openclaw.cmd",
+            "%LOCALAPPDATA%\\OpenClaw\\bin\\openclaw.exe",
+            "%USERPROFILE%\\scoop\\shims\\openclaw.exe",
+            "%LOCALAPPDATA%\\pnpm\\openclaw.exe",
+            "%USERPROFILE%\\.local\\bin\\openclaw.exe"
         ],
         "darwin": [
             "/usr/local/bin/openclaw",
@@ -42,7 +42,7 @@
     "skillsPath": {
         "envVar": "OPENCLAW_SKILLS_PATH",
         "win32": [
-            "%APPDATA%/npm/node_modules/openclaw/skills"
+            "%APPDATA%\\npm\\node_modules\\openclaw\\skills"
         ],
         "npmModule": "openclaw/skills"
     }

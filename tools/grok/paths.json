@@ -17,11 +17,11 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%USERPROFILE%/.grok/bin/grok.exe",
-            "%USERPROFILE%/.local/bin/grok.exe",
-            "%LOCALAPPDATA%/Programs/grok/grok.exe",
-            "%USERPROFILE%/.bun/bin/grok.exe",
-            "%LOCALAPPDATA%/pnpm/grok.exe"
+            "%USERPROFILE%\\.grok\\bin\\grok.exe",
+            "%USERPROFILE%\\.local\\bin\\grok.exe",
+            "%LOCALAPPDATA%\\Programs\\grok\\grok.exe",
+            "%USERPROFILE%\\.bun\\bin\\grok.exe",
+            "%LOCALAPPDATA%\\pnpm\\grok.exe"
         ],
         "darwin": [
             "~/.grok/bin/grok",

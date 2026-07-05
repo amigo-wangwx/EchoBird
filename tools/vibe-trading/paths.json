@@ -13,11 +13,11 @@
     "requireConfigFile": false,
     "paths": {
         "win32": [
-            "%USERPROFILE%/.local/bin/vibe-trading.exe",
-            "%APPDATA%/Python/Scripts/vibe-trading.exe",
-            "%LOCALAPPDATA%/Programs/Python/Python313/Scripts/vibe-trading.exe",
-            "%LOCALAPPDATA%/Programs/Python/Python312/Scripts/vibe-trading.exe",
-            "%LOCALAPPDATA%/Programs/Python/Python311/Scripts/vibe-trading.exe"
+            "%USERPROFILE%\\.local\\bin\\vibe-trading.exe",
+            "%APPDATA%\\Python\\Scripts\\vibe-trading.exe",
+            "%LOCALAPPDATA%\\Programs\\Python\\Python313\\Scripts\\vibe-trading.exe",
+            "%LOCALAPPDATA%\\Programs\\Python\\Python312\\Scripts\\vibe-trading.exe",
+            "%LOCALAPPDATA%\\Programs\\Python\\Python311\\Scripts\\vibe-trading.exe"
         ],
         "darwin": [
             "/usr/local/bin/vibe-trading",
