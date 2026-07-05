@@ -382,6 +382,20 @@ pre {
   background: rgb(var(--accent-rgb) / 0.35);
 }
 
+/* macOS: neutralize .pulse-scroll. Forcing classic mode (display:block +
+ * width:5px) makes WKWebView render the native white-tracked system bar
+ * instead of our themed transparent one, and reserves a 5px gutter —
+ * wrong on macOS where overlay scrollbars are the norm. Fall back to the
+ * global hidden-scrollbar behavior so AI 资讯 / 明星项目 / AI 公开课
+ * match the rest of the app (native overlay, auto-hiding, no gutter).
+ * Specificity (0,2,2) beats the .pulse-scroll rule (0,1,1) above.
+ * usePulseScroll's .is-scrolling toggle becomes a no-op on macOS. */
+html.is-macos .pulse-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 /* Pure-white SVG logos invert in light mode so they read on the cream
    card surface. Logos with mixed colors are skipped (the filter would
    shift their accent hues). */
