@@ -14,6 +14,7 @@ import {
 import { NavItem } from './NavItem';
 import { useI18n } from '../hooks/useI18n';
 import * as api from '../api/tauri';
+import { useDocumentVisible } from '../hooks/useDocumentVisible';
 
 declare const __APP_EDITION__: string;
 const isFullEdition = __APP_EDITION__ === 'full';
@@ -48,9 +49,12 @@ export const Sidebar = ({
   const { t } = useI18n();
   // Poll local model server status
   const [serverRunning, setServerRunning] = useState(false);
+  const docVisible = useDocumentVisible();
 
+  // Poll local model server status — pause when the window is hidden so a
+  // backgrounded app doesn't poll IPC every 2s for hours. Resumes on focus.
   useEffect(() => {
-    if (!isFullEdition) return;
+    if (!isFullEdition || !docVisible) return;
     const check = async () => {
       try {
         const info = await api.getLlmServerInfo();
@@ -63,7 +67,7 @@ export const Sidebar = ({
     check();
     const interval = setInterval(check, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [docVisible]);
 
   return (
     <nav className="w-64 flex flex-col px-6 pb-6">

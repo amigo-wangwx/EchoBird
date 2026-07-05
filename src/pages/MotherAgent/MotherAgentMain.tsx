@@ -9,6 +9,7 @@ import { useI18n } from '../../hooks/useI18n';
 import { useToast } from '../../components/Toast';
 import * as api from '../../api/tauri';
 import { useNavigationStore } from '../../stores/navigationStore';
+import { useDocumentVisible } from '../../hooks/useDocumentVisible';
 import { useMotherAgent } from './context';
 import { MA_PAGE_SIZE, type ChatMessage } from './types';
 
@@ -123,8 +124,12 @@ export function MotherAgentMain() {
     e.target.value = '';
   };
 
-  // Poll Local Server status
+  const docVisible = useDocumentVisible();
+
+  // Poll Local Server status — pause when the window is hidden so a
+  // backgrounded app doesn't poll IPC every 3s for hours. Resumes on focus.
   useEffect(() => {
+    if (!docVisible) return;
     const check = async () => {
       try {
         const info = await api.getLlmServerInfo();
@@ -136,7 +141,7 @@ export function MotherAgentMain() {
     check();
     const interval = setInterval(check, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [docVisible]);
 
   // ── Scroll management — sticky-bottom auto-follow ──
   // Default-stuck-to-bottom: streaming chunks, tool calls, "thinking" indicators

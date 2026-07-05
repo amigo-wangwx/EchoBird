@@ -22,6 +22,7 @@ import * as api from '../../api/tauri';
 import type { SystemInfo } from '../../api/tauri';
 import { normalizeStoreModels, type StoreModel } from '../../api/types';
 import { useNavigationStore } from '../../stores/navigationStore';
+import { useDocumentVisible } from '../../hooks/useDocumentVisible';
 import { LocalServerContext, useLocalServer } from './context';
 import type { EngineStatus, GgufFileEntry } from './context';
 
@@ -397,8 +398,13 @@ export const LocalServerMain: React.FC = () => {
   // [Error] line gets clobbered on the next tick while the buffer is static).
   const lastServerLogs = useRef<string>('');
 
-  // Polling: server status + logs
+  const docVisible = useDocumentVisible();
+
+  // Polling: server status + logs — pause when the window is hidden so a
+  // backgrounded app doesn't poll IPC every second for hours. Resumes (with a
+  // fresh immediate poll) the moment the window is shown again.
   useEffect(() => {
+    if (!docVisible) return;
     const poll = async () => {
       try {
         const info = await api.getLlmServerInfo();
@@ -420,9 +426,9 @@ export const LocalServerMain: React.FC = () => {
     poll();
     const interval = setInterval(poll, 1000);
     return () => clearInterval(interval);
-    // Poll for the component's lifetime; the state setters used inside are stable.
+    // Setters come from context (stable identity); dep is intentionally just docVisible.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [docVisible]);
 
   // Scroll handling
   const handleScroll = () => {
