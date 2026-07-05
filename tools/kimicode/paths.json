@@ -1,0 +1,42 @@
+{
+    "name": "Kimi Code",
+    "category": "CLI Code",
+    "apiProtocol": [
+        "openai",
+        "anthropic"
+    ],
+    "docs": "https://moonshotai.github.io/kimi-code/",
+    "command": "kimi",
+    "startCommand": "kimi",
+    "envVar": "KIMI_CODE_PATH",
+    "configDir": "~/.kimi-code",
+    "configFile": "~/.kimi-code/config.toml",
+    "requireConfigFile": false,
+    "paths": {
+        "win32": [
+            "%APPDATA%\\npm\\kimi.cmd",
+            "%USERPROFILE%\\.kimi-code\\bin\\kimi.exe",
+            "%USERPROFILE%\\.bun\\bin\\kimi.exe",
+            "%LOCALAPPDATA%\\pnpm\\kimi.exe",
+            "%USERPROFILE%\\.npm-global\\kimi.cmd"
+        ],
+        "darwin": [
+            "~/.kimi-code/bin/kimi",
+            "/opt/homebrew/bin/kimi",
+            "/usr/local/bin/kimi",
+            "~/.bun/bin/kimi",
+            "~/.local/bin/kimi",
+            "~/.npm-global/bin/kimi",
+            "~/Library/pnpm/kimi"
+        ],
+        "linux": [
+            "~/.kimi-code/bin/kimi",
+            "/usr/local/bin/kimi",
+            "/usr/bin/kimi",
+            "~/.bun/bin/kimi",
+            "~/.local/bin/kimi",
+            "~/.npm-global/bin/kimi",
+            "~/.local/share/pnpm/kimi"
+        ]
+    }
+}

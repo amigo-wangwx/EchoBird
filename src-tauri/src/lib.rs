@@ -59,6 +59,10 @@ static BUNDLED: BundledAssets = BundledAssets {
             include_str!("../../docs/api/tools/install/mimocode.json"),
         ),
         (
+            "kimicode",
+            include_str!("../../docs/api/tools/install/kimicode.json"),
+        ),
+        (
             "claudedesktop",
             include_str!("../../docs/api/tools/install/claudedesktop.json"),
         ),

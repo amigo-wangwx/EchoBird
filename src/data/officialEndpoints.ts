@@ -71,6 +71,15 @@ export const OFFICIAL_ENDPOINTS: Record<string, OfficialEndpoint> = {
     protocol: 'openai',
     modelId: 'mimo-v2.5-pro',
   },
+  kimicode: {
+    // Restore removes our echobird provider block; Kimi Code then falls
+    // back to /login (Kimi Code OAuth or a Moonshot platform API key).
+    name: 'Moonshot Kimi Official',
+    baseUrl: 'https://api.moonshot.ai/v1',
+    anthropicUrl: 'https://api.moonshot.ai/anthropic',
+    protocol: 'openai',
+    modelId: 'kimi-k2.7-code',
+  },
   // OpenCode is a third-party tool, not OpenAI official
   // Community open-source tools (openclaw, hermes, opencode) have no
   // canonical vendor URL — restore is hidden.

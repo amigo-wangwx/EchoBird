@@ -1,0 +1,30 @@
+{
+    "id": "kimicode",
+    "displayName": "Kimi Code (CLI)",
+    "homepage": "https://code.kimi.com/",
+    "docs": "https://moonshotai.github.io/kimi-code/",
+    "github": "https://github.com/MoonshotAI/kimi-code",
+    "install": {
+        "curl (macOS / Linux — recommended)": "curl -fsSL https://code.kimi.com/kimi-code/install.sh | bash",
+        "Homebrew (macOS/Linux)": "brew install kimi-code",
+        "npm (all platforms)": "npm install -g @moonshot-ai/kimi-code",
+        "PowerShell (Windows)": "irm https://code.kimi.com/kimi-code/install.ps1 | iex",
+        "note": "CLI coding agent by Moonshot AI (Kimi). The binary is `kimi` (curl installs to ~/.kimi-code/bin and prepends it to PATH; restart the shell or source the rc file before verifying). Built on Pi's pi-tui TUI library but a SEPARATE product — do NOT install `pi` or `@earendil-works/pi-coding-agent`. On Windows, Git for Windows is required (Kimi Code uses bundled Git Bash); set KIMI_SHELL_PATH if bash.exe is in a custom location."
+    },
+    "network_requirements": {
+        "test_urls": [
+            "https://code.kimi.com",
+            "https://github.com/MoonshotAI/kimi-code"
+        ],
+        "blocked_regions": {
+            "zh-CN": "code.kimi.com is mainland-China-reachable, and the curl installer downloads the binary directly from code.kimi.com/kimi-code/binaries (NOT GitHub Releases), so it works in mainland China without a mirror. npm install also works via npmmirror if preferred: `npm install -g @moonshot-ai/kimi-code --registry=https://registry.npmmirror.com`."
+        },
+        "mirrors": {}
+    },
+    "first_run": {
+        "description": "On first launch run `/login` inside Kimi Code and choose Kimi Code OAuth or a Moonshot AI Open Platform API key. Any OpenAI/Anthropic-compatible provider can also be added via the [providers.<name>] table in config.toml.",
+        "config_global": "~/.kimi-code/config.toml",
+        "config_project": ".kimi-code/local.toml",
+        "verify": "kimi --version"
+    }
+}
