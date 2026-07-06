@@ -119,5 +119,16 @@ jobs:
       - name: Security audit (cargo)
         run: |
           cargo install cargo-audit --locked --quiet || true
-          cargo audit --file src-tauri/Cargo.lock
+          # 7 ignored: transitive deps non-applicable to EchoBird (single-user
+          # desktop, no attacker-facing SSH/QUIC/XML services). See
+          # project_release_v5.4.3 memory for dep-tree grounding. Remove an
+          # --ignore when its dep is bumped past the fixed version.
+          cargo audit --file src-tauri/Cargo.lock \r
+            --ignore RUSTSEC-2026-0074 \r
+            --ignore RUSTSEC-2026-0194 \r
+            --ignore RUSTSEC-2026-0195 \r
+            --ignore RUSTSEC-2026-0185 \r
+            --ignore RUSTSEC-2023-0071 \r
+            --ignore RUSTSEC-2026-0154 \r
+            --ignore RUSTSEC-2026-0153
         continue-on-error: true
