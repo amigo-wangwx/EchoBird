@@ -1,11 +1,11 @@
 {
   "version": "5.4.4",
   "releaseDate": "2026-07-06",
-  "releaseNotes": "## 修复\n\n- Kimi Code 切换模型不生效（v5.4.3 引入的回归）：切换后 `~/.kimi-code/config.toml` 不更新，启动显示「未设置模型，运行 /login 或 /provider」\n- Windows 上 `curl` 安装的 `kimi` 启动失败：检测到的安装目录未注入 PATH",
+  "releaseNotes": "## 修复\n\n- 强化 Kimi Code 切换模型和启动规则(v5.4.3 引入的回归)\n\n## 开源\n\n- EchoBird 全面开源(前后端),协议改为 MIT\n- 项目地址:github.com/edison7009/EchoBird\n- 主要应对即将到来的 Claude 全面限制",
   "releaseNotesI18n": {
-    "zh-cn": "## 修复\n\n- Kimi Code 切换模型不生效（v5.4.3 引入的回归）：切换后 `~/.kimi-code/config.toml` 不更新，启动显示「未设置模型，运行 /login 或 /provider」\n- Windows 上 `curl` 安装的 `kimi` 启动失败：检测到的安装目录未注入 PATH",
-    "en": "## Fixes\n\n- Kimi Code model switching had no effect (a regression in v5.4.3): switching didn't update `~/.kimi-code/config.toml`, and the app showed \"not set, run /login or /provider\" on launch\n- `kimi` installed via `curl` failed to start on Windows: the detected install dir wasn't injected into PATH",
-    "zh-tw": "## 修復\n\n- Kimi Code 切換模型不生效（v5.4.3 引入的回歸）：切換後 `~/.kimi-code/config.toml` 不更新，啟動顯示「未設定模型，執行 /login 或 /provider」\n- Windows 上 `curl` 安裝的 `kimi` 啟動失敗：偵測到的安裝目錄未注入 PATH",
-    "ja": "## 修正\n\n- Kimi Code のモデル切替が反映されない不具合（v5.4.3 で発生した回帰）：切替しても `~/.kimi-code/config.toml` が更新されず、起動時に「未設定、/login または /provider を実行」と表示される\n- Windows で `curl` でインストールした `kimi` が起動失敗：検出したインストール先が PATH に注入されない"
+    "zh-cn": "## 修复\n\n- 强化 Kimi Code 切换模型和启动规则(v5.4.3 引入的回归)\n\n## 开源\n\n- EchoBird 全面开源(前后端),协议改为 MIT\n- 项目地址:github.com/edison7009/EchoBird\n- 主要应对即将到来的 Claude 全面限制",
+    "en": "## Fixes\n\n- Hardened Kimi Code model switching and startup rules (regression from v5.4.3)\n\n## Open Source\n\n- EchoBird is now fully open-source (frontend + backend), relicensed to MIT\n- Project: github.com/edison7009/EchoBird\n- In preparation for the upcoming Claude access restrictions",
+    "zh-tw": "## 修復\n\n- 強化 Kimi Code 切換模型和啟動規則(v5.4.3 引入的回歸)\n\n## 開源\n\n- EchoBird 全面開源(前後端),協議改為 MIT\n- 專案地址:github.com/edison7009/EchoBird\n- 主要應對即將到來的 Claude 全面限制",
+    "ja": "## 修正\n\n- Kimi Code のモデル切替と起動ルールを強化(v5.4.3 で導入された回帰)\n\n## オープンソース\n\n- EchoBird を完全オープンソース化(フロント+バック)、ライセンスを MIT に変更\n- プロジェクト:github.com/edison7009/EchoBird\n- 近日予定の Claude 全体制限 に対応"
   }
 }
