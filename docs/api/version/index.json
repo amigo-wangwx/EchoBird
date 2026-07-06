@@ -1,6 +1,6 @@
 {
-  "version": "5.4.2",
-  "releaseDate": "2026-07-04",
+  "version": "5.4.3",
+  "releaseDate": "2026-07-06",
   "releaseNotes": "## 新增：Kimi Code 工具\n\nMoonshot AI（月之暗面）的终端 coding agent，应用管理中可检测、切换模型、一键装机。\n\n## 修复\n\n- macOS 12.2 及更早版本打开 Markdown 页面崩溃\n\n## 优化\n\n- 窗口隐藏时停止后台状态轮询",
   "releaseNotesI18n": {
     "zh-cn": "## 新增：Kimi Code 工具\n\nMoonshot AI（月之暗面）的终端 coding agent，应用管理中可检测、切换模型、一键装机。\n\n## 修复\n\n- macOS 12.2 及更早版本打开 Markdown 页面崩溃\n\n## 优化\n\n- 窗口隐藏时停止后台状态轮询",
