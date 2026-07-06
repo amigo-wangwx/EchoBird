@@ -2,8 +2,7 @@
     "name": "Pi",
     "category": "CLI Code",
     "apiProtocol": [
-        "openai",
-        "anthropic"
+        "openai"
     ],
     "docs": "https://pi.dev/docs",
     "website": "https://pi.dev/",
