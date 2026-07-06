@@ -151,8 +151,8 @@ Latest release → <https://github.com/edison7009/EchoBird/releases/latest>
 ## License & Trademarks
 
 **Code** — EchoBird **v5.0.0 and later** are licensed under the
-[MIT License](LICENSE). The full source — including the Rust core
-(`echobird_core`) — is open: fork it, study it, ship it. EchoBird
+[MIT License](LICENSE). The full source is open — fork it, study it,
+ship it. EchoBird
 **v4.x and earlier** remain under AGPL-3.0-or-later in perpetuity
 (already-released v4.x binaries are not retroactively relicensed).
 See [NOTICE](NOTICE) for attribution.

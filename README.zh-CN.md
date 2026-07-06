@@ -149,8 +149,8 @@ curl -fsSL https://echobird.ai/install.sh | sh
 ## 协议与商标
 
 **代码** —— EchoBird **v5.0.0 及以后版本**采用
-[MIT](LICENSE) 协议。完整源码(含 Rust 核心 `echobird_core`)全部开放:
-随便 fork、研读、二次发布。EchoBird **v4.x 及以前版本**永久保留在
+[MIT](LICENSE) 协议。完整源码全部开放:随便 fork、研读、二次发布。
+EchoBird **v4.x 及以前版本**永久保留在
 AGPL-3.0-or-later 协议下(已发布的 v4.x 二进制不溯及改约)。署名要求见
 [NOTICE](NOTICE)。
 
