@@ -1,5 +1,5 @@
 {
-  "version": "5.4.3",
+  "version": "5.4.4",
   "releaseDate": "2026-07-06",
   "releaseNotes": "## 修复\n\n- Kimi Code 切换模型不生效（v5.4.3 引入的回归）：切换后 `~/.kimi-code/config.toml` 不更新，启动显示「未设置模型，运行 /login 或 /provider」\n- Windows 上 `curl` 安装的 `kimi` 启动失败：检测到的安装目录未注入 PATH",
   "releaseNotesI18n": {
