@@ -390,13 +390,16 @@ pub async fn open_folder(path: String) -> Result<(), String> {
 }
 
 /// Open the user's tool-path overrides file (`~/.echobird/tool-paths.json`),
-/// seeding it from a template on first use. Lets a user add the install path
-/// for a tool EchoBird's bundled defaults missed (installed in a non-default
-/// directory) WITHOUT editing the bundled `tools/<id>/paths.json` — those are
-/// app resources that every update overwrites. This file lives in the user
-/// data dir, so edits survive updates; the scanner merges it on top of the
-/// built-in candidate paths (see tool_manager::load_user_path_overrides), and
-/// deleting the file restores pure defaults. Returns the file's absolute path.
+/// seeding it from a template on first use AND self-healing it on later
+/// opens — any tool shipped in a later release (e.g. Kimi Code in v5.4.3)
+/// whose entry the file predates is added with its default paths. Lets a user
+/// add the install path for a tool EchoBird's bundled defaults missed
+/// (installed in a non-default directory) WITHOUT editing the bundled
+/// `tools/<id>/paths.json` — those are app resources that every update
+/// overwrites. This file lives in the user data dir, so edits survive
+/// updates; the scanner merges it on top of the built-in candidate paths
+/// (see tool_manager::load_user_path_overrides), and deleting the file
+/// restores pure defaults. Returns the file's absolute path.
 #[tauri::command]
 pub async fn open_tool_paths_config() -> Result<String, String> {
     use std::fs;
@@ -406,30 +409,44 @@ pub async fn open_tool_paths_config() -> Result<String, String> {
     fs::create_dir_all(&dir).map_err(|e| format!("Failed to create {:?}: {}", dir, e))?;
     let file = dir.join("tool-paths.json");
 
-    // Seed on first use with EVERY tool pre-filled with its current default
-    // paths (current OS only — see tool_manager::default_override_seed), so the
-    // user just edits the one that's wrong instead of learning a format and
-    // authoring a line from scratch. No prose at all — the file is pure data
-    // ("<tool id>": ["path", ...]); anyone editing install paths reads it at a
-    // glance, and zero noise means nothing to mistranslate or misread. The
-    // scanner still ignores any "_"-prefixed key (see
-    // tool_manager::load_user_path_overrides), so a user is free to add their
-    // own "_note" without breaking detection.
-    if !file.exists() {
-        let mut map = serde_json::Map::new();
-        for (tool_id, paths) in tool_manager::default_override_seed() {
-            map.insert(
-                tool_id,
-                serde_json::Value::Array(
-                    paths.into_iter().map(serde_json::Value::String).collect(),
-                ),
-            );
-        }
+    // (Re)write the override file when it's missing OR when an existing file
+    // predates a tool shipped in a later release (e.g. Kimi Code in v5.4.3).
+    // The file is pure data — "<tool id>": ["path", ...], current OS only
+    // (see tool_manager::default_override_seed) — so the user just edits the
+    // one that's wrong instead of authoring a line from scratch, and zero
+    // prose means nothing to mistranslate or misread. We only ever ADD
+    // missing tool ids: existing entries, user edits, and "_"-prefixed note
+    // keys (ignored by the scanner — see load_user_path_overrides) are
+    // preserved verbatim, so a user's customizations survive an update that
+    // ships new tools. If the existing file isn't a readable JSON object we
+    // leave it untouched rather than risk clobbering the user's edits.
+    let created_fresh = !file.exists();
+
+    // Empty object when the file is missing → forces a full seed (every tool
+    // is "missing", so all are inserted). For an existing file, parse it and
+    // keep it only if it's a JSON object; anything else falls through to
+    // `None` → no rewrite.
+    let parsed = if created_fresh {
+        Some(serde_json::Value::Object(serde_json::Map::new()))
+    } else {
+        fs::read_to_string(&file)
+            .ok()
+            .and_then(|c| serde_json::from_str::<serde_json::Value>(&c).ok())
+            .filter(|v| matches!(v, serde_json::Value::Object(_)))
+    };
+
+    let seed = tool_manager::default_override_seed();
+
+    if let Some(map) = tool_manager::merge_override_seed(parsed.as_ref(), &seed) {
         let content = serde_json::to_string_pretty(&serde_json::Value::Object(map))
             .map_err(|e| format!("Failed to build override file: {}", e))?;
         fs::write(&file, format!("{content}\n"))
             .map_err(|e| format!("Failed to write override file: {}", e))?;
-        log::info!("[ToolPaths] Seeded pre-filled override file at {:?}", file);
+        if created_fresh {
+            log::info!("[ToolPaths] Seeded pre-filled override file at {:?}", file);
+        } else {
+            log::info!("[ToolPaths] Added missing tool entries to {:?}", file);
+        }
     }
 
     let resolved = file.to_string_lossy().to_string();

@@ -1354,6 +1354,53 @@ pub fn default_override_seed() -> Vec<(String, Vec<String>)> {
     out
 }
 
+/// Merge the default-override seed into an existing `~/.echobird/tool-paths.json`'s
+/// parsed contents, returning the map to write back (or `None` when the file is
+/// already complete / unreadable, so the caller leaves it alone).
+///
+/// `existing` is:
+/// - `Some(empty object)` to force a full seed (file missing — every tool is
+///   "missing", so all are inserted);
+/// - `Some(object)` to self-heal an existing file that predates a tool shipped
+///   in a later release (e.g. Kimi Code, added in v5.4.3);
+/// - `None` when the existing file couldn't be parsed as a JSON object — the
+///   user's malformed-but-edited file is left untouched rather than clobbered.
+///
+/// Only ADDS tool ids the seed provides that the file is missing. Existing
+/// entries, user edits, and "_"-prefixed note keys (ignored by the scanner —
+/// see `load_user_path_overrides`) are preserved verbatim, so a user's
+/// customizations always survive an EchoBird update that ships new tools.
+pub fn merge_override_seed(
+    existing: Option<&serde_json::Value>,
+    seed: &[(String, Vec<String>)],
+) -> Option<serde_json::Map<String, serde_json::Value>> {
+    let mut map = match existing? {
+        serde_json::Value::Object(m) => m.clone(),
+        _ => return None,
+    };
+    let mut changed = false;
+    for (tool_id, paths) in seed {
+        if !map.contains_key(tool_id) {
+            map.insert(
+                tool_id.clone(),
+                serde_json::Value::Array(
+                    paths
+                        .iter()
+                        .cloned()
+                        .map(serde_json::Value::String)
+                        .collect(),
+                ),
+            );
+            changed = true;
+        }
+    }
+    if changed {
+        Some(map)
+    } else {
+        None
+    }
+}
+
 /// Get the config mapping for a specific tool
 pub fn get_tool_config_mapping(tool_id: &str) -> Option<(ToolDefinition, PathBuf)> {
     let defs = get_definitions();
@@ -1659,7 +1706,7 @@ pub async fn scan_tools() -> Vec<DetectedTool> {
 
 #[cfg(test)]
 mod tests {
-    use super::{has_authoritative_detector, registry_display_name_matches};
+    use super::{has_authoritative_detector, merge_override_seed, registry_display_name_matches};
     use crate::models::tool::PathsConfig;
 
     #[cfg(windows)]
@@ -1825,5 +1872,84 @@ mod tests {
     #[test]
     fn no_hints_never_matches() {
         assert!(!registry_display_name_matches("anything 1.2.3", &[], &[]));
+    }
+
+    // ── tool-paths.json self-heal: a file seeded before a tool shipped (e.g.
+    //    Kimi Code in v5.4.3) must gain that tool's default-path entry on the
+    //    next open, while existing user edits + "_" note keys survive. ──
+
+    fn override_seed() -> Vec<(String, Vec<String>)> {
+        vec![
+            ("claudecode".to_string(), v(&["~/.claude/local/claude"])),
+            ("kimicode".to_string(), v(&["~/.kimi-code/bin/kimi"])),
+        ]
+    }
+
+    fn arr(items: &[&str]) -> serde_json::Value {
+        serde_json::Value::Array(
+            items
+                .iter()
+                .map(|s| serde_json::Value::String(s.to_string()))
+                .collect(),
+        )
+    }
+
+    #[test]
+    fn missing_file_is_seeded_with_every_tool() {
+        // No existing file → empty object → every seed tool inserted.
+        let map = merge_override_seed(
+            Some(&serde_json::Value::Object(serde_json::Map::new())),
+            &override_seed(),
+        )
+        .expect("should write a full seed");
+        assert!(map.contains_key("claudecode"));
+        assert!(map.contains_key("kimicode"));
+    }
+
+    #[test]
+    fn existing_file_gains_only_missing_tools() {
+        // File predates kimicode: claudecode present (with a user edit) + a
+        // "_" note, no kimi. Kimi must be added; the rest preserved verbatim.
+        let mut existing = serde_json::Map::new();
+        existing.insert("claudecode".to_string(), arr(&["/my/custom/claude"]));
+        existing.insert(
+            "_note".to_string(),
+            serde_json::Value::String("hand-edited".to_string()),
+        );
+
+        let map = merge_override_seed(Some(&serde_json::Value::Object(existing)), &override_seed())
+            .expect("should add the missing kimi entry");
+
+        assert!(map.contains_key("kimicode"));
+        // User's custom claudecode path NOT overwritten with the default.
+        assert_eq!(map.get("claudecode"), Some(&arr(&["/my/custom/claude"])));
+        // "_" note preserved (scanner ignores it; we must not drop it).
+        assert!(map.contains_key("_note"));
+    }
+
+    #[test]
+    fn up_to_date_file_is_left_untouched() {
+        let mut existing = serde_json::Map::new();
+        existing.insert("claudecode".to_string(), arr(&[]));
+        existing.insert("kimicode".to_string(), arr(&[]));
+        assert!(
+            merge_override_seed(Some(&serde_json::Value::Object(existing)), &override_seed())
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn unreadable_or_non_object_file_is_left_untouched() {
+        // No parseable object → don't risk clobbering the user's file.
+        assert!(merge_override_seed(None, &override_seed()).is_none());
+        assert!(
+            merge_override_seed(Some(&serde_json::Value::Array(vec![])), &override_seed())
+                .is_none()
+        );
+        assert!(merge_override_seed(
+            Some(&serde_json::Value::String("oops".into())),
+            &override_seed()
+        )
+        .is_none());
     }
 }
